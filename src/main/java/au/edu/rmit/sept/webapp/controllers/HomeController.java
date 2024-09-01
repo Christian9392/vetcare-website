@@ -9,7 +9,7 @@ public class HomeController {
 
   @GetMapping("/")
   public String index(Model model) {
-    return "index.html";
+    return "home/index.html";
   }
   
 }
