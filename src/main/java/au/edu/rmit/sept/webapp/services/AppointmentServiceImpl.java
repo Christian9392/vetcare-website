@@ -2,7 +2,7 @@ package au.edu.rmit.sept.webapp.services;
 
 import java.util.Collection;
 
-import au.edu.rmit.sept.webapp.models.Appointment;
+import au.edu.rmit.sept.webapp.dto.AppointmentDTO;
 import au.edu.rmit.sept.webapp.repositories.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,23 +18,22 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Collection<Appointment> getAppointments() {
+    public Collection<AppointmentDTO> getAppointments() {
         return repository.findAll();
     }
 
     @Override
-    public Appointment getAppointmentById(Long id) {
+    public AppointmentDTO getAppointmentById(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public void saveAppointment(Appointment appointment) {
-        repository.save(appointment);
+    public void saveAppointment(AppointmentDTO appointmentDTO) {
+        repository.save(appointmentDTO);
     }
 
     @Override
     public void deleteAppointment(Long id) {
         repository.delete(id);
     }
-
 }

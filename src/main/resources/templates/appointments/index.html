@@ -122,20 +122,20 @@
 
             <tbody>
             <tr th:each="appointment : ${appointments}">
-                <td th:text="${appointment.id}">1</td>
-                <td th:text="${appointment.date}">2024-08-29</td>
-                <td th:text="${appointment.time}">10:00</td>
-                <td th:text="${appointment.petName}">Fluffy</td>
-                <td th:text="${appointment.veterinarianName}">Dr. Smith</td>
-                <td th:text="${appointment.notes}">Routine checkup</td>
-                <td th:text="${appointment.status}"
-                    th:classappend="${appointment.status == 'Scheduled' ? 'status-scheduled' : (appointment.status == 'Completed' ? 'status-completed' : 'status-cancelled')}">
+                <td th:text="${appointment.AppointmentID}">1</td>
+                <td th:text="${appointment.AppointmentDate}">2024-08-29</td>
+                <td th:text="${appointment.AppointmentTime}">10:00</td>
+                <td th:text="${appointment.PetName}">Fluffy</td>
+                <td th:text="${appointment.VetName}">Dr. Smith</td>
+                <td th:text="${appointment.GeneralNotes}">Routine checkup</td>
+                <td th:text="${appointment.Status}"
+                    th:classappend="${appointment.Status == 'Upcoming' ? 'status-scheduled' : (appointment.Status == 'Past' ? 'status-completed' : 'status-cancelled')}">
                     Scheduled
                 </td>
                 <td>
-                    <a th:href="@{/appointments/view/{id}(id=${appointment.id})}" class="btn btn-primary btn-sm">View</a>
-                    <a th:href="@{/appointments/edit/{id}(id=${appointment.id})}" class="btn btn-warning btn-sm">Edit</a>
-                    <a th:href="@{/appointments/delete/{id}(id=${appointment.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this appointment?');">Delete</a>
+                    <a th:href="@{/appointments/view/{id}(id=${appointment.AppointmentID})}" class="btn btn-primary btn-sm">View</a>
+                    <a th:href="@{/appointments/edit/{id}(id=${appointment.AppointmentID})}" class="btn btn-warning btn-sm">Edit</a>
+                    <a th:href="@{/appointments/delete/{id}(id=${appointment.AppointmentID})}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this appointment?');">Delete</a>
                 </td>
             </tr>
             </tbody>

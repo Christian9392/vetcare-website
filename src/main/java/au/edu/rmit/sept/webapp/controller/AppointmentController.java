@@ -1,6 +1,6 @@
 package au.edu.rmit.sept.webapp.controller;
 
-import au.edu.rmit.sept.webapp.models.Appointment;
+import au.edu.rmit.sept.webapp.dto.AppointmentDTO;
 import au.edu.rmit.sept.webapp.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,27 +22,27 @@ public class AppointmentController {
 
     @GetMapping("/appointments")
     public String getAppointments(Model model) {
-        Collection<Appointment> appointments = service.getAppointments();
+        Collection<AppointmentDTO> appointments = service.getAppointments();
         model.addAttribute("appointments", appointments);
         return "appointments/index";
     }
 
     @GetMapping("/appointments/view/{id}")
     public String viewAppointment(@PathVariable("id") Long id, Model model) {
-        Appointment appointment = service.getAppointmentById(id);
+        AppointmentDTO appointment = service.getAppointmentById(id);
         model.addAttribute("appointment", appointment);
         return "appointments/view";
     }
 
     @GetMapping("/appointments/edit/{id}")
     public String editAppointment(@PathVariable("id") Long id, Model model) {
-        Appointment appointment = service.getAppointmentById(id);
+        AppointmentDTO appointment = service.getAppointmentById(id);
         model.addAttribute("appointment", appointment);
         return "appointments/edit";
     }
 
     @PostMapping("/appointments/save")
-    public String saveAppointment(@ModelAttribute("appointment") Appointment appointment, RedirectAttributes redirectAttributes) {
+    public String saveAppointment(@ModelAttribute("appointment") AppointmentDTO appointment, RedirectAttributes redirectAttributes) {
         service.saveAppointment(appointment);
         redirectAttributes.addFlashAttribute("save_message", "Appointment updated successfully.");
         return "redirect:/appointments";

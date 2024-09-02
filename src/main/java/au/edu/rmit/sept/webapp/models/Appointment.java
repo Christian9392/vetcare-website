@@ -1,4 +1,17 @@
 package au.edu.rmit.sept.webapp.models;
 
-public record Appointment(Long id, String date, String time, String petName, String veterinarianName, String notes, String status) {
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public record Appointment(
+        Long AppointmentID,
+        String UserID,
+        String PetID,
+        String ClinicID,
+        LocalDate AppointmentDate,
+        String Status,
+        String GeneralNotes,
+        Float Fees,
+        LocalTime AppointmentTime,
+        String status) {
 }
