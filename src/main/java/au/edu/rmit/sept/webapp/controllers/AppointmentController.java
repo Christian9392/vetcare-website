@@ -1,4 +1,4 @@
-package au.edu.rmit.sept.webapp.controller;
+package au.edu.rmit.sept.webapp.controllers;
 
 import au.edu.rmit.sept.webapp.dto.AppointmentDTO;
 import au.edu.rmit.sept.webapp.services.AppointmentService;

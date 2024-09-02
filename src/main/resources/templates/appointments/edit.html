@@ -7,9 +7,9 @@
     <title>Welcome to SEPT Cinemas</title>
     <style>
         .readonly-field {
-            background-color: #f8f9fa; /* Light gray background */
-            border: 1px solid #ced4da; /* Gray border */
-            color: #6c757d; /* Gray text */
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            color: #6c757d;
         }
         .readonly-label {
             font-weight: bold;
@@ -23,11 +23,11 @@
     <form th:action="@{/appointments/save}" th:object="${appointment}" method="post">
         <input type="hidden" th:field="*{AppointmentID}" />
         <div class="mb-3">
-            <label for="date" class="form-label">Date</label>
+            <label for="date" class="form-label readonly-label">Date</label>
             <input type="text" class="form-control" autocomplete="off" id="date" th:field="*{AppointmentDate}" placeholder="Enter date">
         </div>
         <div class="mb-3">
-            <label for="time" class="form-label">Time</label>
+            <label for="time" class="form-label readonly-label">Time</label>
             <input type="text" class="form-control" autocomplete="off" id="time" th:field="*{AppointmentTime}" placeholder="Enter time">
         </div>
         <div class="mb-3">
@@ -39,11 +39,11 @@
             <input type="text" id="veterinarianName" class="form-control readonly-field" th:value="${appointment.VetName}" readonly>
         </div>
         <div class="mb-3">
-            <label for="notes" class="form-label">Notes</label>
+            <label for="notes" class="form-label readonly-label">Notes</label>
             <textarea class="form-control" id="notes" th:field="*{GeneralNotes}" rows="3" placeholder="Enter notes"></textarea>
         </div>
         <div class="mb-3">
-            <label for="status" class="form-label">Status</label>
+            <label for="status" class="form-label readonly-label">Status</label>
             <select class="form-control" id="status" th:field="*{Status}">
                 <option value="Upcoming">Upcoming</option>
                 <option value="Past">Past</option>
