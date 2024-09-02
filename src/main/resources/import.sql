@@ -1,3 +1,37 @@
+-- This is the schema for the database tables used in the application. 
+-- You can use this schema to create the tables while testing the application.
+
+CREATE TABLE `Clinic` (
+  `ClinicID` BIGINT AUTO_INCREMENT,
+  `Name` VARCHAR(255),
+  `StreetNumber` VARCHAR(10),
+  `StreetName` VARCHAR(255),
+  `Suburb` VARCHAR(100),
+  `State` VARCHAR(50),
+  `Postcode` VARCHAR(10),
+  `PhoneNumber` VARCHAR(20),
+  `Email` VARCHAR(255),
+  PRIMARY KEY (`ClinicID`)
+);
+
+CREATE TABLE `User` (
+  `UserID` BIGINT AUTO_INCREMENT,
+  `Name` VARCHAR(255),
+  `Password` VARCHAR(255),
+  `Email` VARCHAR(255),
+  `ClinicID` BIGINT,
+  `PhoneNumber` VARCHAR(20),
+  `UnitNumber` VARCHAR(10),
+  `StreetNumber` VARCHAR(10),
+  `StreetName` VARCHAR(255),
+  `Suburb` VARCHAR(100),
+  `State` VARCHAR(50),
+  `Postcode` VARCHAR(10),
+  `UserType` ENUM('PetOwner', 'Vet', 'Admin'),  
+  PRIMARY KEY (`UserID`),
+  FOREIGN KEY (`ClinicID`) REFERENCES `Clinic`(`ClinicID`)
+);
+
 CREATE TABLE `Pet` (
   `PetID` BIGINT AUTO_INCREMENT,
   `OwnerID` BIGINT,
@@ -5,8 +39,8 @@ CREATE TABLE `Pet` (
   `Species` VARCHAR(255),
   `Breed` VARCHAR(255),
   `Age` INT,
-  `MedicalHistoryID` BIGINT,
-  PRIMARY KEY (`PetID`)
+  PRIMARY KEY (`PetID`),
+  FOREIGN KEY (`OwnerID`) REFERENCES `User`(`UserID`)
 );
 
 CREATE TABLE `TreatmentPlan` (
@@ -55,15 +89,6 @@ CREATE TABLE `Medicine` (
   PRIMARY KEY (`MedicineID`)
 );
 
-CREATE TABLE `Clinic` (
-  `ClinicID` BIGINT AUTO_INCREMENT,
-  `Name` VARCHAR(255),
-  `Address` VARCHAR(255),
-  `PhoneNumber` VARCHAR(20),
-  `Email` VARCHAR(255),
-  PRIMARY KEY (`ClinicID`)
-);
-
 CREATE TABLE `SavedResources` (
   `UserID` BIGINT,
   `ResourceID` BIGINT,
@@ -79,7 +104,7 @@ CREATE TABLE `Appointment` (
   `PetID` BIGINT,
   `ClinicID` BIGINT,
   `AppointmentDate` DATE,
-  `Status` VARCHAR(50),
+  `Status` ENUM('Upcoming', 'Past', 'Cancelled'),
   `GeneralNotes` TEXT,
   `Fees` DECIMAL(10, 2),
   `VetID` BIGINT,
@@ -134,17 +159,4 @@ CREATE TABLE `MedicalHistory` (
   `LastPrescriptionDate` DATE,
   PRIMARY KEY (`MedicalHistoryID`),
   FOREIGN KEY (`PetID`) REFERENCES `Pet`(`PetID`)
-);
-
-CREATE TABLE `User` (
-  `UserID` BIGINT AUTO_INCREMENT,
-  `Name` VARCHAR(255),
-  `Password` VARCHAR(255),
-  `Email` VARCHAR(255),
-  `ClinicID` BIGINT,
-  `PhoneNumber` VARCHAR(20),
-  `Address` VARCHAR(255),
-  `UserType` VARCHAR(50),
-  PRIMARY KEY (`UserID`),
-  FOREIGN KEY (`ClinicID`) REFERENCES `Clinic`(`ClinicID`)
 );
