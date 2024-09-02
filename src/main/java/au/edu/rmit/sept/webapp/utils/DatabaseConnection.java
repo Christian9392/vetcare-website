@@ -1,4 +1,4 @@
-package com.example.vetcare.utils;
+package au.edu.rmit.sept.webapp.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
