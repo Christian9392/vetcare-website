@@ -4,34 +4,44 @@
 
 <head>
     <title>Appointment Details</title>
+    <style>
+        .readonly-field {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            color: #6c757d;
+        }
+        .readonly-label {
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
 <div class="container mt-5" layout:fragment="content">
     <h2>Appointment Details</h2>
     <div class="mb-3">
-        <label for="date" class="form-label">Date</label>
-        <p id="date" class="form-control" th:text="${appointment.date}">Date</p>
+        <label for="date" class="form-label readonly-label">Date</label>
+        <p id="date" class="form-control readonly-field" th:text="${appointment.AppointmentDate}">Date</p>
     </div>
     <div class="mb-3">
-        <label for="time" class="form-label">Time</label>
-        <p id="time" class="form-control" th:text="${appointment.time}">Time</p>
+        <label for="time" class="form-label readonly-label">Time</label>
+        <p id="time" class="form-control readonly-field" th:text="${appointment.AppointmentTime}">Time</p>
     </div>
     <div class="mb-3">
-        <label for="petName" class="form-label">Pet Name</label>
-        <p id="petName" class="form-control" th:text="${appointment.petName}">Pet Name</p>
+        <label for="petName" class="form-label readonly-label">Pet Name</label>
+        <p id="petName" class="form-control readonly-field" th:text="${appointment.PetName}">Pet Name</p>
     </div>
     <div class="mb-3">
-        <label for="veterinarianName" class="form-label">Veterinarian Name</label>
-        <p id="veterinarianName" class="form-control" th:text="${appointment.veterinarianName}">Veterinarian Name</p>
+        <label for="veterinarianName" class="form-label readonly-label">Veterinarian Name</label>
+        <p id="veterinarianName" class="form-control readonly-field" th:text="${appointment.VetName}">Veterinarian Name</p>
     </div>
     <div class="mb-3">
-        <label for="notes" class="form-label">Notes</label>
-        <p id="notes" class="form-control" th:text="${appointment.notes}">Notes</p>
+        <label for="notes" class="form-label readonly-label">Notes</label>
+        <p id="notes" class="form-control readonly-field" th:text="${appointment.GeneralNotes}">Notes</p>
     </div>
     <div class="mb-3">
-        <label for="status" class="form-label">Status</label>
-        <p id="status" class="form-control" th:text="${appointment.status}">Status</p>
+        <label for="status" class="form-label readonly-label">Status</label>
+        <p id="status" class="form-control readonly-field" th:text="${appointment.Status}">Status</p>
     </div>
     <a href="/appointments" class="btn btn-secondary">Back to List</a>
 </div>

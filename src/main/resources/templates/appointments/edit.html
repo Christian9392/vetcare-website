@@ -5,39 +5,48 @@
 <head>
 
     <title>Welcome to SEPT Cinemas</title>
-    <!-- <script src="content-script.js"></script> -->
+    <style>
+        .readonly-field {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            color: #6c757d;
+        }
+        .readonly-label {
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
 <div class="container mt-5" layout:fragment="content">
     <h2>Edit Appointment</h2>
     <form th:action="@{/appointments/save}" th:object="${appointment}" method="post">
-        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{AppointmentID}" />
         <div class="mb-3">
-            <label for="date" class="form-label">Date</label>
-            <input type="text" class="form-control" autocomplete="off" id="date" th:field="*{date}" placeholder="Enter date">
+            <label for="date" class="form-label readonly-label">Date</label>
+            <input type="text" class="form-control" autocomplete="off" id="date" th:field="*{AppointmentDate}" placeholder="Enter date">
         </div>
         <div class="mb-3">
-            <label for="time" class="form-label">Time</label>
-            <input type="text" class="form-control" autocomplete="off" id="time" th:field="*{time}" placeholder="Enter time">
+            <label for="time" class="form-label readonly-label">Time</label>
+            <input type="text" class="form-control" autocomplete="off" id="time" th:field="*{AppointmentTime}" placeholder="Enter time">
         </div>
         <div class="mb-3">
-            <label for="petName" class="form-label">Pet Name</label>
-            <input type="text" class="form-control" autocomplete="off" id="petName" th:field="*{petName}" placeholder="Enter pet name">
+            <label for="petName" class="form-label readonly-label">Pet Name</label>
+            <input type="text" id="petName" class="form-control readonly-field" th:value="${appointment.PetName}" readonly>
         </div>
         <div class="mb-3">
-            <label for="veterinarianName" class="form-label">Veterinarian Name</label>
-            <input type="text" class="form-control" autocomplete="off" id="veterinarianName" th:field="*{veterinarianName}" placeholder="Enter veterinarian name">
+            <label for="veterinarianName" class="form-label readonly-label">Veterinarian Name</label>
+            <input type="text" id="veterinarianName" class="form-control readonly-field" th:value="${appointment.VetName}" readonly>
         </div>
         <div class="mb-3">
-            <label for="notes" class="form-label">Notes</label>
-            <textarea class="form-control" id="notes" th:field="*{notes}" rows="3" placeholder="Enter notes"></textarea>
+            <label for="notes" class="form-label readonly-label">Notes</label>
+            <textarea class="form-control" id="notes" th:field="*{GeneralNotes}" rows="3" placeholder="Enter notes"></textarea>
         </div>
         <div class="mb-3">
-            <label for="status" class="form-label">Status</label>
-            <select class="form-select" id="status" th:field="*{status}">
-                <option value="Scheduled">Scheduled</option>
-                <option value="Completed">Completed</option>
+            <label for="status" class="form-label readonly-label">Status</label>
+            <select class="form-control" id="status" th:field="*{Status}">
+                <option value="Upcoming">Upcoming</option>
+                <option value="Past">Past</option>
                 <option value="Cancelled">Cancelled</option>
             </select>
         </div>
