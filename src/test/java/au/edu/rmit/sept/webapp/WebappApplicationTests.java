@@ -6,6 +6,9 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -44,6 +47,13 @@ class WebappApplicationTests {
 
 	@Test
 	void seleniumBrowsers() {
-		
+		// Create webdrivers for main browsers
+		WebDriver driverChrome = new ChromeDriver();
+		WebDriver driverFirefox = new FirefoxDriver();
+		WebDriver driverEdge = new EdgeDriver();
+
+		driverChrome.get("http://localhost:8080");
+		driverFirefox.get("http://localhost:8080");
+		driverEdge.get("http://localhost:8080");
 	}
  }
