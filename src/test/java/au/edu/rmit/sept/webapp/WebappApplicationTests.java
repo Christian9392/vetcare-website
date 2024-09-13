@@ -28,9 +28,6 @@ class WebappApplicationTests {
 
 		//open browser with desried URL
 		driver.get("localhost:8080");
-
-		//closing the browser
-		driver.close();
 	}
 
 }
