@@ -2,11 +2,14 @@ package au.edu.rmit.sept.webapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootTest
 class WebappApplicationTests {
@@ -16,18 +19,31 @@ class WebappApplicationTests {
 	}
 
 	@Test
-	void seleniumBaseTest() {
-		// Initializing a ChromeDriver, downloads if necessary.
+	void emulateLargeScreen() {
 		WebDriver driver = new ChromeDriver();
 
-		// Applied wait time if testing element does not exist
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		// Change screen size to desktop 1080p
+		driver.manage().window().setSize(new Dimension(1920, 1080));
 
-		//maximize window
-		driver.manage().window().maximize();
-
-		//open browser with desried URL
-		driver.get("localhost:8080");
+		driver.get("http://localhost:8080");
 	}
 
-}
+	@Test
+	void emulateMobileScreen() {
+		// Set mobile emulation
+		Map<String, String> mobileEmulation = new HashMap<>();
+		mobileEmulation.put("deviceName", "Nexus 5");
+
+		// Apply options to new web driver
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+		WebDriver driverMobile = new ChromeDriver(chromeOptions);
+
+		driverMobile.get("http://localhost:8080");
+	}
+
+	@Test
+	void seleniumBrowsers() {
+		
+	}
+ }
