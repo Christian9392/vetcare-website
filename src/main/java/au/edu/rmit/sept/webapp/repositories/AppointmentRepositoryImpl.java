@@ -21,11 +21,11 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public List<AppointmentDTO> findAll() {
         try {
-            String sql = "SELECT ap.\"AppointmentID\", ap.\"AppointmentDate\", ap.\"AppointmentTime\", p.\"Name\", u.\"Name\", "
-                    + "ap.\"GeneralNotes\", ap.\"Status\" "
-                    + "FROM \"Appointment\" ap "
-                    + "INNER JOIN \"Pet\" p ON ap.\"PetID\" = p.\"PetID\" "
-                    + "INNER JOIN \"User\" u ON ap.\"UserID\" = u.\"UserID\"";
+            String sql = "SELECT ap.\"APPOINTMENTID\", ap.\"APPOINTMENTDATE\", ap.\"APPOINTMENTTIME\", p.\"NAME\", u.\"NAME\", "
+                    + "ap.\"GENERALNOTES\", ap.\"STATUS\" "
+                    + "FROM \"APPOINTMENT\" ap "
+                    + "INNER JOIN \"PET\" p ON ap.\"PETID\" = p.\"PETID\" "
+                    + "INNER JOIN \"USER\" u ON ap.\"USERID\" = u.\"USERID\"";
             Connection connection = this.source.getConnection();
             PreparedStatement stm = connection.prepareStatement(sql);
             List<AppointmentDTO> appointments = new ArrayList<>();
@@ -45,12 +45,12 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     public AppointmentDTO findById(Long id) {
         try {
             Connection connection = this.source.getConnection();
-            String sql = "SELECT ap.\"AppointmentID\", ap.\"AppointmentDate\", ap.\"AppointmentTime\", p.\"Name\" AS \"PetName\", u.\"Name\" AS \"UserName\", "
-                    + "ap.\"GeneralNotes\", ap.\"Status\" "
-                    + "FROM \"Appointment\" ap "
-                    + "INNER JOIN \"Pet\" p ON ap.\"PetID\" = p.\"PetID\" "
-                    + "INNER JOIN \"User\" u ON ap.\"UserID\" = u.\"UserID\" "
-                    + "WHERE ap.\"AppointmentID\" = ?";
+            String sql = "SELECT ap.\"APPOINTMENTID\", ap.\"APPOINTMENTDATE\", ap.\"APPOINTMENTTIME\", p.\"NAME\" AS \"PETNAME\", u.\"NAME\" AS \"USERNAME\", "
+                    + "ap.\"GENERALNOTES\", ap.\"STATUS\" "
+                    + "FROM \"APPOINTMENT\" ap "
+                    + "INNER JOIN \"PET\" p ON ap.\"PETID\" = p.\"PETID\" "
+                    + "INNER JOIN \"USER\" u ON ap.\"USERID\" = u.\"USERID\" "
+                    + "WHERE ap.\"APPOINTMENTID\" = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setLong(1, id);
             ResultSet rs = stm.executeQuery();
@@ -70,14 +70,14 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public void save(AppointmentDTO appointmentDTO) {
         try (Connection connection = this.source.getConnection()) {
-            String sql = "UPDATE \"Appointment\"\n" +
+            String sql = "UPDATE \"APPOINTMENT\"\n" +
                     "SET \n" +
-                    "    \"AppointmentDate\" = ?, \n" +
-                    "    \"AppointmentTime\" = ?, " +
-                    "    \"GeneralNotes\" = ?, \n" +
-                    "    \"Status\" = ?\n" +
+                    "    \"APPOINTMENTDATE\" = ?, \n" +
+                    "    \"APPOINTMENTTIME\" = ?, " +
+                    "    \"GENERALNOTES\" = ?, \n" +
+                    "    \"STATUS\" = ?\n" +
                     "WHERE \n" +
-                    "    \"AppointmentID\" = ?";
+                    "    \"APPOINTMENTID\" = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setDate(1, Date.valueOf(appointmentDTO.AppointmentDate()));
             stm.setTime(2, Time.valueOf(appointmentDTO.AppointmentTime()));
@@ -93,7 +93,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public void delete(Long id) {
         try (Connection connection = this.source.getConnection()) {
-            String sql = "DELETE FROM \"Appointment\" WHERE \"AppointmentID\" = ?;";
+            String sql = "DELETE FROM \"APPOINTMENT\" WHERE \"APPOINTMENTID\" = ?;";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setLong(1, id);
             stm.executeUpdate();
