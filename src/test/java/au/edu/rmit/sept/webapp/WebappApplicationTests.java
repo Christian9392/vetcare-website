@@ -6,14 +6,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-<<<<<<< HEAD
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.safari.SafariDriver;
-=======
->>>>>>> 018bb05 (feat: #189)
-
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
