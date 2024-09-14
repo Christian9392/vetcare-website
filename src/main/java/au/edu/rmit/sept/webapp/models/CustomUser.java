@@ -8,8 +8,6 @@ import jakarta.persistence.*;
 public class CustomUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-//    @SequenceGenerator(name = "user_seq", allocationSize = 1)
     @Column(name = "user_id")
     private Long user_id;
 
@@ -36,7 +34,7 @@ public class CustomUser {
     @JoinColumn(name = "clinic_id", nullable = true)
     private Clinic clinic;
 
-    public Long getUser_idId() {
+    public Long getUserId() {
         return user_id;
     }
 
