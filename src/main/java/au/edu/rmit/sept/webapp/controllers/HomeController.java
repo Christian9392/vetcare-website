@@ -11,5 +11,17 @@ public class HomeController {
   public String index(Model model) {
     return "home/index.html";
   }
+
+  @GetMapping("/vet")
+  public String userHome()
+  {
+    return "vet/index";
+  }
+
+  @GetMapping("/admin")
+  public String adminHome()
+  {
+    return "admin/index";
+  }
   
 }
