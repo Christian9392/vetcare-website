@@ -32,12 +32,13 @@ public class SecurityConfiguration {
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/css/**", "/images/**", "js/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("Admin")
-                        .requestMatchers("/vet/**").hasAnyRole("Vet")
+                        .requestMatchers("/vet/**").hasAnyRole("Admin","Vet")
                         .anyRequest().authenticated()
                 )
                 .formLogin(httpSecurityFormLoginConfigurer -> {
                     httpSecurityFormLoginConfigurer
                             .loginPage("/login")
+                            .successHandler(new AuthenticationSuccessHandler())
                             .permitAll();
                 })
                 .logout(logout ->
