@@ -64,8 +64,9 @@ public class AppointmentController {
         return "appointments/bookings";
     }
 
-    @GetMapping("/appointments/savedBooking")
-    public String addBooking(AppointmentDTO appointment, RedirectAttributes redirectAttributes){
+    @PostMapping("/appointments/savedBooking")
+    public String addBooking(@ModelAttribute("appointment") AppointmentDTO appointment, RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("create_message", "Appointment scheduled");
         return "redirect:/appointments";
     }
 }

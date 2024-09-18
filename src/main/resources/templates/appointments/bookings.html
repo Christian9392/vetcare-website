@@ -27,7 +27,8 @@
 
         <div class="location mb-3">
             <label for="location" class="form-label readonly-label">Which clinic would you like to book at?</label>
-            <select id="location" class = form-control>
+            <select id="location" class = form-control required>
+                <option value="" disabled selected>Select a clinic</option>
                 <option value="loc1">location1</option>
                 <option value="loc2">location2</option>
                 <option value="loc3">location3</option>
@@ -36,7 +37,8 @@
 
         <div class="location mb-3">
             <label for="location" class="form-label readonly-label">Which vet would you look to book with?</label>
-            <select id="location" class = form-control>
+            <select id="location" class = form-control required>
+                <option value="" disabled selected>Select a vet</option>
                 <option value="loc1">Bob</option>
                 <option value="loc2">Milly</option>
                 <option value="loc3">Mark</option>
@@ -45,7 +47,8 @@
 
         <div class="petName mb-3">
             <label for="petName" class="form-label readonly-label">Which pet would you like to book?</label>
-            <select id="petName" class="form-control">
+            <select id="petName" class="form-control" required>
+                <option value="" disabled selected>Select a pet</option>
                 <option value="pet1">pet1</option>
                 <option value="pet2">pet2</option>
             </select>
@@ -53,7 +56,8 @@
 
         <div class="AppointmentType mb-3">
             <label for="AppointmentType" class="form-label readonly-label">What type of appointment are you booking?</label>
-            <select id="AppointmentType" class="form-control">
+            <select id="AppointmentType" class="form-control" required>
+                <option value="" disabled selected>Select an option</option>
                 <option value="type1">Consultation</option>
                 <option value="type2">Checkup</option>
                 <option value="type3">Followup</option>
@@ -62,14 +66,9 @@
             </select>
         </div>
 
-        <!-- <div class="mb-3">
-            <label for="petName" class="form-label readonly-label">Pet Name</label>
-            <input type="text" id="petName" class="form-control readonly-field" th:value="${appointment.PetName}" readonly>
-        </div> -->
-
         <div class="mb-3">
             <label for="notes" class="form-label readonly-label">What is the reason for your visit?</label>
-            <textarea class="form-control" id="notes" th:field="*{GeneralNotes}" rows="2" placeholder="Enter notes"></textarea>
+            <textarea class="form-control" id="notes" th:field="*{GeneralNotes}" rows="2" placeholder="Enter notes" required></textarea>
         </div>
 
         <div class="mb-3">

@@ -88,6 +88,11 @@
             <span>No appointments found.</span>
         </div>
 
+        <!-- Display appointment booked message -->
+        <div th:if="${create_message}" class="alert alert-success">
+            <span th:text="${create_message}">Success message</span>
+        </div>
+
         <!-- Status Filter Dropdown -->
         <div class="mb-3" th:unless="${#lists.isEmpty(appointments)}">
             <label for="statusFilter">Filter by Status:</label>
