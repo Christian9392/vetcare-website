@@ -1,13 +1,21 @@
 package au.edu.rmit.sept.webapp.controllers;
 
 import au.edu.rmit.sept.webapp.dto.AppointmentDTO;
+import au.edu.rmit.sept.webapp.models.Pet;
 import au.edu.rmit.sept.webapp.services.AppointmentService;
+import au.edu.rmit.sept.webapp.services.AppointmentServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
+import au.edu.rmit.sept.webapp.models.Appointment;
+import au.edu.rmit.sept.webapp.models.CustomUser;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 
 @Controller
@@ -19,6 +27,15 @@ public class AppointmentController {
     public AppointmentController(AppointmentService service) {
         this.service = service;
     }
+
+    @Autowired
+    private AppointmentServiceImpl appointmentService;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    // @Autowired
+    // private PetService petService;
 
     @GetMapping("/appointments")
     public String getAppointments(Model model) {
@@ -54,4 +71,40 @@ public class AppointmentController {
         redirectAttributes.addFlashAttribute("delete_message", "Appointment deleted successfully.");
         return "redirect:/appointments";
     }
+
+    @GetMapping("/appointments/new")
+    public String newAppointment(Model model) {
+        // Get the currently authenticated user, will be used later on for checking if pet is registered to user
+        // CustomUser currentUser = customUserDetailsService.getCurrentUser();
+        
+        /* 
+         * Skip checking for if pet is registered to user
+         * Will implement after pet registration is implemented
+        */
+        model.addAttribute("appointmentDTO", new AppointmentDTO());
+
+        return "appointments/new";
+    }
+
+    @PostMapping("/appointments/book")
+    public String bookAppointment(AppointmentDTO appointmentDTO, Model model) {
+        CustomUser currentUser = customUserDetailsService.getCurrentUser();
+
+        // Validate date and time here (e.g., check if the slot is available)
+
+        // Create a new appointment
+        Appointment appointment = new Appointment();
+        appointment.setUser(currentUser);
+        //appointment.setPet(pet);
+        appointment.setAppointmentDate((appointmentDTO.getAppointmentDate()));
+        appointment.setAppointmentTime((appointmentDTO.getAppointmentTime()));
+        appointment.setStatus(appointmentDTO.getStatus());
+
+        // Save the appointment to the database
+        appointmentService.saveAppointment(appointmentDTO);
+
+        return "redirect:/appointments";  // Redirect to the appointments page after booking
+    }
+
+
 }
