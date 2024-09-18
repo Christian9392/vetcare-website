@@ -35,9 +35,9 @@ public class HomeController {
       return "pets/index";
   }
 
-  @GetMapping("/resources")
+  @GetMapping("/eduresources")
   public String viewResources() {
-      return "resources/index";
+      return "eduresources/index";
   }
 
   @GetMapping("/account")

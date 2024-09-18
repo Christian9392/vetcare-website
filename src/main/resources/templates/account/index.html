@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+
+<head>
+    <title>Account Settings</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <h1>Account Settings</h1>
+
+        <section>
+            <h2><a href="/account/settings"> Update Personal Information</a></h2>
+        </section>
+
+        <section>
+            <h2><a href="/appointments/index"> View Appointment History</a></h2>
+        </section>
+
+        <section>
+            <h2><a href="/pets/new"> Register a New Pet</a></h2>
+        </section>
+
+        <section>
+            <h2><a href="/pets/info"> View All Pet Information</a></h2>
+        </section>
+
+        <section>
+            <h2>Saved Resources</h2>
+            <p><a href="/account/savededuresources">Access saved resources</a>.</p>
+        </section>
+
+    </div>
+
+</body>
+
+</html>
