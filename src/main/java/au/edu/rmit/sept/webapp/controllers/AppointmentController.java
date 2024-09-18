@@ -54,4 +54,16 @@ public class AppointmentController {
         redirectAttributes.addFlashAttribute("delete_message", "Appointment deleted successfully.");
         return "redirect:/appointments";
     }
+
+    @GetMapping("/appointments/bookings")
+    public String bookAppointment(Model model){
+        AppointmentDTO appointment = new AppointmentDTO(null, null, null, null, null, null, null);
+        model.addAttribute("appointment", appointment);
+        return "appointments/bookings";
+    }
+
+    @GetMapping("/appointments/savedBooking")
+    public String addBooking(AppointmentDTO appointment, RedirectAttributes redirectAttributes){
+        return "redirect:/appointments";
+    }
 }
