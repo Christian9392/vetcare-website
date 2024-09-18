@@ -3,6 +3,7 @@ package au.edu.rmit.sept.webapp.services;
 import au.edu.rmit.sept.webapp.models.CustomUser;
 import au.edu.rmit.sept.webapp.repositories.CustomUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,5 +28,16 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .password(user.getPassword())
                 .roles(user.getUserType().name())
                 .build();
+    }
+    // Get the currently authenticated user
+    public CustomUser getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            return customUserRepository.findByName(username);
+        } else {
+            throw new RuntimeException("User is not authenticated");
+        }
     }
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+
+<head>
+    <title>Book an Appointment</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <h1>Book an Appointment</h1>
+
+        <!-- Error message if no pets are registered 
+        <div th:if="${errorMessage}">
+            <p th:text="${errorMessage}" style="color:red;"></p>
+        </div> -->
+
+        <!-- Appointment booking form -->
+        <form th:object="${appointmentDTO}" th:action="@{/appointments/book}" method="post">
+            <label for="pet">Select Pet:</label>
+            <!-- <select id="pet" th:field="*{petName}" required>
+                <option th:each="pet : ${pets}" th:value="${pet.name}" th:text="${pet.name}"></option>
+            </select> -->
+            <br><br>
+        
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" th:field="*{appointmentDate}" required>
+            <br><br>
+        
+            <label for="time">Select Time:</label>
+            <input type="time" id="time" th:field="*{appointmentTime}" required>
+            <br><br>
+        
+            <button type="submit" class="btn btn-primary">Book Appointment</button>
+        </form>        
+
+    </div>
+
+</body>
+
+</html>

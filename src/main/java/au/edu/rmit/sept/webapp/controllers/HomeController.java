@@ -23,12 +23,6 @@ public class HomeController {
   {
     return "admin/index";
   }
-
-  @GetMapping("/appointments")
-  public String viewAppointments()
-  {
-    return "appointments/index";
-  }
   
   @GetMapping("/pets")
   public String viewPets() {
