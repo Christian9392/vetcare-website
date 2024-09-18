@@ -1,12 +1,26 @@
 package au.edu.rmit.sept.webapp.repositories;
 
 import au.edu.rmit.sept.webapp.dto.AppointmentDTO;
+import au.edu.rmit.sept.webapp.models.Appointment;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface AppointmentRepository {
-    public List<AppointmentDTO> findAll();
-    public AppointmentDTO findById(Long id);
-    public void save(AppointmentDTO appointmentDTO);
-    public void delete(Long id);
+@Repository
+public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+    @Query("SELECT new au.edu.rmit.sept.webapp.dto.AppointmentDTO(a.appointmentID, a.appointmentDate, a.appointmentTime, p.name, u.name, a.generalNotes, a.status) " +
+            "FROM Appointment a " +
+            "JOIN a.pet p " +
+            "JOIN a.user u")
+    List<AppointmentDTO> findAllAppointments();
+
+    @Query("SELECT new au.edu.rmit.sept.webapp.dto.AppointmentDTO(a.appointmentID, a.appointmentDate, a.appointmentTime, p.name, u.name, a.generalNotes, a.status) " +
+            "FROM Appointment a " +
+            "JOIN a.pet p " +
+            "JOIN a.user u " +
+            "WHERE a.appointmentID = :id")
+    AppointmentDTO findAppointmentById(@Param("id") Long id);
 }
