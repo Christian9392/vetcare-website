@@ -4,7 +4,7 @@
 
 <head>
 
-    <title>Welcome to SEPT Cinemas</title>
+    <title>Bookings</title>
     <style>
         .readonly-field {
             background-color: #f8f9fa;
@@ -18,7 +18,7 @@
 </head>
 
 <body>
-<div class="container mt-5" layout:fragment="content">
+<div class="container mt-5 bg-light" layout:fragment="content">
     <h2>Book appointment</h2>
     <p>Please fill in the following details to complete the form</p>
     <form th:action="@{/appointments/savedBooking}" th:object="${appointment}" method="post">
@@ -77,11 +77,9 @@
             <textarea class="form-control" id="notes" th:field="*{GeneralNotes}" rows="2" placeholder="Enter notes"></textarea>
         </div>
         
-
         <div>
-            <p>By clicking confirm you are scheduling an appointment for  ...at... on the ... </p>
+            <p>By clicking confirm you are scheduling an appointment on <span th:text="${selectedDate}"></span> at <span th:text="${selectedTime}"></span></p>
         </div>
-        <!-- <span th:text="${}"> </span> -->
 
         <button type="submit" class="btn btn-primary">Confirm</button>
         <a href="/appointments" class="btn btn-secondary">Cancel</a>

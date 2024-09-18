@@ -56,9 +56,11 @@ public class AppointmentController {
     }
 
     @GetMapping("/appointments/bookings")
-    public String bookAppointment(Model model){
+    public String bookAppointment(@RequestParam(required=false) String date, @RequestParam(required=false) String time, Model model){
         AppointmentDTO appointment = new AppointmentDTO(null, null, null, null, null, null, null);
         model.addAttribute("appointment", appointment);
+        model.addAttribute("selectedDate", date);
+        model.addAttribute("selectedTime", time);
         return "appointments/bookings";
     }
 
