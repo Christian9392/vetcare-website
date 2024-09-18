@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+
+<head>
+    <title th:text="'Pet Details: ' + ${pet.name}">Pet Details</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <h1 th:text="'Pet Details: ' + ${pet.name}">Pet Details</h1>
+
+        <section>
+            <h2>Basic Information</h2>
+            <p><strong>Name:</strong> <span th:text="${pet.name}">Pet Name</span></p>
+            <p><strong>Species:</strong> <span th:text="${pet.species}">Species</span></p>
+            <p><strong>Breed:</strong> <span th:text="${pet.breed}">Breed</span></p>
+            <p><strong>Age:</strong> <span th:text="${pet.age}">Age</span></p>
+        </section>
+
+        <!-- Medical History -->
+        <section>
+            <h2>Medical History</h2>
+            <p>Handle medical history here.</p>
+        </section>
+
+        <!-- Prescriptions -->
+        <section>
+            <h2>Prescriptions</h2>
+            <p>Handle prescription logic here.</p>
+        </section>
+
+        <!-- Update Pet Info -->
+        <section>
+            <h2>Update Pet Information</h2>
+            <p>Handle update logic here.</p>
+        </section>
+
+        <!-- Back to Pets List Link -->
+        <p><a href="/pets" class="btn btn-secondary">Back to Pets List</a></p>
+
+    </div>
+
+</body>
+
+</html>
