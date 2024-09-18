@@ -88,17 +88,22 @@
             <span>No appointments found.</span>
         </div>
 
-    <!-- Status Filter Dropdown -->
-    <div class="mb-3" th:unless="${#lists.isEmpty(appointments)}">
-        <label for="statusFilter">Filter by Status:</label>
-        <select id="statusFilter" class="form-control">
-            <option value="All">All</option>
-            <option value="Upcoming">Upcoming</option>
-            <option value="Past">Past</option>
-            <option value="Cancelled">Cancelled</option>
-        </select>
-    </div>
+        <!-- Display appointment booked message -->
+        <div th:if="${create_message}" class="alert alert-success">
+            <span th:text="${create_message}">Success message</span>
+        </div>
 
+
+        <!-- Status Filter Dropdown -->
+        <div class="mb-3" th:unless="${#lists.isEmpty(appointments)}">
+            <label for="statusFilter">Filter by Status:</label>
+            <select id="statusFilter" class="form-control">
+                <option value="All">All</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Past">Past</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
         <!-- Export Buttons -->
         <div class="mb-3" th:unless="${#lists.isEmpty(appointments)}">
             <button id="exportCSV" class="btn btn-secondary">Export to CSV</button>
