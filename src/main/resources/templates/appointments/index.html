@@ -46,16 +46,6 @@
                 table.button('.buttons-pdf').trigger();
             });
 
-            //Event listener for booking vet
-            $('#bookingVet').on('change', function() {
-            });
-            //Event listener for booking date
-            $('#bookingDate').on('change', function() {
-            });
-            //Event listener for booking time
-            $('#bookingTime').on('change', function() {
-            });
-
         });
     </script>
     <style>
@@ -166,19 +156,34 @@
         <!-- Date Dropdown -->
         <div class="mb-3">
             <label for="bookingDate mb-3">Choose a date</label>
-            <input type="date" id="bookingDate" class="form-control small">
+            <input type="date" id="bookingDate" class="form-control small" onclick="this.showPicker();" value="2024-06-18">
         </div>
 
         <!-- Time Dropdown -->
         <div class="mb-3">
             <label for="bookingTime mb-3">Select Time:</label>
-            <input type="time" id="bookingTime" class="form-control small" required />
+            <input type="time" id="bookingTime" class="form-control small" onclick="this.showPicker();" value="16:00"/>
         </div>
     
         <!-- Booking -->
         <div class="bookings">
-            <a th:href="@{/appointments/bookings}" id="bookingDate" class="btn btn-secondary">Book appointment</a>
+            <a th:href="@{/appointments/bookings(date=${selectedDate}, time=${selectedTime})}" id="bookingButton" class="btn btn-secondary">Book appointment</a>
         </div>
+
+        <script>
+            // Capture the inputs to update the URL when the button is clicked
+            document.getElementById('bookingButton').addEventListener('click', function(event) {
+                const selectedDate = document.getElementById('bookingDate').value;
+                const selectedTime = document.getElementById('bookingTime').value;
+                event.preventDefault();
+        
+                //create new url
+                const url = `/appointments/bookings?date=${encodeURIComponent(selectedDate)}&time=${encodeURIComponent(selectedTime)}`;
+                window.location.href = url;
+            });
+        </script>
+
+
     </div>
 
 </div>
