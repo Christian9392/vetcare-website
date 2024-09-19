@@ -8,7 +8,7 @@ public class Clinic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "clinic_id")
-    private Long clinicId;
+    private Long clinicID;
 
     @Column(name = "name")
     private String name;
@@ -22,12 +22,12 @@ public class Clinic {
     @Column(name = "email")
     private String email;
 
-    public Long getClinicId() {
-        return clinicId;
+    public Long getClinicID() {
+        return clinicID;
     }
 
     public void setClinicId(Long clinicId) {
-        this.clinicId = clinicId;
+        this.clinicID = clinicID;
     }
 
     public String getName() {
