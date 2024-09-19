@@ -3,6 +3,7 @@ package au.edu.rmit.sept.webapp.services;
 import au.edu.rmit.sept.webapp.dto.*;
 import au.edu.rmit.sept.webapp.models.Appointment;
 import au.edu.rmit.sept.webapp.models.Clinic;
+import au.edu.rmit.sept.webapp.models.CustomUser;
 import au.edu.rmit.sept.webapp.repositories.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,16 +42,17 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void saveAppointment(AppointmentDTO appointmentDTO, Clinic clinic) {
+    public void saveAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user) {
         Appointment appointment = new Appointment();
         appointment.setAppointmentID(appointmentDTO.getAppointmentID());
         appointment.setAppointmentDate(appointmentDTO.getAppointmentDate());
         appointment.setAppointmentTime(appointmentDTO.getAppointmentTime());
         appointment.setGeneralNotes(appointmentDTO.getGeneralNotes());
         appointment.setStatus(appointmentDTO.getStatus());
-        
 
+        //update clinic and user
         appointment.setClinic(clinic);
+        appointment.setUser(user);
         repository.save(appointment);
     }
 
