@@ -40,4 +40,16 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new RuntimeException("User is not authenticated");
         }
     }
+
+    // Get the currently authenticated user
+    public CustomUser getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            return customUserRepository.findByName(username);
+        } else {
+            throw new RuntimeException("User is not authenticated");
+        }
+    }
 }
