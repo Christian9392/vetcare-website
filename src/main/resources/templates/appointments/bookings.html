@@ -24,14 +24,10 @@
     <form th:action="@{/appointments/savedBooking}" th:object="${appointment}" method="post">
         <input type="hidden" th:field="*{AppointmentID}" />
 
-
-        <div class="location mb-3">
+        <div class="location mb-3" >
             <label for="location" class="form-label readonly-label">Which clinic would you like to book at?</label>
             <select id="location" class = form-control required>
-                <option value="" disabled selected>Select a clinic</option>
-                <option value="loc1">location1</option>
-                <option value="loc2">location2</option>
-                <option value="loc3">location3</option>
+                <option th:each="clinic : ${clinics}" th:value="${clinic.name}" th:text="${clinic.name}"></option>
             </select>
         </div>
 
