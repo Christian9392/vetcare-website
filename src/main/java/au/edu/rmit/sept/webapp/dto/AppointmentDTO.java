@@ -89,7 +89,7 @@ public class AppointmentDTO {
         return clinicName;
     }
 
-    public void setClinicName() {
+    public void setClinicName(String clinicName) {
         this.clinicName = clinicName;
     }
 }

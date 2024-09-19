@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Collection;
-import au.edu.rmit.sept.webapp.dto.ClinicDTO;
 import java.time.*;
 
 @Controller
@@ -65,12 +64,12 @@ public class AppointmentController {
     @GetMapping("/appointments/bookings")
     public String bookAppointment(@RequestParam LocalDate date, @RequestParam LocalTime time, Model model){
         AppointmentDTO appointment = new AppointmentDTO();
- 
+
         appointment.setAppointmentDate(date);
         appointment.setAppointmentTime(time);
         model.addAttribute("appointment", appointment);
 
-        List<ClinicDTO> clinics = clinicService.getClinics();
+        List<Clinic> clinics = clinicService.getClinics();
         model.addAttribute("clinics", clinics);
         return "appointments/bookings";
     }
@@ -78,8 +77,12 @@ public class AppointmentController {
     @PostMapping("/appointments/saveBooking")
     public String addBooking(@ModelAttribute("appointment") AppointmentDTO appointment, RedirectAttributes redirectAttributes){
         appointment.setStatus("Upcoming");
-        appointmentService.saveAppointment(appointment);
-        redirectAttributes.addFlashAttribute("create_message", "Appointment scheduled");
+
+        Long Id = clinicService.findClinicIDByName(appointment.getClinicName());
+        Clinic clinic = clinicService.findClinicByID(Id);
+
+        appointmentService.saveAppointment(appointment, clinic);
+        redirectAttributes.addFlashAttribute("create_message", "Appointment booked successfully");
         return "redirect:/appointments";
     }
 }

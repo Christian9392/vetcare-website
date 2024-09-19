@@ -28,9 +28,9 @@
             $('#statusFilter').on('change', function() {
                 var selectedStatus = $(this).val();
                 if (selectedStatus === 'All') {
-                    table.column(6).search('').draw(); // Clear filter
+                    table.column(7).search('').draw(); // Clear filter
                 } else {
-                    table.column(6).search('^' + selectedStatus + '$', true, false).draw(); // Filter by selected status
+                    table.column(7).search('^' + selectedStatus + '$', true, false).draw(); // Filter by selected status
                 }
             });
             // Export buttons
