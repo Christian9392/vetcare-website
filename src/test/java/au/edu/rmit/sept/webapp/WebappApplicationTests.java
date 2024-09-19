@@ -8,10 +8,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-<<<<<<< HEAD
-=======
-
->>>>>>> 9f2c87d (feat: #191)
 import java.util.HashMap;
 import java.util.Map;
 
