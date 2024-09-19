@@ -3,7 +3,6 @@ package au.edu.rmit.sept.webapp.controllers;
 import au.edu.rmit.sept.webapp.models.CustomUser;
 import au.edu.rmit.sept.webapp.repositories.CustomUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,8 +26,12 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute CustomUser user, Model model) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (customUserRepository.findByEmail(user.getEmail()) != null) {
+            model.addAttribute("errorMessage", "Email already exists.");
+            return "authentication/register";
+        }
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         customUserRepository.save(user);
 
         return "redirect:/login";

@@ -16,18 +16,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     private CustomUserRepository customUserRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<CustomUser> customUser = Optional.ofNullable(customUserRepository.findByName(username));
-        if (customUser.isPresent()) {
-            var user = customUser.get();
-            return
-                    User.builder()
-                            .username(user.getName())
-                            .password(user.getPassword())
-                            .roles(user.getUserType().name())
-                            .build();
-        } else {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        CustomUser user = customUserRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
         }
+
+        return User.builder()
+                .username(user.getName())
+                .password(user.getPassword())
+                .roles(user.getUserType().name())
+                .build();
     }
 }
