@@ -4,20 +4,20 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class AppointmentDTO {
-
-    private Long appointmentID;
-    private LocalDate appointmentDate;
-    private LocalTime appointmentTime;
-    private String petName;
-    private String vetName;
-    private String generalNotes;
-    private String status;
+        private Long appointmentID;
+        private LocalDate appointmentDate;
+        private LocalTime appointmentTime;
+        private String petName;
+        private String vetName;
+        private String generalNotes;
+        private String status;
+        private String clinicName;
 
     public AppointmentDTO() {
         
     }
 
-    public AppointmentDTO(Long appointmentID, LocalDate appointmentDate, LocalTime appointmentTime, String petName, String vetName, String generalNotes, String status) {
+    public AppointmentDTO(Long appointmentID, LocalDate appointmentDate, LocalTime appointmentTime, String petName, String vetName, String generalNotes, String status, String clinicName) {
         this.appointmentID = appointmentID;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
@@ -25,6 +25,7 @@ public class AppointmentDTO {
         this.vetName = vetName;
         this.generalNotes = generalNotes;
         this.status = status;
+        this.clinicName = clinicName;
     }
 
     // Getters and Setters
@@ -82,5 +83,13 @@ public class AppointmentDTO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getClinicName() {
+        return clinicName;
+    }
+
+    public void setClinicName() {
+        this.clinicName = clinicName;
     }
 }
