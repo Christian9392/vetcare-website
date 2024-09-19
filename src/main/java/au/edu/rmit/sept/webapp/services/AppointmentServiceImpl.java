@@ -32,21 +32,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void saveAppointment(AppointmentDTO appointmentDTO) {
-        // Convert AppointmentDTO to Appointment
-        Appointment appointment = convertToEntity(appointmentDTO);
-        repository.save(appointment);  // Save the Appointment entity
-    }
-
-    // Conversion method from AppointmentDTO to Appointment entity
-    private Appointment convertToEntity(AppointmentDTO appointmentDTO) {
-        Appointment appointment = new Appointment();
-        appointment.setAppointmentID(appointmentDTO.getAppointmentID());
-        appointment.setAppointmentDate(appointmentDTO.getAppointmentDate());
-        appointment.setAppointmentTime(appointmentDTO.getAppointmentTime());
-        appointment.setGeneralNotes(appointmentDTO.getGeneralNotes());
-        appointment.setStatus(appointmentDTO.getStatus());
-
-        return appointment;
+        Appointment appointment = repository.findById(appointmentDTO.AppointmentID())
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+        appointment.setAppointmentID(appointmentDTO.AppointmentID());
+        appointment.setAppointmentDate(appointmentDTO.AppointmentDate());
+        appointment.setAppointmentTime(appointmentDTO.AppointmentTime());
+        appointment.setGeneralNotes(appointmentDTO.GeneralNotes());
+        appointment.setStatus(appointmentDTO.Status());
+        repository.save(appointment);
     }
 
 
