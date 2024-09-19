@@ -30,12 +30,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void saveAppointment(AppointmentDTO appointmentDTO) {
-        Appointment appointment = new Appointment();
-        appointment.setAppointmentID(appointmentDTO.getAppointmentID());
-        appointment.setAppointmentDate(appointmentDTO.getAppointmentDate());
-        appointment.setAppointmentTime(appointmentDTO.getAppointmentTime());
-        appointment.setGeneralNotes(appointmentDTO.getGeneralNotes());
-        appointment.setStatus(appointmentDTO.getStatus());
+        Appointment appointment = repository.findById(appointmentDTO.AppointmentID())
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+        appointment.setAppointmentID(appointmentDTO.AppointmentID());
+        appointment.setAppointmentDate(appointmentDTO.AppointmentDate());
+        appointment.setAppointmentTime(appointmentDTO.AppointmentTime());
+        appointment.setGeneralNotes(appointmentDTO.GeneralNotes());
+        appointment.setStatus(appointmentDTO.Status());
         repository.save(appointment);
     }
 

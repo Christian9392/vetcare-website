@@ -122,7 +122,6 @@
                     <th>Pet Name</th>
                     <th>Veterinarian</th>
                     <th>Notes</th>
-                    <th>Location</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -136,7 +135,6 @@
                     <td th:text="${appointment.PetName}">Fluffy</td>
                     <td th:text="${appointment.VetName}">Dr. Smith</td>
                     <td th:text="${appointment.GeneralNotes}">Routine checkup</td>
-                    <td th:text="${appointment.clinicName}">Happy place</td>
                     <td th:text="${appointment.Status}"
                         th:classappend="${appointment.Status == 'Upcoming' ? 'status-scheduled' : (appointment.Status == 'Past' ? 'status-completed' : 'status-cancelled')}">
                         Scheduled

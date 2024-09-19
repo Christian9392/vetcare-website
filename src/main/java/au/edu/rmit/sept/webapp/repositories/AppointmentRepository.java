@@ -11,18 +11,16 @@ import java.util.List;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
-    @Query("SELECT new au.edu.rmit.sept.webapp.dto.AppointmentDTO(a.appointmentID, a.appointmentDate, a.appointmentTime, p.name, u.name, a.generalNotes, a.status, c.name) " +
+    @Query("SELECT new au.edu.rmit.sept.webapp.dto.AppointmentDTO(a.appointmentID, a.appointmentDate, a.appointmentTime, p.name, u.name, a.generalNotes, a.status) " +
             "FROM Appointment a " +
             "JOIN a.pet p " +
-            "JOIN a.user u " +
-            "JOIN a.clinic c")
+            "JOIN a.user u")
     List<AppointmentDTO> findAllAppointments();
 
-    @Query("SELECT new au.edu.rmit.sept.webapp.dto.AppointmentDTO(a.appointmentID, a.appointmentDate, a.appointmentTime, p.name, u.name, a.generalNotes, a.status, c.name) " +
+    @Query("SELECT new au.edu.rmit.sept.webapp.dto.AppointmentDTO(a.appointmentID, a.appointmentDate, a.appointmentTime, p.name, u.name, a.generalNotes, a.status) " +
             "FROM Appointment a " +
             "JOIN a.pet p " +
             "JOIN a.user u " +
-            "JOIN a.clinic c " +
             "WHERE a.appointmentID = :id")
     AppointmentDTO findAppointmentById(@Param("id") Long id);
 }
