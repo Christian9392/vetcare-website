@@ -92,14 +92,17 @@ public class AppointmentController {
     public String addBooking(@ModelAttribute("appointment") AppointmentDTO appointment, RedirectAttributes redirectAttributes){
         appointment.setStatus("Upcoming");
 
-        //get clinic entity using name picked by user
+        //get clinic entity picked by user
         Clinic clinic = clinicService.findClinicByName(appointment.getClinicName());
+
+        //get vet entity picked by user
+        CustomUser vet = userService.findVetByName(appointment.getVetName());
 
         //get current user
         CustomUser user = userService.getCurrentUser();
 
         //update appointment, clinic and user
-        appointmentService.saveAppointment(appointment, clinic, user);
+        appointmentService.saveAppointment(appointment, clinic, user, vet);
 
         //confirmation message
         redirectAttributes.addFlashAttribute("create_message", "Appointment booked successfully");
