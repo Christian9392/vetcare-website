@@ -7,6 +7,7 @@ import au.edu.rmit.sept.webapp.models.CustomUser;
 import au.edu.rmit.sept.webapp.repositories.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import au.edu.rmit.sept.webapp.models.Pet;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void saveAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user, CustomUser vet) {
+    public void saveAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user, CustomUser vet, Pet pet) {
         Appointment appointment = new Appointment();
         appointment.setAppointmentID(appointmentDTO.getAppointmentID());
         appointment.setAppointmentDate(appointmentDTO.getAppointmentDate());
@@ -53,7 +54,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         //temp, change fee based on what appointment type picks
         appointment.setFees(50F);
 
-        //update clinic, vetName and user
+        //update clinic, vetName, petName and user
+        appointment.setPet(pet);
         appointment.setVet(vet);
         appointment.setClinic(clinic);
         appointment.setUser(user);
