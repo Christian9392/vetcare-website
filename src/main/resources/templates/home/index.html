@@ -1,66 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout.html}">
 
-    <body>
-        <div layout:fragment="content">
-            <div class="container">
-                <div class="m-5">
-                  <h1 class="text-center fw-bolder">VetCare</h1>
-                  <h4 class="text-center mb-4 fw-bold">Slogan</h4>
-                  <div class="d-flex justify-content-center">
+<body>
+    <div layout:fragment="content">
+        <div class="container">
+            <div class="m-5">
+                <h1 class="text-center fw-bolder">VetCare</h1>
+                <h4 class="text-center mb-4 fw-bold">Slogan</h4>
+                <div class="d-flex justify-content-center">
                     <div class="col-md-3 text-end mx-3">
-                      <h6>+(03) 0000 0000</h6>
+                        <h6>+(03) 0000 0000</h6>
                     </div>
                     <div class="col-md-3 mx-3">
-                      <h6>info@vetcare.com.au</h6>
+                        <h6>info@vetcare.com.au</h6>
                     </div>
-                  </div>
                 </div>
-              </div>
-            
-            <main class="row m-5">
-            <div class=" col-md-6 text-center">
-                <img class="rounded-circle mb-2" src="data:image/jpeg;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="" width="140" height="140">
+            </div>
+        </div>
+
+        <main class="row m-5">
+            <div class="col-md-6 text-center">
+                <img class="rounded-circle mb-2"
+                    src="data:image/jpeg;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt=""
+                    width="140" height="140" />
                 <h2>Book an Appointment</h2>
                 <p>View our appointment list and book a consultation.</p>
                 <p><a class="btn btn-secondary" href="#">Book now</a></p>
             </div>
-        
-            <div class=" col-md-6 text-center">
-                <img class="rounded-circle mb-2" src="data:image/jpeg;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="" width="140" height="140">
+
+            <div class="col-md-6 text-center">
+                <img class="rounded-circle mb-2"
+                    src="data:image/jpeg;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt=""
+                    width="140" height="140" />
                 <h2>Educational Resources</h2>
-                <p>See our comprehensive guides on how to properly care for your pets.</p>
+                <p>
+                    See our comprehensive guides on how to properly care for your pets.
+                </p>
                 <p><a class="btn btn-secondary" href="#">View resources</a></p>
             </div>
-            </main>
-
-            <form th:action="@{/logout}" method="post">
-                <button type="submit" class="btn btn-danger">Logout</button>
-            </form>
-        </nav>
-
-        <h1>Welcome to VetCare</h1>
-        <p>This is the main hub for managing your pet's appointments, prescriptions, and information.</p>
-
-        <section>
-            <h2>Manage Appointments</h2>
-            <p><a href="/appointments/new">Book a new appointment</a> or <a href="/appointments">view all appointments</a>.</p>
-        </section>
-
-        <section>
-            <h2>Pet Information</h2>
-            <p><a href="/pets">View or update your pet's information</a>.</p>
-        </section>
-
-        <section>
-            <h2>Educational Resources</h2>
-            <p><a href="/eduresources">View educational resources</a>.</p>
-        </section>
+        </main>
 
         <form th:action="@{/logout}" method="post">
             <button type="submit" class="btn btn-danger">Logout</button>
         </form>
-
     </div>
 </body>
 

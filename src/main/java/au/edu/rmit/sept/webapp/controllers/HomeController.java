@@ -44,7 +44,7 @@ public class HomeController {
       return "account/settings";
   }
 
-  @GetMapping("/home/about")
+  @GetMapping("/about")
   public String viewAbout() {
       return "home/about";
   }

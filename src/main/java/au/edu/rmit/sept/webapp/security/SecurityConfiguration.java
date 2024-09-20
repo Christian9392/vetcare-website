@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/about").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/webjars/**").permitAll()
                         .requestMatchers("/css/**", "/images/**", "js/**").permitAll()
