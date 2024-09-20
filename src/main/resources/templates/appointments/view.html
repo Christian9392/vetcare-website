@@ -43,6 +43,14 @@
         <label for="status" class="form-label readonly-label">Status</label>
         <p id="status" class="form-control readonly-field" th:text="${appointment.Status}">Status</p>
     </div>
+    <div class="mb-3">
+        <label for="location" class="form-label readonly-label">Location</label>
+        <p id="location" class="form-control readonly-field" th:text="${appointment.ClinicName}">Status</p>
+    </div>
+    <div class="mb-3">
+        <label for="fees" class="form-label readonly-label">Fees</label>
+        <p id="fees" class="form-control readonly-field" th:text="'$' + ${appointment.Fees}">Status</p>
+    </div>
     <a href="/appointments" class="btn btn-secondary">Back to List</a>
 </div>
 </body>

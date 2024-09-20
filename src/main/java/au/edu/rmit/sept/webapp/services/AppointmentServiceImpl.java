@@ -50,6 +50,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setGeneralNotes(appointmentDTO.getGeneralNotes());
         appointment.setStatus(appointmentDTO.getStatus());
 
+        //temp, change fee based on what appointment type user picks
+        appointment.setFees(50F);
+
         //update clinic and user
         appointment.setClinic(clinic);
         appointment.setUser(user);
