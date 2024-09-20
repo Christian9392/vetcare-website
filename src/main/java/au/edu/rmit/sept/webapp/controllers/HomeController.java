@@ -35,7 +35,17 @@ public class HomeController {
   }
 
   @GetMapping("/account")
-  public String viewAccountSettings() {
+  public String viewAccountPage() {
       return "account/index";
+  }
+
+  @GetMapping("/account/settings")
+  public String viewAccountSettings() {
+      return "account/settings";
+  }
+
+  @GetMapping("/home/about")
+  public String viewAbout() {
+      return "home/about";
   }
 }

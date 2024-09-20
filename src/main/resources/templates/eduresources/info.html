@@ -7,7 +7,20 @@
 
 <body>
 
+
     <div layout:fragment="content">
+
+        <nav>
+            <a href="/" class="btn btn-primary">Home</a>
+            <a href="/appointments" class="btn btn-primary">View Appointments</a>
+            <a href="/pets" class="btn btn-primary">View Pet Information</a>
+            <a href="/eduresources" class="btn btn-primary">Educational Resources</a>
+            <a href="/account" class="btn btn-primary">Account Settings</a>
+            <a href="/home/about" class="btn btn-primary">About Us</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </nav>
 
         <h1>Resource Title</h1>
 
@@ -24,7 +37,7 @@
         <!-- save resource action logic goes here -->
         <button type="submit" class="btn btn-success">Save Resource</button>
         
-        <p><a href="/resources" class="btn btn-secondary">Back to Resources</a></p>
+        <p><a href="/eduresources" class="btn btn-secondary">Back to Resources</a></p>
 
     </div>
 

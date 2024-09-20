@@ -9,23 +9,27 @@
 
     <div layout:fragment="content">
 
+        <nav>
+            <a href="/" class="btn btn-primary">Home</a>
+            <a href="/appointments" class="btn btn-primary">View Appointments</a>
+            <a href="/pets" class="btn btn-primary">View Pet Information</a>
+            <a href="/eduresources" class="btn btn-primary">Educational Resources</a>
+            <a href="/account" class="btn btn-primary">Account Settings</a>
+            <a href="/home/about" class="btn btn-primary">About Us</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </nav>
+
         <h1>Your Registered Pets</h1>
 
         <!-- If no pets are registered, logic goes here -->
         <p>You have not registered any pets yet. <a href="/pets/new" class="btn btn-primary">Register a New Pet</a></p>
 
         <!-- List of registered pets, please adjust TH template as necessary!!! -->
-        <ul th:if="${!pets.isEmpty()}">
-            <li th:each="pet : ${pets}">
-                <a th:href="@{/pets/view/{id}(id=${pet.id})}" th:text="${pet.name}"></a>
-                <p th:text="'Species: ' + ${pet.species}"></p>
-                <p th:text="'Breed: ' + ${pet.breed}"></p>
-                <p th:text="'Age: ' + ${pet.age}"></p>
-            </li>
-        </ul>
 
         <!-- Register new pet link -->
-        <p><a href="/pets/register" class="btn btn-primary">Register a New Pet</a></p>
+        <p><a href="/pets/new" class="btn btn-primary">Register a New Pet</a></p>
 
     </div>
 

@@ -4,6 +4,7 @@
 
 <head>
 
+
     <title>Welcome to SEPT Cinemas</title>
     <style>
         .readonly-field {
@@ -18,6 +19,20 @@
 </head>
 
 <body>
+    
+    <div layout:fragment="content">
+        <nav>
+            <a href="/" class="btn btn-primary">Home</a>
+            <a href="/appointments" class="btn btn-primary">View Appointments</a>
+            <a href="/pets" class="btn btn-primary">View Pet Information</a>
+            <a href="/eduresources" class="btn btn-primary">Educational Resources</a>
+            <a href="/account" class="btn btn-primary">Account Settings</a>
+            <a href="/home/about" class="btn btn-primary">About Us</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </nav>
+    
 <div class="container mt-5" layout:fragment="content">
     <h2>Edit Appointment</h2>
     <form th:action="@{/appointments/save}" th:object="${appointment}" method="post">

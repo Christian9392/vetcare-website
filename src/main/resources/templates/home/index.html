@@ -12,8 +12,12 @@
             <a href="/" class="btn btn-primary">Home</a>
             <a href="/appointments" class="btn btn-primary">View Appointments</a>
             <a href="/pets" class="btn btn-primary">View Pet Information</a>
-            <a href="/resources" class="btn btn-primary">Educational Resources</a>
+            <a href="/eduresources" class="btn btn-primary">Educational Resources</a>
             <a href="/account" class="btn btn-primary">Account Settings</a>
+            <a href="/home/about" class="btn btn-primary">About Us</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
         </nav>
 
         <h1>Welcome to VetCare</h1>
@@ -21,7 +25,7 @@
 
         <section>
             <h2>Manage Appointments</h2>
-            <p><a href="/appointments/new">Book a new appointment</a> or <a href="/appointments/index">view all appointments</a>.</p>
+            <p><a href="/appointments/new">Book a new appointment</a> or <a href="/appointments">view all appointments</a>.</p>
         </section>
 
         <section>
