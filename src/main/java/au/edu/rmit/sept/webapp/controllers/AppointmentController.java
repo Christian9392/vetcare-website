@@ -111,9 +111,10 @@ public class AppointmentController {
 
         //get pet user
         //NOTE: requires pet registration, for now it will show up as any pet is available (none registered to use)
+        Pet pet = petService.findPetByName(appointment.getPetName());
 
         //update appointment, clinic and user
-        appointmentService.saveAppointment(appointment, clinic, user, vet);
+        appointmentService.saveAppointment(appointment, clinic, user, vet, pet);
 
         //confirmation message
         redirectAttributes.addFlashAttribute("create_message", "Appointment booked successfully");

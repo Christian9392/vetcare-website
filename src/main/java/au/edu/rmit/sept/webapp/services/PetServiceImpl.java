@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class PetServiceImpl implements PetService {
@@ -27,4 +28,11 @@ public class PetServiceImpl implements PetService {
         return repository.findAll();
     }
 
+    @Override
+    public Pet findPetByName(String name) {
+        Long petID = repository.findPetIDByName(name);
+
+        return repository.findById(petID)
+        .orElseThrow(() -> new NoSuchElementException("Clinic not found with id " + petID));
+    }   
 }
