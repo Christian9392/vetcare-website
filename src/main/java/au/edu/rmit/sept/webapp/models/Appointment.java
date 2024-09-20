@@ -37,6 +37,10 @@ public class Appointment {
     @Column(name = "fees")
     private Float fees;
 
+    @ManyToOne
+    @JoinColumn(name = "vet_id", referencedColumnName = "user_id")
+    private CustomUser vet;
+
     @Column(name = "appointment_time")
     private LocalTime appointmentTime;
 
@@ -102,6 +106,14 @@ public class Appointment {
 
     public void setFees(Float fees) {
         this.fees = fees;
+    }
+
+    public CustomUser getVet() {
+        return vet;
+    }
+
+    public void setVet(CustomUser vet) {
+        this.vet = vet;
     }
 
     public LocalTime getAppointmentTime() {
