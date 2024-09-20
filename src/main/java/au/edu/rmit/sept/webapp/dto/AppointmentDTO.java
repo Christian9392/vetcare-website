@@ -12,12 +12,13 @@ public class AppointmentDTO {
         private String generalNotes;
         private String status;
         private String clinicName;
+        private Float fees;
 
     public AppointmentDTO() {
         
     }
 
-    public AppointmentDTO(Long appointmentID, LocalDate appointmentDate, LocalTime appointmentTime, String petName, String vetName, String generalNotes, String status, String clinicName) {
+    public AppointmentDTO(Long appointmentID, LocalDate appointmentDate, LocalTime appointmentTime, String petName, String vetName, String generalNotes, String status, String clinicName, Float fees) {
         this.appointmentID = appointmentID;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
@@ -26,6 +27,7 @@ public class AppointmentDTO {
         this.generalNotes = generalNotes;
         this.status = status;
         this.clinicName = clinicName;
+        this.fees = fees;
     }
 
     // Getters and Setters
@@ -91,5 +93,13 @@ public class AppointmentDTO {
 
     public void setClinicName(String clinicName) {
         this.clinicName = clinicName;
+    }
+
+    public Float getFees() {
+        return fees;
+    }
+
+    public void setFees(Float fees) {
+        this.fees = fees;
     }
 }
