@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -47,10 +48,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
     }
 
-    // public List<Long> getVets() {
-    //     return customUserRepository.findVetID(UserType.Vet);
-    // }
-
     public List<CustomUser> getVets() {
         List<Long> vetIDs = customUserRepository.findVetID(UserType.Vet);
         List<CustomUser> vets = new ArrayList<>();
@@ -62,5 +59,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         return vets;
+    }
+
+    public CustomUser findVetByName(String name) {
+        Long vetID = customUserRepository.findVetIDByName(name);
+
+        return customUserRepository.findById(vetID)
+        .orElseThrow(() -> new NoSuchElementException("Clinic not found with id " + vetID));
     }
 }

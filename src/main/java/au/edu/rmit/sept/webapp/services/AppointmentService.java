@@ -10,6 +10,6 @@ public interface AppointmentService {
     public Collection<AppointmentDTO> getAppointments();
     public AppointmentDTO getAppointmentById(Long id);
     public void saveAppointment(AppointmentDTO appointmentDTO);
-    public void saveAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user);
+    public void saveAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user, CustomUser vet);
     public void deleteAppointment(Long id);
 }

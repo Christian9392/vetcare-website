@@ -42,7 +42,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void saveAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user) {
+    public void saveAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user, CustomUser vet) {
         Appointment appointment = new Appointment();
         appointment.setAppointmentID(appointmentDTO.getAppointmentID());
         appointment.setAppointmentDate(appointmentDTO.getAppointmentDate());
@@ -53,7 +53,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         //temp, change fee based on what appointment type picks
         appointment.setFees(50F);
 
-        //update clinic and user
+        //update clinic, vetName and user
+        appointment.setVet(vet);
         appointment.setClinic(clinic);
         appointment.setUser(user);
         repository.save(appointment);
