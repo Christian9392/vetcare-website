@@ -18,7 +18,16 @@ public class UserService {
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
-
+    public Long getUserIdByUsername(String username) {
+        Optional<User> userOpt = userRepository.findByName(username);
+        if (userOpt.isPresent()) {
+            return userOpt.get().userID();
+        } else {
+            System.out.println("User not found for username: " + username);
+            throw new RuntimeException("User not found");
+        }
+    }    
+    
     public User updateContactInfo(Long userID, User updatedUser) {
         Optional<User> existingUser = userRepository.findById(userID);
         if (existingUser.isPresent()) {

@@ -15,7 +15,32 @@ public class UserRepository {
     public UserRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-
+    public Optional<User> findByName(String username) {
+        // System.out.println("Looking up user by username: " + username); //debug
+        String sql = "SELECT * FROM user WHERE name = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(new User(
+                    rs.getLong("user_id"),
+                    rs.getString("name"),
+                    rs.getString("password"),
+                    rs.getString("email"),
+                    rs.getString("phone_number"),
+                    rs.getString("address")
+                ));
+            } else {
+                System.out.println("No user found for username: " + username); //debug
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+    
+    
     public Optional<User> findById(Long id) {
         String sql = "SELECT * FROM user WHERE user_id = ?";
         try (Connection conn = dataSource.getConnection();
