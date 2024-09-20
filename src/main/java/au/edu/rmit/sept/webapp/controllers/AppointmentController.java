@@ -71,9 +71,15 @@ public class AppointmentController {
         appointment.setAppointmentDate(date);
         appointment.setAppointmentTime(time);
         model.addAttribute("appointment", appointment);
-
+        
+        //get clinics
         List<Clinic> clinics = clinicService.getClinics();
         model.addAttribute("clinics", clinics);
+
+        //get vets
+        List<CustomUser> vets = userService.getVets();
+        model.addAttribute("vets", vets);
+
         return "appointments/bookings";
     }
 
