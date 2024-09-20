@@ -35,7 +35,7 @@ public class AppointmentServiceImplTest {
     @Test
     void testGetAppointments() {
         List<AppointmentDTO> mockAppointments = new ArrayList<>();
-        mockAppointments.add(new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status"));
+        mockAppointments.add(new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status", "c", 1F));
         when(appointmentRepository.findAllAppointments()).thenReturn(mockAppointments);
 
         List<AppointmentDTO> appointments = appointmentService.getAppointments();
@@ -46,7 +46,7 @@ public class AppointmentServiceImplTest {
 
     @Test
     void testGetAppointmentById() {
-        AppointmentDTO mockAppointment = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status");
+        AppointmentDTO mockAppointment = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status", "c", 1F);
         when(appointmentRepository.findAppointmentById(1L)).thenReturn(mockAppointment);
 
         AppointmentDTO appointment = appointmentService.getAppointmentById(1L);
@@ -63,7 +63,7 @@ public class AppointmentServiceImplTest {
         existingAppointment.setGeneralNotes("Initial Notes");
         existingAppointment.setStatus("Initial Status");
 
-        AppointmentDTO appointmentDTO = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status");
+        AppointmentDTO appointmentDTO = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status", "c", 1F);
 
         when(appointmentRepository.findById(1L)).thenReturn(Optional.of(existingAppointment));
 

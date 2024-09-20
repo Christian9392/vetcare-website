@@ -16,7 +16,7 @@ public class ClinicTest {
         clinic.setEmail("info@healthclinic.com");
 
         // Assert
-        assertEquals(1L, clinic.getClinicId());
+        assertEquals(1L, clinic.getClinicID());
         assertEquals("Health Clinic", clinic.getName());
         assertEquals("123 Main St", clinic.getAddress());
         assertEquals("123-456-7890", clinic.getPhoneNumber());
