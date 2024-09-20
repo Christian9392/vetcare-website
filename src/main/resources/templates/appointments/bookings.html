@@ -36,13 +36,11 @@
         </div>
         
         <!-- Choose vet -->
-        <div class="vet mb-3">
-            <label for="vet" class="form-label readonly-label">Which vet would you look to book with?</label>
-            <select id="vet" class = form-control required>
-                <option value="" disabled selected>Select a vet</option>
-                <option value="loc1">Bob</option>
-                <option value="loc2">Milly</option>
-                <option value="loc3">Mark</option>
+        <div class="chooseVet mb-3" >
+            <label for="chooseVet" class="form-label readonly-label">Which vet would you look to book with?</label>
+            <select id="chooseVet" class = form-control th:field="*{vetName}" required>
+                <option value="" disabled selected>Pick a location</option>
+                <option th:each="vet : ${vets}" th:value="${vet.name}" th:text="${vet.name}"></option>
             </select>
         </div>
 

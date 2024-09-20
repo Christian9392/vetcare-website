@@ -88,8 +88,7 @@ public class AppointmentController {
         appointment.setStatus("Upcoming");
 
         //get clinic entity using name picked by user
-        Long Id = clinicService.findClinicIDByName(appointment.getClinicName());
-        Clinic clinic = clinicService.findClinicByID(Id);
+        Clinic clinic = clinicService.findClinicByName(appointment.getClinicName());
 
         //get current user
         CustomUser user = userService.getCurrentUser();
