@@ -1,4 +1,4 @@
-// package au.edu.rmit.sept.webapp.controllers;
+package au.edu.rmit.sept.webapp.controllers;
 
 import au.edu.rmit.sept.webapp.models.User;
 import au.edu.rmit.sept.webapp.services.UserService;

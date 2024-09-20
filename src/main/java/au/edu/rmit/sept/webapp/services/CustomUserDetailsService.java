@@ -45,18 +45,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
     }
 
-    // Get the currently authenticated user
-    public CustomUser getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            String username = ((UserDetails) principal).getUsername();
-            return customUserRepository.findByName(username);
-        } else {
-            throw new RuntimeException("User is not authenticated");
-        }
-    }
-
     public List<CustomUser> getVets() {
         List<Long> vetIDs = customUserRepository.findVetID(UserType.Vet);
         List<CustomUser> vets = new ArrayList<>();

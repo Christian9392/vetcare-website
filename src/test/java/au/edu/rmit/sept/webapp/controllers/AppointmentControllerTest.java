@@ -41,8 +41,8 @@ public class AppointmentControllerTest {
 
     @Test
     void testGetAppointments() throws Exception {
-        AppointmentDTO appointment1 = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status");
-        AppointmentDTO appointment2 = new AppointmentDTO(2L, LocalDate.now(), LocalTime.now(), "Pet2", "User2", "Notes", "Status");
+        AppointmentDTO appointment1 = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status", "C", 1F);
+        AppointmentDTO appointment2 = new AppointmentDTO(2L, LocalDate.now(), LocalTime.now(), "Pet2", "User2", "Notes", "Status", "C", 1F);
         Collection<AppointmentDTO> appointments = Arrays.asList(appointment1, appointment2);
 
         when(appointmentService.getAppointments()).thenReturn(appointments);
@@ -55,7 +55,7 @@ public class AppointmentControllerTest {
 
     @Test
     void testViewAppointment() throws Exception {
-        AppointmentDTO appointment = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status");
+        AppointmentDTO appointment = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status", "C", 1F);
 
         when(appointmentService.getAppointmentById(1L)).thenReturn(appointment);
 
@@ -67,7 +67,7 @@ public class AppointmentControllerTest {
 
     @Test
     void testEditAppointment() throws Exception {
-        AppointmentDTO appointment = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status");
+        AppointmentDTO appointment = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status", "C", 1F);
 
         when(appointmentService.getAppointmentById(1L)).thenReturn(appointment);
 
