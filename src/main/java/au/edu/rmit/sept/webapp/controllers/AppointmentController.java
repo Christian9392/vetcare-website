@@ -18,8 +18,6 @@ import au.edu.rmit.sept.webapp.models.Appointment;
 import au.edu.rmit.sept.webapp.models.CustomUser;
 
 import java.util.List;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Collection;
 import java.time.*;
 
@@ -120,40 +118,4 @@ public class AppointmentController {
         redirectAttributes.addFlashAttribute("create_message", "Appointment booked successfully");
         return "redirect:/appointments";
     }
-
-    @GetMapping("/appointments/new")
-    public String newAppointment(Model model) {
-        // Get the currently authenticated user, will be used later on for checking if pet is registered to user
-        // CustomUser currentUser = customUserDetailsService.getCurrentUser();
-        
-        /* 
-         * Skip checking for if pet is registered to user
-         * Will implement after pet registration is implemented
-        */
-        model.addAttribute("appointmentDTO", new AppointmentDTO());
-
-        return "appointments/new";
-    }
-
-    @PostMapping("/appointments/book")
-    public String bookAppointment(AppointmentDTO appointmentDTO, Model model) {
-        CustomUser currentUser = customUserDetailsService.getCurrentUser();
-
-        // Validate date and time here (e.g., check if the slot is available)
-
-        // Create a new appointment
-        Appointment appointment = new Appointment();
-        appointment.setUser(currentUser);
-        //appointment.setPet(pet);
-        appointment.setAppointmentDate((appointmentDTO.getAppointmentDate()));
-        appointment.setAppointmentTime((appointmentDTO.getAppointmentTime()));
-        appointment.setStatus(appointmentDTO.getStatus());
-
-        // Save the appointment to the database
-        appointmentService.saveAppointment(appointmentDTO);
-
-        return "redirect:/appointments";  // Redirect to the appointments page after booking
-    }
-
-
 }
