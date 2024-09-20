@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+
+<head>
+    <title>Saved Educational Resources</title>
+</head>
+
+<body>
+
+
+    <div layout:fragment="content">
+
+        <nav>
+            <a href="/" class="btn btn-primary">Home</a>
+            <a href="/appointments" class="btn btn-primary">View Appointments</a>
+            <a href="/pets" class="btn btn-primary">View Pet Information</a>
+            <a href="/eduresources" class="btn btn-primary">Educational Resources</a>
+            <a href="/account" class="btn btn-primary">Account Settings</a>
+            <a href="/home/about" class="btn btn-primary">About Us</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </nav>
+
+        <h1>Your Saved Resources</h1>
+
+        <section>
+            <h2>Saved Resources List</h2>
+
+            <!-- If no saved resource, logic goes here  -->
+            <p>You have not saved any educational resources yet.</p>
+
+            <!-- Get saved resource logic goes here -->
+            <ul>
+                <li><a href="/eduresources/info">Resource Title 1</a></li>
+                <li><a href="/eduresources/info">Resource Title 2</a></li>
+                <li><a href="/eduresources/info">Resource Title 3</a></li>
+        </section>
+
+        <!-- Back to Resources Link -->
+        <p><a href="/resources" class="btn btn-secondary">Back to Resources</a></p>
+
+    </div>
+
+</body>
+
+</html>

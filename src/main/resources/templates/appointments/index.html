@@ -4,6 +4,7 @@
       layout:decorate="~{layout.html}">
 
 <head>
+    
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -68,8 +69,20 @@
     <title>Home</title>
 </head>
 <body>
+    
 
 <div class="container" layout:fragment="content">
+    <nav>
+        <a href="/" class="btn btn-primary">Home</a>
+        <a href="/appointments" class="btn btn-primary">View Appointments</a>
+        <a href="/pets" class="btn btn-primary">View Pet Information</a>
+        <a href="/eduresources" class="btn btn-primary">Educational Resources</a>
+        <a href="/account" class="btn btn-primary">Account Settings</a>
+        <a href="/home/about" class="btn btn-primary">About Us</a>
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </nav>
     <h2>Appointments</h2>
     <!-- Display success message -->
     <div th:if="${save_message}" class="alert alert-success">

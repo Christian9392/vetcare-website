@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+
+<head>
+    <title>About Us</title>
+</head>
+
+<body>
+
+
+    <div layout:fragment="content">
+
+        <nav>
+            <a href="/" class="btn btn-primary">Home</a>
+            <a href="/appointments" class="btn btn-primary">View Appointments</a>
+            <a href="/pets" class="btn btn-primary">View Pet Information</a>
+            <a href="/eduresources" class="btn btn-primary">Educational Resources</a>
+            <a href="/account" class="btn btn-primary">Account Settings</a>
+            <a href="/home/about" class="btn btn-primary">About Us</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </nav>
+
+        <h1>About VetCare</h1>
+
+        <section>
+            <h2>Heading 1</h2>
+            <p>Paragraph 1</p>
+        </section>
+
+        <section>
+            <h2>Heading 2</h2>
+            <p>Paragraph 2</p>
+        </section>
+
+        <section>
+            <h2>Contact Us</h2>
+        </section>
+
+    </div>
+
+</body>
+
+</html>
