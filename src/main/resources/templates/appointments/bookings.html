@@ -45,12 +45,15 @@
         </div>
 
         <!-- Choose pet -->
-        <div class="petName mb-3">
+        <div th:if="${#lists.isEmpty(pets)}"> 
+            <p>Please register a pet</p>
+        </div>
+
+        <div th:unless="${#lists.isEmpty(pets)}" class="petName mb-3">
             <label for="petName" class="form-label readonly-label">Which pet would you like to book?</label>
-            <select id="petName" class="form-control" >
-                <option value="" disabled selected>Select a pet</option>
-                <option value="pet1">pet1</option>
-                <option value="pet2">pet2</option>
+            <select id="petName" class = form-control th:field="*{petName}" required>
+                <option value="" disabled selected>Choose a pet</option>
+                <option th:each="pet : ${pets}" th:value="${pet.name}" th:text="${pet.name}"></option>
             </select>
         </div>
 
@@ -78,7 +81,6 @@
             <textarea class="form-control" id="notes" th:field="*{GeneralNotes}" rows="2" placeholder="Enter notes"></textarea>
         </div>
         
-
         <div>
             <p>By clicking confirm you are scheduling an appointment on <span th:text="${appointment.appointmentDate}"></span> at <span th:text="${appointment.appointmentTime}"></span></p>
         </div>

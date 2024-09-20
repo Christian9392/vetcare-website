@@ -6,6 +6,8 @@ import au.edu.rmit.sept.webapp.models.CustomUser;
 import au.edu.rmit.sept.webapp.services.AppointmentService;
 import au.edu.rmit.sept.webapp.services.ClinicService;
 import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
+import au.edu.rmit.sept.webapp.models.Pet;
+import au.edu.rmit.sept.webapp.services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,12 +24,14 @@ public class AppointmentController {
     private AppointmentService appointmentService;
     private ClinicService clinicService;
     private CustomUserDetailsService userService;
+    private PetService petService;
 
     @Autowired
-    public AppointmentController(AppointmentService appointmentService, ClinicService clinicService, CustomUserDetailsService userService) {
+    public AppointmentController(AppointmentService appointmentService, ClinicService clinicService, CustomUserDetailsService userService, PetService petService) {
         this.appointmentService = appointmentService;
         this.clinicService = clinicService;
         this.userService = userService;
+        this.petService = petService;
     }
 
     @GetMapping("/appointments")
@@ -80,6 +84,10 @@ public class AppointmentController {
         List<CustomUser> vets = userService.getVets();
         model.addAttribute("vets", vets);
 
+        //get pets
+        List<Pet> pets = petService.getPets();
+        model.addAttribute("pets", pets);
+
         return "appointments/bookings";
     }
 
@@ -95,6 +103,9 @@ public class AppointmentController {
 
         //get current user
         CustomUser user = userService.getCurrentUser();
+
+        //get pet user
+        //NOTE: requires pet registration, for now it will show up as any pet is available (none registered to use)
 
         //update appointment, clinic and user
         appointmentService.saveAppointment(appointment, clinic, user, vet);
