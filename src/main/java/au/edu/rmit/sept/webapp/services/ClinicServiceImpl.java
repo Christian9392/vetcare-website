@@ -23,13 +23,10 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
-    public Long findClinicIDByName(String name) {
-        return repository.findClinicIDByName(name);
-    }
+    public Clinic findClinicByName(String name) {
+        Long clinicID = repository.findClinicIDByName(name);
 
-    @Override
-    public Clinic findClinicByID(Long clinicID) {
         return repository.findById(clinicID)
         .orElseThrow(() -> new NoSuchElementException("Clinic not found with id " + clinicID));
-    }
+    }   
 }
