@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
   @GetMapping("/")
-  public String index(Model model) {
+  public String home(Model model) {
     return "home/index.html";
   }
 
   @GetMapping("/vet")
-  public String userHome()
+  public String vetHome()
   {
     return "vet/index";
   }
@@ -24,4 +24,18 @@ public class HomeController {
     return "admin/index";
   }
   
+  @GetMapping("/pets")
+  public String viewPets() {
+      return "pets/index";
+  }
+
+  @GetMapping("/eduresources")
+  public String viewResources() {
+      return "eduresources/index";
+  }
+
+  @GetMapping("/account")
+  public String viewAccountSettings() {
+      return "account/index";
+  }
 }

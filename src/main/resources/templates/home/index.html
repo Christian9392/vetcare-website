@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<html lang="aus" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
-    
-    <head>
-        <title>Home Page</title>
-    </head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
 
     <body>
         <div layout:fragment="content">
@@ -43,5 +39,41 @@
             </form>
         </div>
     </body>
+
+<body>
+    <div layout:fragment="content">
+
+        <nav>
+            <a href="/" class="btn btn-primary">Home</a>
+            <a href="/appointments" class="btn btn-primary">View Appointments</a>
+            <a href="/pets" class="btn btn-primary">View Pet Information</a>
+            <a href="/resources" class="btn btn-primary">Educational Resources</a>
+            <a href="/account" class="btn btn-primary">Account Settings</a>
+        </nav>
+
+        <h1>Welcome to VetCare</h1>
+        <p>This is the main hub for managing your pet's appointments, prescriptions, and information.</p>
+
+        <section>
+            <h2>Manage Appointments</h2>
+            <p><a href="/appointments/new">Book a new appointment</a> or <a href="/appointments/index">view all appointments</a>.</p>
+        </section>
+
+        <section>
+            <h2>Pet Information</h2>
+            <p><a href="/pets">View or update your pet's information</a>.</p>
+        </section>
+
+        <section>
+            <h2>Educational Resources</h2>
+            <p><a href="/eduresources">View educational resources</a>.</p>
+        </section>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+
+    </div>
+</body>
 
 </html>
