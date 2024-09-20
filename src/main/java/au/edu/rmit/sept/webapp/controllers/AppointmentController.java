@@ -112,7 +112,7 @@ public class AppointmentController {
         Pet pet = petService.findPetByName(appointment.getPetName());
 
         //update appointment, clinic and user
-        appointmentService.saveAppointment(appointment, clinic, user, vet, pet);
+        appointmentService.createAppointment(appointment, clinic, user, vet, pet);
 
         //confirmation message
         redirectAttributes.addFlashAttribute("create_message", "Appointment booked successfully");
