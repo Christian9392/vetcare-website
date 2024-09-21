@@ -102,7 +102,7 @@ public class AppointmentController {
         Clinic clinic = clinicService.findClinicByName(appointment.getClinicName());
 
         //get vet entity picked by user
-        CustomUser vet = appointment.getVet();
+        CustomUser vet = userService.findVetByName(appointment.getVetName());
 
         //get current user
         CustomUser user = userService.getCurrentUser();

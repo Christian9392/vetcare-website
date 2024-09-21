@@ -1,7 +1,5 @@
 package au.edu.rmit.sept.webapp.dto;
 
-import au.edu.rmit.sept.webapp.models.CustomUser;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -10,7 +8,7 @@ public class AppointmentDTO {
         private LocalDate appointmentDate;
         private LocalTime appointmentTime;
         private String petName;
-        private CustomUser vet;
+        private String vetName;
         private String generalNotes;
         private String status;
         private String clinicName;
@@ -20,12 +18,12 @@ public class AppointmentDTO {
         
     }
 
-    public AppointmentDTO(Long appointmentID, LocalDate appointmentDate, LocalTime appointmentTime, String petName, CustomUser vet, String generalNotes, String status, String clinicName, Float fees) {
+    public AppointmentDTO(Long appointmentID, LocalDate appointmentDate, LocalTime appointmentTime, String petName, String vetName, String generalNotes, String status, String clinicName, Float fees) {
         this.appointmentID = appointmentID;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
         this.petName = petName;
-        this.vet = vet;
+        this.vetName = vetName;
         this.generalNotes = generalNotes;
         this.status = status;
         this.clinicName = clinicName;
@@ -65,12 +63,12 @@ public class AppointmentDTO {
         this.petName = petName;
     }
 
-    public CustomUser getVet() {
-        return vet;
+    public String getVetName() {
+        return vetName;
     }
 
-    public void setVet(CustomUser vet) {
-        this.vet = vet;
+    public void setVetName(String vetName) {
+        this.vetName = vetName;
     }
 
     public String getGeneralNotes() {

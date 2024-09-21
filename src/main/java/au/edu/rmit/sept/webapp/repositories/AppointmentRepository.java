@@ -11,14 +11,14 @@ import java.util.List;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
-    @Query("SELECT new au.edu.rmit.sept.webapp.dto.AppointmentDTO(a.appointmentID, a.appointmentDate, a.appointmentTime, p.name, a.vet, a.generalNotes, a.status, c.name, a.fees) " +
+    @Query("SELECT new au.edu.rmit.sept.webapp.dto.AppointmentDTO(a.appointmentID, a.appointmentDate, a.appointmentTime, p.name, u.name, a.generalNotes, a.status, c.name, a.fees) " +
             "FROM Appointment a " +
             "JOIN a.pet p " +
             "JOIN a.user u " +
             "JOIN a.clinic c")
     List<AppointmentDTO> findAllAppointments();
 
-    @Query("SELECT new au.edu.rmit.sept.webapp.dto.AppointmentDTO(a.appointmentID, a.appointmentDate, a.appointmentTime, p.name, a.vet, a.generalNotes, a.status, c.name, a.fees) " +
+    @Query("SELECT new au.edu.rmit.sept.webapp.dto.AppointmentDTO(a.appointmentID, a.appointmentDate, a.appointmentTime, p.name, u.name, a.generalNotes, a.status, c.name, a.fees) " +
             "FROM Appointment a " +
             "JOIN a.pet p " +
             "JOIN a.user u " +
