@@ -32,37 +32,43 @@ public class AppointmentServiceImpl implements AppointmentService {
         return repository.findAppointmentById(id);
     }
 
-    @Override
-    public void saveAppointment(AppointmentDTO appointmentDTO) {
-        Appointment appointment = repository.findById(appointmentDTO.getAppointmentID())
-        .orElseThrow(() -> new NoSuchElementException("appointment not found with id " + appointmentDTO.getAppointmentID()));
-        appointment.setAppointmentDate(appointmentDTO.getAppointmentDate());
-        appointment.setAppointmentTime(appointmentDTO.getAppointmentTime());
-        appointment.setGeneralNotes(appointmentDTO.getGeneralNotes());
-        appointment.setStatus(appointmentDTO.getStatus());
-        repository.save(appointment);
-    }
-
-    @Override
-    public void createAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user, CustomUser vet, Pet pet) {
-        Appointment appointment = new Appointment();
+    private Appointment updateAppointmentDetails(AppointmentDTO appointmentDTO, Appointment appointment) {
+        //update appointment object using appointmentDTO data
         appointment.setAppointmentID(appointmentDTO.getAppointmentID());
         appointment.setAppointmentDate(appointmentDTO.getAppointmentDate());
         appointment.setAppointmentTime(appointmentDTO.getAppointmentTime());
         appointment.setGeneralNotes(appointmentDTO.getGeneralNotes());
         appointment.setStatus(appointmentDTO.getStatus());
+        return appointment;
+    }
 
-        //temp, change fee based on what appointment type picks
+    @Override
+    public void saveAppointment(AppointmentDTO appointmentDTO) {
+        //find existing appointment
+        Appointment appointment = repository.findById(appointmentDTO.getAppointmentID())
+        .orElseThrow(() -> new NoSuchElementException("appointment not found with id " + appointmentDTO.getAppointmentID()));
+
+        //update details using appointmentDTO
+        appointment = updateAppointmentDetails(appointmentDTO, appointment);
+        repository.save(appointment);
+    }
+
+    @Override
+    public void createNewAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user, CustomUser vet, Pet pet) {
+
+        //create new appointment object, status should be set to upcoming
+        Appointment appointment = new Appointment();
+        appointmentDTO.setStatus("Upcoming");
+        appointment = updateAppointmentDetails(appointmentDTO, appointment);
+
+        //update additional data
         appointment.setFees(50F);
-
-        //update clinic, vetName, petName and user
         appointment.setPet(pet);
         appointment.setVet(vet);
         appointment.setClinic(clinic);
         appointment.setUser(user);
         repository.save(appointment);
     }
-
 
     @Override
     public void deleteAppointment(Long id) {

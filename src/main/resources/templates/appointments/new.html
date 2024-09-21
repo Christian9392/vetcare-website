@@ -18,17 +18,29 @@
 </head>
 
 <body>
-<div class="container mt-5 bg-light" layout:fragment="content">
-    <h2>Book appointment</h2>
-    <p>Please fill in the following details to complete the form</p>
-    <form th:action="@{/appointments/saveBooking}" method="post" th:object="${appointment}">
+<div class="container" layout:fragment="content">
+
+    <h2>Appointment Booking</h2>
+    <p>Welcome to vetcare booking! Here you can schedule an appointment for your pets.</p>
+
+    <form th:action="@{/appointments/book_appointment}" method="post" th:object="${appointment}">
         <input type="hidden" th:field="*{appointmentID}"/>
-        <input type="hidden" th:field="*{appointmentDate}"/>
-        <input type="hidden" th:field="*{appointmentTime}"/>
+
+        <!-- Date Dropdown -->
+        <div class="mb-3">
+            <label for="bookingDate mb-3" class="form-label readonly-label">Select a date</label>
+            <input type="date" id="bookingDate" class="form-control small" onclick="this.showPicker();" th:field="*{appointmentDate}" required/>
+        </div>
+
+        <!-- Time Dropdown -->
+        <div class="mb-3">
+            <label for="bookingTime mb-3" class="form-label readonly-label">Select a time:</label>
+            <input type="time" id="bookingTime" class="form-control small" onclick="this.showPicker();" th:field="*{appointmentTime}" required/>
+        </div>
 
         <!-- Choose clinic -->
         <div class="location mb-3" >
-            <label for="location" class="form-label readonly-label">Which clinic would you like to book at?</label>
+            <label for="location" class="form-label readonly-label">Which clinic would you like to visit?</label>
             <select id="location" class = form-control th:field="*{clinicName}" required>
                 <option value="" disabled selected>Pick a location</option>
                 <option th:each="clinic : ${clinics}" th:value="${clinic.name}" th:text="${clinic.name}"></option>
@@ -37,7 +49,7 @@
         
         <!-- Choose vet -->
         <div class="chooseVet mb-3" >
-            <label for="chooseVet" class="form-label readonly-label">Which vet would you look to book with?</label>
+            <label for="chooseVet" class="form-label readonly-label">Which vet would you like to see?</label>
             <select id="chooseVet" class = form-control th:field="*{vetName}" required>
                 <option value="" disabled selected>Pick a location</option>
                 <option th:each="vet : ${vets}" th:value="${vet.name}" th:text="${vet.name}"></option>
@@ -50,7 +62,7 @@
         </div>
 
         <div th:unless="${#lists.isEmpty(pets)}" class="petName mb-3">
-            <label for="petName" class="form-label readonly-label">Which pet would you like to book?</label>
+            <label for="petName" class="form-label readonly-label">Which pet are you booking?</label>
             <select id="petName" class = form-control th:field="*{petName}" required>
                 <option value="" disabled selected>Choose a pet</option>
                 <option th:each="pet : ${pets}" th:value="${pet.name}" th:text="${pet.name}"></option>
@@ -59,34 +71,35 @@
 
         <!-- Choose type of booking -->
         <div class="AppointmentType mb-3">
-            <label for="AppointmentType" class="form-label readonly-label">What type of appointment are you booking?</label>
-            <select id="AppointmentType" class="form-control">
+            <label for="AppointmentType" class="form-label readonly-label">What type of appointment are you scheduling?</label>
+            <select id="AppointmentType" class="form-control" th:field="*{generalNotes}" required>
                 <option value="" disabled selected>Select an option</option>
-                <option value="type1">Consultation</option>
-                <option value="type2">Checkup</option>
-                <option value="type3">Followup</option>
-                <option value="type4">Urgent care</option>
-                <option value="type5">Medication Review</option>
+                <option value="Routine check-up">Routine check-up</option>
+                <option value="Health check">Health check</option>
+                <option value="Follow-up visit">Follow-up visit</option>
+                <option value="Behavioural consultation">Behavioural consultation</option>
+                <option value="Medication Review">Medication Review</option>
+                <option value="Ear infection treatment">Ear infection treatment</option>
+                <option value="Teeth cleaning">Teeth cleaning</option>
             </select>
         </div>
+
 
         <!-- <div class="mb-3">
             <label for="notes" class="form-label readonly-label">What is the reason for your visit?</label>
             <textarea class="form-control" id="notes" th:field="*{GeneralNotes}" rows="2" placeholder="Enter notes" ></textarea>
         </div> -->
         
-        <!-- General Notes -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <label for="notes" class="form-label readonly-label">Do you have any notes or requests for this appointment?</label>
             <textarea class="form-control" id="notes" th:field="*{GeneralNotes}" rows="2" placeholder="Enter notes"></textarea>
-        </div>
-        
-        <div>
-            <p>By clicking confirm you are scheduling an appointment on <span th:text="${appointment.appointmentDate}"></span> at <span th:text="${appointment.appointmentTime}"></span></p>
-        </div>
+        </div> -->
 
+
+        <!--Submit and cancel buttons-->
         <button type="submit" class="btn btn-primary">Confirm</button>
         <a href="/appointments" class="btn btn-secondary">Cancel</a>
+
     </form>
 </div>
 </body>

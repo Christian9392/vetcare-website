@@ -8,8 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ClinicRepository extends JpaRepository<Clinic, Long> {
-    // @Query("SELECT new au.edu.rmit.sept.webapp.models.Clinic(c.clinicID, c.name) FROM Clinic c")
-    // List<Clinic> findAllClinics();
 
     @Query("SELECT c.clinicID FROM Clinic c WHERE c.name = :name")
     Long findClinicIDByName(@Param("name") String name);
