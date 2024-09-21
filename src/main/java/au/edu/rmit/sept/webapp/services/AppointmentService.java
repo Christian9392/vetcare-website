@@ -11,6 +11,6 @@ public interface AppointmentService {
     public Collection<AppointmentDTO> getAppointments();
     public AppointmentDTO getAppointmentById(Long id);
     public void saveAppointment(AppointmentDTO appointmentDTO);
-    public void saveAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user, CustomUser vet, Pet pet);
+    public void createNewAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user, CustomUser vet, Pet pet);
     public void deleteAppointment(Long id);
 }

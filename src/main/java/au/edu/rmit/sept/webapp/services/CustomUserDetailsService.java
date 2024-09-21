@@ -46,21 +46,23 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public List<CustomUser> getVets() {
+
+        //find all vetIDs whos usertype is 'Vet'
         List<Long> vetIDs = customUserRepository.findVetID(UserType.Vet);
         List<CustomUser> vets = new ArrayList<>();
 
+        //use vetIDs found to retrieve vet objects
         for (int i=0; i<vetIDs.size(); i++) {
-
             CustomUser user = customUserRepository.findById(vetIDs.get(i)).orElse(null);
             vets.add(user);
         }
-
         return vets;
     }
 
     public CustomUser findVetByName(String name) {
-        Long vetID = customUserRepository.findVetIDByName(name);
 
+        //return vet object using their name
+        Long vetID = customUserRepository.findVetIDByName(name);
         return customUserRepository.findById(vetID)
         .orElseThrow(() -> new NoSuchElementException("Clinic not found with id " + vetID));
     }

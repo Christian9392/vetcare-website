@@ -72,49 +72,32 @@ public class AppointmentController {
         return "redirect:/appointments";
     }
 
-    @GetMapping("/appointments/bookings")
-    public String bookAppointment(@RequestParam LocalDate date, @RequestParam LocalTime time, Model model){
-        AppointmentDTO appointment = new AppointmentDTO();
-        appointment.setAppointmentDate(date);
-        appointment.setAppointmentTime(time);
-        model.addAttribute("appointment", appointment);
-        
-        //get clinics
-        List<Clinic> clinics = clinicService.getClinics();
-        model.addAttribute("clinics", clinics);
-
-        //get vets
+    @GetMapping("/appointments/new")
+    public String bookAppointment(Model model){
+ 
+        AppointmentDTO appointment = new AppointmentDTO();                  
+        List<Clinic> clinics = clinicService.getClinics(); 
         List<CustomUser> vets = userService.getVets();
-        model.addAttribute("vets", vets);
-
-        //get pets
         List<Pet> pets = petService.getPets();
+        
+        model.addAttribute("appointment", appointment);
+        model.addAttribute("clinics", clinics);
+        model.addAttribute("vets", vets);
         model.addAttribute("pets", pets);
-
-        return "appointments/bookings";
+        return "appointments/new";
     }
 
-    @PostMapping("/appointments/saveBooking")
+    @PostMapping("/appointments/book_appointment")
     public String addBooking(@ModelAttribute("appointment") AppointmentDTO appointment, RedirectAttributes redirectAttributes){
-        appointment.setStatus("Upcoming");
 
-        //get clinic entity picked by user
+        //get objects from form data
         Clinic clinic = clinicService.findClinicByName(appointment.getClinicName());
-
-        //get vet entity picked by user
         CustomUser vet = userService.findVetByName(appointment.getVetName());
-
-        //get current user
-        CustomUser user = userService.getCurrentUser();
-
-        //get pet user
-        //NOTE: requires pet registration, for now it will show up as any pet is available (none registered to use)
+        CustomUser user = userService.getCurrentUser();        
         Pet pet = petService.findPetByName(appointment.getPetName());
 
-        //update appointment, clinic and user
-        appointmentService.saveAppointment(appointment, clinic, user, vet, pet);
-
-        //confirmation message
+        //update appointment, clinic, user and pet
+        appointmentService.createNewAppointment(appointment, clinic, user, vet, pet);
         redirectAttributes.addFlashAttribute("create_message", "Appointment booked successfully");
         return "redirect:/appointments";
     }
