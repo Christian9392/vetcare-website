@@ -34,10 +34,10 @@ public class HomeController {
       return "eduresources/index";
   }
 
-  @GetMapping("/account/settings")
-  public String viewAccountSettings() {
-      return "account/settings";
-  }
+  // @GetMapping("/account/settings")
+  // public String viewAccountSettings() {
+  //     return "account/settings";
+  // }
 
   @GetMapping("/about")
   public String viewAbout() {
