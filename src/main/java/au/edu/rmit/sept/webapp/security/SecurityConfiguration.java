@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/about").permitAll()
+                        .requestMatchers("/favicon.ico").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/webjars/**").permitAll()
                         .requestMatchers("/css/**", "/images/**", "js/**").permitAll()
