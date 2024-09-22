@@ -55,30 +55,6 @@ public class AccountController {
             return "account/settings";
         }
     }
-    // @PostMapping("/change-password")
-    // public String changePassword(@RequestParam("oldPassword") String oldPassword, 
-    //                              @RequestParam("newPassword") String newPassword, 
-    //                              @RequestParam("confirmPassword") String confirmPassword, 
-    //                              Model model) {
-    //     Long userID = 6L;  // Simulate logged-in user with ID 6
-    
-    //     // Check if new password and confirm password match
-    //     if (!newPassword.equals(confirmPassword)) {
-    //         model.addAttribute("errorMessage", "Error: The new password and confirmation do not match.");
-    //         return "account/settings";
-    //     }
-    
-    //     // If the current password is incorrect
-    //     if (!userService.changePassword(userID, oldPassword, newPassword)) {
-    //         model.addAttribute("errorMessage", "Error: The current password you entered is incorrect.");
-    //         return "account/settings";
-    //     }
-    
-    //     model.addAttribute("successMessage", "Password changed successfully.");
-    //     return "redirect:/account/settings";
-    // }
-    
-    
     
     @PostMapping("/delete-account")
     public String deleteAccount(@RequestParam("password") String password, Model model) {
