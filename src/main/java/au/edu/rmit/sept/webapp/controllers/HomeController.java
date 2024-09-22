@@ -34,11 +34,6 @@ public class HomeController {
       return "eduresources/index";
   }
 
-  @GetMapping("/account")
-  public String viewAccountPage() {
-      return "account/index";
-  }
-
   @GetMapping("/account/settings")
   public String viewAccountSettings() {
       return "account/settings";
