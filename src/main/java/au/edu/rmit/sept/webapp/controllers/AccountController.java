@@ -16,14 +16,15 @@ public class AccountController {
 
     @Autowired
     private UserService userService;
-
+    // This method retrieves the ID of the currently authenticated user
     private Long getAuthenticatedUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();  
         // System.out.println("Authenticated user username: " + username); //checking the logged user
         return userService.getUserIdByUsername(username);
     }
-     
+
+    // Handles GET requests to display the account settings page for the authenticated user
     @GetMapping("/settings")
     public String accountSettings(Model model) {
         Long userID = getAuthenticatedUserId();  
@@ -31,6 +32,7 @@ public class AccountController {
         return "account/settings";
     }
 
+    // Handles POST requests to update the contact information of the authenticated user.
     @PostMapping("/update-contact-info")
     public String updateContactInfo(@ModelAttribute("user") User updatedUser, Model model) {
         Long userID = getAuthenticatedUserId();  
@@ -39,6 +41,7 @@ public class AccountController {
         return "redirect:/account/settings";
     }
 
+    // Handles POST requests to change the password of the authenticated user.
     @PostMapping("/change-password")
     public String changePassword(@RequestParam("oldPassword") String oldPassword, 
                                  @RequestParam("newPassword") String newPassword, 
@@ -53,6 +56,7 @@ public class AccountController {
         }
     }
     
+    // Handles POST requests to delete the account of the authenticated user.    
     @PostMapping("/delete-account")
     public String deleteAccount(@RequestParam("password") String password, Model model) {
         Long userID = getAuthenticatedUserId();  
