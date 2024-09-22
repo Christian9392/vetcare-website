@@ -26,7 +26,6 @@ public class AccountController {
      
     @GetMapping("/settings")
     public String accountSettings(Model model) {
-        // Long userID = 6L;  // Use a fixed user ID for testing
         Long userID = getAuthenticatedUserId();  
         userService.getUserById(userID).ifPresent(user -> model.addAttribute("user", user));
         return "account/settings";
@@ -34,7 +33,6 @@ public class AccountController {
 
     @PostMapping("/update-contact-info")
     public String updateContactInfo(@ModelAttribute("user") User updatedUser, Model model) {
-        // Long userID = 6L;  // Simulate logged-in user with ID 1
         Long userID = getAuthenticatedUserId();  
         userService.updateContactInfo(userID, updatedUser);
         model.addAttribute("successMessage", "Contact information updated successfully.");
@@ -45,7 +43,6 @@ public class AccountController {
     public String changePassword(@RequestParam("oldPassword") String oldPassword, 
                                  @RequestParam("newPassword") String newPassword, 
                                  Model model) {
-        // Long userID = 6L;  // Simulate logged-in user with ID 1
         Long userID = getAuthenticatedUserId();  
         if (userService.changePassword(userID, oldPassword, newPassword)) {
             model.addAttribute("successMessage", "Password changed successfully.");
@@ -58,7 +55,6 @@ public class AccountController {
     
     @PostMapping("/delete-account")
     public String deleteAccount(@RequestParam("password") String password, Model model) {
-        // Long userID = 6L;  // Simulate logged-in user with ID 1
         Long userID = getAuthenticatedUserId();  
         if (userService.deleteAccount(userID, password)) {
             return "redirect:/logout";  
