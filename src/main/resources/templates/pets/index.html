@@ -21,13 +21,17 @@
             <ul class="list-group">
                 <th:block th:each="pet : ${pets}">
                     <li class="list-group-item">
-                        <strong>Name:</strong> <span th:text="${pet.name}"></span> <br>
+                        <!-- Add a link around the pet's name that directs to the view page -->
+                        <a th:href="@{/pets/{petID}/view(petID=${pet.petID})}">
+                            <strong>Name:</strong> <span th:text="${pet.name}"></span>
+                        </a> <br>
                         <strong>Species:</strong> <span th:text="${pet.species}"></span> <br>
                         <strong>Breed:</strong> <span th:text="${pet.breed}"></span> <br>
                     </li>
                 </th:block>
             </ul>
         </div>
+
 
         <!-- Register new pet link -->
         <p><a href="/pets/new" class="btn btn-primary">Register a New Pet</a></p>

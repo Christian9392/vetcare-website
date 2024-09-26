@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class PetServiceImpl implements PetService {
@@ -40,5 +41,11 @@ public class PetServiceImpl implements PetService {
     @Override
     public List<Pet> findPetsByUserId(Long userId) {
         return repository.findByUserId(userId);
+    }
+
+    // Find pet by pet ID
+    @Override
+    public Optional<Pet> findPetByPetId(Long petID) {
+        return repository.findById(petID);
     }
 }
