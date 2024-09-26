@@ -8,8 +8,11 @@ import au.edu.rmit.sept.webapp.services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -95,5 +98,30 @@ public class PetController {
         // Return the view for displaying the medical data
         return "pets/view";
     }
+    
+    @GetMapping("/new")
+    public String showPetRegistrationForm(Model model) {
+        return "pets/new";
+    }
+
+    @PostMapping("/new")
+    public String registerNewPet(@ModelAttribute("pet") Pet pet, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "pets/new";
+        }
+
+        // Get the currently authenticated user
+        CustomUser currentUser = customUserDetailsService.getCurrentUser();
+        
+        // Set the owner of the pet
+        pet.setOwner(currentUser);
+
+        // Save the pet
+        petService.savePet(pet);
+
+        // Redirect to the pets list page after saving
+        return "redirect:/pets";
+    }
+
 
 }

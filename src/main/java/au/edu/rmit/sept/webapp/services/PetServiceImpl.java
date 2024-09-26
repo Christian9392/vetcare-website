@@ -52,14 +52,7 @@ public class PetServiceImpl implements PetService {
         return repository.findById(petID)
         .orElseThrow(() -> new NoSuchElementException("Clinic not found with id " + petID));
     }
-
-    // Find pets by user ID
-    // @Override
-    // public List<Pet> findPetsByUserId(Long userId) {
-    //     return repository.findByUserId(userId);
-    // }
-
-    // Find pet by pet ID
+    
     @Override
     public Optional<Pet> findPetByPetId(Long petID) {
         return repository.findById(petID);
@@ -89,5 +82,10 @@ public class PetServiceImpl implements PetService {
         }
 
         return petDTOs;
+    }
+
+    @Override
+    public void savePet(Pet pet) {
+        repository.save(pet);
     }
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface PetService {
     public List<Pet> getPets();
     public Pet findPetByName(String name);
-    //public List<Pet> findPetsByUserId(Long userId);
     public Optional<Pet> findPetByPetId(Long petId);
     public List<PetDTO> findPetsByUserId(Long userId);
+    public void savePet(Pet pet);
 }
