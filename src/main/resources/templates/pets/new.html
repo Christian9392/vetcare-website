@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register a New Pet</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="container">
+            <h1 class="my-4 text-center">Register a New Pet</h1>
+
+            <form th:action="@{/pets/new}" method="post">
+                <div class="form-group">
+                    <label for="petName">Pet Name</label>
+                    <input type="text" class="form-control" id="petName" name="name" placeholder="Enter pet's name"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="species">Species</label>
+                    <input type="text" class="form-control" id="species" name="species" placeholder="Enter pet's species"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="breed">Breed</label>
+                    <input type="text" class="form-control" id="breed" name="breed" placeholder="Enter pet's breed">
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" class="form-control" id="age" name="age" placeholder="Enter pet's age" min="0"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Register Pet</button>
+            </form>
+
+            <div class="mt-4 text-center">
+                <a href="/" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
