@@ -24,10 +24,10 @@ public class HomeController {
     return "admin/index";
   }
   
-  @GetMapping("/pets")
-  public String viewPets() {
-      return "pets/index";
-  }
+  // @GetMapping("/pets")
+  // public String viewPets() {
+  //     return "pets/index";
+  // }
 
   @GetMapping("/eduresources")
   public String viewResources() {

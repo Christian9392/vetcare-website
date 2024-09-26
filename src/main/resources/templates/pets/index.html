@@ -11,10 +11,23 @@
 
         <h1>Your Registered Pets</h1>
 
-        <!-- If no pets are registered, logic goes here -->
-        <p>You have not registered any pets yet. <a href="/pets/new" class="btn btn-primary">Register a New Pet</a></p>
+        <!-- Check if there are any pets registered -->
+        <div th:if="${pets != null and #lists.isEmpty(pets)}">
+            <p>You have not registered any pets yet. <a href="/pets/new" class="btn btn-primary">Register a New Pet</a></p>
+        </div>
 
-        <!-- List of registered pets, please adjust TH template as necessary!!! -->
+        <!-- If pets are registered, display them -->
+        <div th:if="${pets != null and !#lists.isEmpty(pets)}">
+            <ul class="list-group">
+                <th:block th:each="pet : ${pets}">
+                    <li class="list-group-item">
+                        <strong>Name:</strong> <span th:text="${pet.name}"></span> <br>
+                        <strong>Species:</strong> <span th:text="${pet.species}"></span> <br>
+                        <strong>Breed:</strong> <span th:text="${pet.breed}"></span> <br>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
 
         <!-- Register new pet link -->
         <p><a href="/pets/new" class="btn btn-primary">Register a New Pet</a></p>

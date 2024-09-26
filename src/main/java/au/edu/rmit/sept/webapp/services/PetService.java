@@ -5,7 +5,10 @@ import au.edu.rmit.sept.webapp.models.Pet;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
+
 public interface PetService {
     public List<Pet> getPets();
     public Pet findPetByName(String name);
+    public List<Pet> findPetsByUserId(Long userId);
 }
