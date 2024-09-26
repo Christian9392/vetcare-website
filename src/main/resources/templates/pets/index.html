@@ -2,41 +2,80 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
 
 <head>
-    <title>Registered Pets</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Registered Pets</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
 
-    <div layout:fragment="content">
+    <div layout:fragment="content" class="container mt-5">
 
         <h1>Your Registered Pets</h1>
 
         <!-- Check if there are any pets registered -->
-        <div th:if="${pets != null and #lists.isEmpty(pets)}">
+        <div th:if="${pets != null and #lists.isEmpty(pets)}" class="alert alert-info">
             <p>You have not registered any pets yet. <a href="/pets/new" class="btn btn-primary">Register a New Pet</a></p>
         </div>
 
-        <!-- If pets are registered, display them -->
+        <!-- If pets are registered, display them in a table -->
         <div th:if="${pets != null and !#lists.isEmpty(pets)}">
-            <ul class="list-group">
-                <th:block th:each="pet : ${pets}">
-                    <li class="list-group-item">
-                        <!-- Add a link around the pet's name that directs to the view page -->
-                        <a th:href="@{/pets/{petID}/view(petID=${pet.petID})}">
-                            <strong>Name:</strong> <span th:text="${pet.name}"></span>
-                        </a> <br>
-                        <strong>Species:</strong> <span th:text="${pet.species}"></span> <br>
-                        <strong>Breed:</strong> <span th:text="${pet.breed}"></span> <br>
-                    </li>
-                </th:block>
-            </ul>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Species</th>
+                        <th>Breed</th>
+                        <th>Age</th>
+                        <th>Last Vaccination Date</th>
+                        <th>Active Prescriptions</th>
+                        <th>Active Treatments</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="pet : ${pets}">
+                        <tr>
+                            <!-- Name links to pet view page -->
+                            <td>
+                                <a th:href="@{/pets/{petID}/view(petID=${pet.petID})}">
+                                    <span th:text="${pet.name}"></span>
+                                </a>
+                            </td>
+                            <td th:text="${pet.species}">[Species]</td>
+                            <td th:text="${pet.breed}">[Breed]</td>
+                            <td th:text="${pet.age}">[Age]</td>
+
+                            <!-- Last Vaccination Date -->
+                            <td th:text="${pet.lastVaccinationDate != null ? pet.lastVaccinationDate : 'No records'}">[Last Vaccination Date]</td>
+
+                            <!-- Active Prescriptions -->
+                            <td th:text="${pet.activePrescriptions ? 'Yes' : 'No'}">[Active Prescriptions]</td>
+
+                            <!-- Active Treatments -->
+                            <td th:text="${pet.activeTreatments ? 'Yes' : 'No'}">[Active Treatments]</td>
+
+                            <!-- Action buttons -->
+                            <td>
+                                <a th:href="@{/pets/{petID}/view(petID=${pet.petID})}" class="btn btn-info btn-sm">View</a>
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
         </div>
 
-
         <!-- Register new pet link -->
-        <p><a href="/pets/new" class="btn btn-primary">Register a New Pet</a></p>
+        <div class="mt-3">
+            <a href="/pets/new" class="btn btn-primary">Register a New Pet</a>
+        </div>
 
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 

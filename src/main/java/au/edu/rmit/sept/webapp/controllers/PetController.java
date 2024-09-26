@@ -1,5 +1,6 @@
 package au.edu.rmit.sept.webapp.controllers;
 
+import au.edu.rmit.sept.webapp.dto.PetDTO;
 import au.edu.rmit.sept.webapp.models.*;
 import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
 import au.edu.rmit.sept.webapp.services.PetMedicalHistoryService;
@@ -37,7 +38,7 @@ public class PetController {
         CustomUser currentUser = customUserDetailsService.getCurrentUser();
 
         // Fetch the pets associated with the current user
-        List<Pet> pets = petService.findPetsByUserId(currentUser.getUserId());
+        List<PetDTO> pets = petService.findPetsByUserId(currentUser.getUserId());
 
         // Add the list of pets to the model
         if (!pets.isEmpty()) {

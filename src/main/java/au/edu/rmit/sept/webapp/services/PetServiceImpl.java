@@ -5,12 +5,19 @@ import au.edu.rmit.sept.webapp.models.Appointment;
 import au.edu.rmit.sept.webapp.models.Clinic;
 import au.edu.rmit.sept.webapp.models.CustomUser;
 import au.edu.rmit.sept.webapp.models.Pet;
+import au.edu.rmit.sept.webapp.models.TreatmentPlan;
 import au.edu.rmit.sept.webapp.repositories.AppointmentRepository;
 import au.edu.rmit.sept.webapp.repositories.PetRepository;
+import au.edu.rmit.sept.webapp.repositories.PrescriptionRepository;
+import au.edu.rmit.sept.webapp.repositories.TreatmentPlanRepository;
+import au.edu.rmit.sept.webapp.repositories.VaccinationRecordRepository;
+import groovy.transform.AutoImplement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -25,6 +32,15 @@ public class PetServiceImpl implements PetService {
         this.repository = repository;
     }
 
+    @Autowired
+    private VaccinationRecordRepository vaccinationRecordRepository;
+
+    @Autowired
+    private PrescriptionRepository prescriptionRepository;
+
+    @Autowired
+    private TreatmentPlanRepository treatmentPlanRepository;
+
     public List<Pet> getPets() {
         return repository.findAll();
     }
@@ -38,14 +54,40 @@ public class PetServiceImpl implements PetService {
     }
 
     // Find pets by user ID
-    @Override
-    public List<Pet> findPetsByUserId(Long userId) {
-        return repository.findByUserId(userId);
-    }
+    // @Override
+    // public List<Pet> findPetsByUserId(Long userId) {
+    //     return repository.findByUserId(userId);
+    // }
 
     // Find pet by pet ID
     @Override
     public Optional<Pet> findPetByPetId(Long petID) {
         return repository.findById(petID);
+    }
+
+    @Override
+    public List<PetDTO> findPetsByUserId(Long userId) {
+        List<Pet> pets = repository.findByUserId(userId);
+        List<PetDTO> petDTOs = new ArrayList<>();
+
+        for (Pet pet : pets) {
+            PetDTO petDTO = new PetDTO(pet);
+            
+            // Calculate last vaccination date
+            LocalDate lastVaccinationDate = vaccinationRecordRepository.findLastVaccinationDateByPetId(pet.getPetID());
+            petDTO.setLastVaccinationDate(lastVaccinationDate);
+
+            // Check for active prescriptions
+            boolean hasActivePrescriptions = prescriptionRepository.existsByPetPetIDAndRenewalDateAfter(pet.getPetID(), LocalDate.now());
+            petDTO.setActivePrescriptions(hasActivePrescriptions);
+
+            // Check for active treatment plans
+            boolean hasActiveTreatments = treatmentPlanRepository.existsByPetPetIDAndEndDateAfter(pet.getPetID(), LocalDate.now());
+            petDTO.setActiveTreatments(hasActiveTreatments);
+
+            petDTOs.add(petDTO);
+        }
+
+        return petDTOs;
     }
 }
