@@ -81,6 +81,25 @@
             readonly
         />
       </div>
+            <!-- Appointment Type -->
+        <div class="AppointmentType mb-3">
+            <label for="AppointmentType" class="form-label readonly-label">What type of appointment are you scheduling?</label>
+            <select id="AppointmentType" class="form-control" th:field="*{generalNotes}" required>
+                <option value="" disabled>Select an option</option>
+                <option value="Routine check-up">Routine check-up</option>
+                <option value="Health check">Health check</option>
+                <option value="Follow-up visit">Follow-up visit</option>
+                <option value="Behavioural consultation">Behavioural consultation</option>
+                <option value="Medication Review">Medication Review</option>
+                <option value="Ear infection treatment">Ear infection treatment</option>
+                <option value="Teeth cleaning">Teeth cleaning</option>
+            </select>
+            <!-- Display validation error for generalNotes -->
+            <div th:if="${#fields.hasErrors('generalNotes')}" class="text-danger">
+                <p th:errors="*{generalNotes}">Please select an appointment type.</p>
+            </div>
+        </div>
+
     
 
       <!-- Submit and Cancel Buttons -->
