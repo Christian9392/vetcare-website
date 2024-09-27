@@ -24,7 +24,7 @@
     <p>Welcome to vetcare booking! Here you can schedule an appointment for your pets.</p>
 
     <form th:action="@{/appointments/book_appointment}" method="post" th:object="${appointment}">
-        <!-- Hidden Input for Appointment ID (if needed) -->
+        
         <input type="hidden" th:field="*{appointmentID}"/>
     
         <!-- Date Input -->
