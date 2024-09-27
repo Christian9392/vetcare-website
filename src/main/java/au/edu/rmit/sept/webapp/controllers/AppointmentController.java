@@ -141,4 +141,149 @@ public class AppointmentController {
         return "appointments/index";
     }
 
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long appointmentId, Model model, RedirectAttributes redirectAttributes) {
+        // Get the current user
+        CustomUser currentUser = userService.getCurrentUser();
+
+        // Retrieve the appointment
+        Optional<Appointment> optionalAppointment = appointmentService.findAppointmentById(appointmentId);
+
+        if (optionalAppointment.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Appointment not found.");
+            return "redirect:/appointments";
+        }
+
+        Appointment appointment = optionalAppointment.get();
+
+        // Check if the appointment belongs to the current user
+        if (!appointment.getUser().getUserId().equals(currentUser.getUserId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "You are not authorized to edit this appointment.");
+            return "redirect:/appointments";
+        }
+
+        // Convert Appointment to AppointmentDTO
+        AppointmentDTO appointmentDTO = new AppointmentDTO();
+        appointmentDTO.setAppointmentID(appointment.getAppointmentID());
+        appointmentDTO.setAppointmentDate(appointment.getAppointmentDate());
+        appointmentDTO.setAppointmentTime(appointment.getAppointmentTime());
+        appointmentDTO.setGeneralNotes(appointment.getGeneralNotes());
+        appointmentDTO.setPetId(appointment.getPet().getPetId());
+
+        Pet pet = petService.findPetBypetId(appointmentDTO.getPetId()).orElse(null);
+
+        if (pet != null) {
+            String petName = pet.getName();
+            model.addAttribute("petName", petName);
+        } else {
+            model.addAttribute("petName", "Pet not found");
+        }
+
+        // Add attributes to the model
+        model.addAttribute("appointment", appointmentDTO);
+        model.addAttribute("pets", getCurrentUserPets());
+
+        return "appointments/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateAppointment(
+        @PathVariable("id") Long appointmentId,
+        @Valid @ModelAttribute("appointment") AppointmentDTO appointmentDTO,
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttributes,
+        Model model
+    ) {
+        // Get the current user
+        CustomUser currentUser = userService.getCurrentUser();
+
+        // Retrieve the appointment
+        Optional<Appointment> optionalAppointment = appointmentService.findAppointmentById(appointmentId);
+
+        if (optionalAppointment.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Appointment not found.");
+            return "redirect:/appointments";
+        }
+
+        Appointment appointment = optionalAppointment.get();
+
+        // Check if the appointment belongs to the current user
+        if (!appointment.getUser().getUserId().equals(currentUser.getUserId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "You are not authorised to edit this appointment.");
+            return "redirect:/appointments";
+        }
+
+        // Validate pet selection
+        Optional<Pet> optionalPet = petService.findPetBypetId(appointmentDTO.getPetId());
+        if (optionalPet.isEmpty()) {
+            bindingResult.rejectValue("petId", "error.appointmentDTO", "Pet not found.");
+        }
+
+        // Validate appointment date
+        LocalDate appointmentDate = appointmentDTO.getAppointmentDate();
+        if (appointmentDate == null || appointmentDate.isBefore(LocalDate.now())) {
+            bindingResult.rejectValue("appointmentDate", "error.appointmentDTO", "Appointment date cannot be in the past.");
+        }
+
+        // Validate appointment time
+        LocalTime appointmentTime = appointmentDTO.getAppointmentTime();
+        if (appointmentTime == null || appointmentTime.isBefore(LocalTime.of(8, 0)) || appointmentTime.isAfter(LocalTime.of(19, 0))) {
+            bindingResult.rejectValue("appointmentTime", "error.appointmentDTO", "Appointment time must be between 8:00 AM and 7:00 PM.");
+        }
+
+        // Check for validation errors
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("pets", getCurrentUserPets());
+            return "appointments/edit";
+        }
+
+        Pet pet = optionalPet.get();
+
+        // Update the appointment
+        appointment.setAppointmentDate(appointmentDate);
+        appointment.setAppointmentTime(appointmentTime);
+        appointment.setGeneralNotes(appointmentDTO.getGeneralNotes());
+        appointment.setPet(pet);
+
+        // Save the updated appointment
+        appointmentService.updateAppointment(appointment);
+
+        // Add a success message
+        redirectAttributes.addFlashAttribute("message", "Appointment updated successfully!");
+
+        // Redirect to the appointments page
+        return "redirect:/appointments";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteAppointment(@PathVariable("id") Long appointmentId, RedirectAttributes redirectAttributes) {
+        // Get the current user
+        CustomUser currentUser = userService.getCurrentUser();
+
+        // Retrieve the appointment
+        Optional<Appointment> optionalAppointment = appointmentService.findAppointmentById(appointmentId);
+
+        if (optionalAppointment.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Appointment not found.");
+            return "redirect:/appointments";
+        }
+
+        Appointment appointment = optionalAppointment.get();
+
+        // Check if the appointment belongs to the current user
+        if (!appointment.getUser().getUserId().equals(currentUser.getUserId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "You are not authorized to delete this appointment.");
+            return "redirect:/appointments";
+        }
+
+        // Delete the appointment
+        appointmentService.deleteAppointment(appointmentId);
+
+        // Add a success message
+        redirectAttributes.addFlashAttribute("message", "Appointment deleted successfully!");
+
+        // Redirect to the appointments page
+        return "redirect:/appointments";
+    }
+
 }

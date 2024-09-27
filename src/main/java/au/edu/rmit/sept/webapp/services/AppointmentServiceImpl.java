@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -26,5 +27,21 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<Appointment> getAppointmentsForUser(Long userId) {
         return appointmentRepository.findByUserUserId(userId);
     }
+
+    @Override
+    public Optional<Appointment> findAppointmentById(Long appointmentId) {
+        return appointmentRepository.findById(appointmentId);
+    }
+    
+    @Override
+    public void updateAppointment(Appointment appointment) {
+        appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public void deleteAppointment(Long appointmentId) {
+        appointmentRepository.deleteById(appointmentId);
+    }
+
 
 }
