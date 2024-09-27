@@ -105,6 +105,7 @@ public class AppointmentController {
         appointment.setAppointmentDate(appointmentDate);
         appointment.setAppointmentTime(appointmentTime);
         appointment.setGeneralNotes(appointmentDTO.getGeneralNotes());
+        appointment.setStatus("Scheduled");
         appointment.setUser(currentUser);
         appointment.setPet(pet);
 
@@ -125,7 +126,33 @@ public class AppointmentController {
                 .map(dto -> new Pet(dto.getPetId(), dto.getName(), dto.getSpecies(), dto.getBreed(), dto.getAge()))
                 .collect(Collectors.toList());
     }
+    @GetMapping("/view/{id}")
+    public String viewSpecificAppointment(
+            @PathVariable("id") Long appointmentId,
+            Model model,
+            RedirectAttributes redirectAttributes
+    ) {
+        // Retrieve the appointment by ID
+        Optional<Appointment> optionalAppointment = appointmentService.findAppointmentById(appointmentId);
 
+        if (optionalAppointment.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Appointment not found.");
+            return "redirect:/appointments";
+        }
+
+        Appointment appointment = optionalAppointment.get();
+
+        // Check if the appointment is cancelled
+        if ("Cancelled".equalsIgnoreCase(appointment.getStatus())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Cannot view a cancelled appointment.");
+            return "redirect:/appointments";
+        }
+
+        // Add the appointment to the model
+        model.addAttribute("appointment", appointment);
+
+        return "appointments/view";
+    }
 
     @GetMapping
     public String viewAppointments(Model model) {
@@ -156,9 +183,14 @@ public class AppointmentController {
 
         Appointment appointment = optionalAppointment.get();
 
+        if ("Cancelled".equalsIgnoreCase(appointment.getStatus())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Cannot edit or view a cancelled appointment.");
+            return "redirect:/appointments";
+        }
+
         // Check if the appointment belongs to the current user
         if (!appointment.getUser().getUserId().equals(currentUser.getUserId())) {
-            redirectAttributes.addFlashAttribute("errorMessage", "You are not authorized to edit this appointment.");
+            redirectAttributes.addFlashAttribute("errorMessage", "You are not authorised to edit this appointment.");
             return "redirect:/appointments";
         }
 
@@ -206,6 +238,11 @@ public class AppointmentController {
         }
 
         Appointment appointment = optionalAppointment.get();
+
+        if ("Cancelled".equalsIgnoreCase(appointment.getStatus())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Cannot edit or view a cancelled appointment.");
+            return "redirect:/appointments";
+        }
 
         // Check if the appointment belongs to the current user
         if (!appointment.getUser().getUserId().equals(currentUser.getUserId())) {
@@ -255,8 +292,8 @@ public class AppointmentController {
         return "redirect:/appointments";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteAppointment(@PathVariable("id") Long appointmentId, RedirectAttributes redirectAttributes) {
+    @PostMapping("/cancel/{id}")
+    public String cancelAppointment(@PathVariable("id") Long appointmentId, RedirectAttributes redirectAttributes) {
         // Get the current user
         CustomUser currentUser = userService.getCurrentUser();
 
@@ -270,20 +307,29 @@ public class AppointmentController {
 
         Appointment appointment = optionalAppointment.get();
 
-        // Check if the appointment belongs to the current user
-        if (!appointment.getUser().getUserId().equals(currentUser.getUserId())) {
-            redirectAttributes.addFlashAttribute("errorMessage", "You are not authorized to delete this appointment.");
+        if ("Cancelled".equalsIgnoreCase(appointment.getStatus())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Appointment is already cancelled.");
             return "redirect:/appointments";
         }
 
-        // Delete the appointment
-        appointmentService.deleteAppointment(appointmentId);
+        // Check if the appointment belongs to the current user
+        if (!appointment.getUser().getUserId().equals(currentUser.getUserId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "You are not authorised to cancel this appointment.");
+            return "redirect:/appointments";
+        }
+
+        // Set the status to "Cancelled"
+        appointment.setStatus("Cancelled");
+
+        // Save the updated appointment
+        appointmentService.saveAppointment(appointment);
 
         // Add a success message
-        redirectAttributes.addFlashAttribute("message", "Appointment deleted successfully!");
+        redirectAttributes.addFlashAttribute("message", "Appointment cancelled successfully!");
 
         // Redirect to the appointments page
         return "redirect:/appointments";
     }
+
 
 }

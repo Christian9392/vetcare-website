@@ -5,6 +5,7 @@ import au.edu.rmit.sept.webapp.repositories.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,9 +40,27 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void deleteAppointment(Long appointmentId) {
-        appointmentRepository.deleteById(appointmentId);
+    public void saveAppointment(Appointment appointment) {
+        appointmentRepository.save(appointment);
     }
+    
+    @Override
+    public void updateAppointmentStatus(Appointment appointment) {
+        if ("cancelled".equalsIgnoreCase(appointment.getStatus())) {
+            // Do not change the status if it's already cancelled
+            return;
+        }
 
+        LocalDate appointmentDate = appointment.getAppointmentDate();
+        LocalDate today = LocalDate.now();
 
+        if (appointmentDate.isBefore(today)) {
+            appointment.setStatus("Completed");
+        } else {
+            appointment.setStatus("Upcoming");
+        }
+
+        // Optionally save the updated status to the database
+        appointmentRepository.save(appointment);
+    }
 }
