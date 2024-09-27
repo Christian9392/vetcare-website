@@ -39,7 +39,7 @@
                         <tr>
                             <!-- Name links to pet view page -->
                             <td>
-                                <a th:href="@{/pets/{petID}/view(petID=${pet.petID})}">
+                                <a th:href="@{/pets/{petId}/view(petId=${pet.petId})}">
                                     <span th:text="${pet.name}"></span>
                                 </a>
                             </td>
@@ -58,7 +58,7 @@
 
                             <!-- Action buttons -->
                             <td>
-                                <a th:href="@{/pets/{petID}/view(petID=${pet.petID})}" class="btn btn-info btn-sm">View</a>
+                                <a th:href="@{/pets/{petId}/view(petId=${pet.petId})}" class="btn btn-info btn-sm">View</a>
                             </td>
                         </tr>
                     </th:block>

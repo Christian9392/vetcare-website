@@ -8,11 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface VaccinationRecordRepository extends JpaRepository<VaccinationRecord, Long> {
 
-    List<VaccinationRecord> findByPet_PetID(Long petID);
-    @Query("SELECT MAX(v.dateAdministered) FROM VaccinationRecord v WHERE v.pet.petID = :petId")
-    LocalDate findLastVaccinationDateByPetId(@Param("petId") Long petId);
+    List<VaccinationRecord> findByPet_petId(Long petId);
+    @Query("SELECT v.dateAdministered FROM VaccinationRecord v WHERE v.pet.petId = :petId ORDER BY v.dateAdministered DESC")
+    Optional<LocalDate> findLatestVaccinationDateByPetId(@Param("petId") Long petId);
 }
+

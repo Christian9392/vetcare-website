@@ -4,7 +4,7 @@ import au.edu.rmit.sept.webapp.models.*;
 
 public class PetDTO {
 
-    private Long petID;
+    private Long petId;
     private String name;
     private String species;
     private String breed;
@@ -16,7 +16,7 @@ public class PetDTO {
 
     // Constructor
     public PetDTO(Pet pet) {
-        this.petID = pet.getPetID();
+        this.petId = pet.getPetId();
         this.name = pet.getName();
         this.species = pet.getSpecies();
         this.breed = pet.getBreed();
@@ -25,12 +25,12 @@ public class PetDTO {
 
     // Getters and Setters
 
-    public Long getPetID() {
-        return petID;
+    public Long getPetId() {
+        return petId;
     }
 
-    public void setPetID(Long petID) {
-        this.petID = petID;
+    public void setPetId(Long petId) {
+        this.petId = petId;
     }
 
     public String getName() {

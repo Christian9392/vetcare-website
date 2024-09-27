@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface PrescriptionRepository extends JpaRepository<Prescription, Long> {
 
-    List<Prescription> findByPet_PetID(Long petID);
-    boolean existsByPetPetIDAndRenewalDateAfter(Long petId, LocalDate date);
+    List<Prescription> findByPet_petId(Long petId);
+    boolean existsByPet_PetIdAndRenewalDateAfter(Long petId, LocalDate date);
 }

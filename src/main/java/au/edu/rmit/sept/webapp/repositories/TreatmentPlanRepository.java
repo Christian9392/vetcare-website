@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface TreatmentPlanRepository extends JpaRepository<TreatmentPlan, Long> {
 
-    List<TreatmentPlan> findByPet_PetID(Long petID);
-    boolean existsByPetPetIDAndEndDateAfter(Long petId, LocalDate date);
+    List<TreatmentPlan> findByPet_petId(Long petId);
+    boolean existsByPet_PetIdAndEndDateAfter(Long petId, LocalDate date);
+
 }

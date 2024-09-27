@@ -7,26 +7,22 @@ public class AppointmentDTO {
         private Long appointmentID;
         private LocalDate appointmentDate;
         private LocalTime appointmentTime;
-        private String petName;
-        private String vetName;
+        private Long petId;
         private String generalNotes;
         private String status;
-        private String clinicName;
         private Float fees;
 
     public AppointmentDTO() {
         
     }
 
-    public AppointmentDTO(Long appointmentID, LocalDate appointmentDate, LocalTime appointmentTime, String petName, String vetName, String generalNotes, String status, String clinicName, Float fees) {
+    public AppointmentDTO(Long appointmentID, LocalDate appointmentDate, LocalTime appointmentTime, Long petId, String generalNotes, String status,Float fees) {
         this.appointmentID = appointmentID;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
-        this.petName = petName;
-        this.vetName = vetName;
+        this.petId = petId;
         this.generalNotes = generalNotes;
         this.status = status;
-        this.clinicName = clinicName;
         this.fees = fees;
     }
 
@@ -55,20 +51,13 @@ public class AppointmentDTO {
         this.appointmentTime = appointmentTime;
     }
 
-    public String getPetName() {
-        return petName;
+    public Long getPetId() {
+        return petId;
     }
 
-    public void setPetName(String petName) {
-        this.petName = petName;
-    }
-
-    public String getVetName() {
-        return vetName;
-    }
-
-    public void setVetName(String vetName) {
-        this.vetName = vetName;
+    // Setter
+    public void setPetId(Long petId) {
+        this.petId = petId;
     }
 
     public String getGeneralNotes() {
@@ -85,14 +74,6 @@ public class AppointmentDTO {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getClinicName() {
-        return clinicName;
-    }
-
-    public void setClinicName(String clinicName) {
-        this.clinicName = clinicName;
     }
 
     public Float getFees() {

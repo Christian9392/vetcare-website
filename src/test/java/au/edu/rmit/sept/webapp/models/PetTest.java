@@ -9,7 +9,7 @@ public class PetTest {
     public void testPetGettersAndSetters() {
         Pet pet = new Pet();
 
-        pet.setPetID(1L);
+        pet.setPetId(1L);
         CustomUser owner = new CustomUser();
         pet.setOwner(owner);
         pet.setName("Buddy");
@@ -17,7 +17,7 @@ public class PetTest {
         pet.setBreed("Golden Retriever");
         pet.setAge(5);
 
-        assertEquals(1L, pet.getPetID());
+        assertEquals(1L, pet.getPetId());
         assertEquals(owner, pet.getOwner());
         assertEquals("Buddy", pet.getName());
         assertEquals("Dog", pet.getSpecies());

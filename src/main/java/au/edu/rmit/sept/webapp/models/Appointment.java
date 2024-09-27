@@ -130,8 +130,8 @@ public class Appointment {
         return "Appointment{" +
                 "appointmentID=" + appointmentID +
                 ", userID='" + user.getUserId() + '\'' +
-                ", petID='" + pet.getPetID() + '\'' +
-                ", clinicID='" + clinic.getClinicID() + '\'' +
+                ", petID='" + pet.getPetId() + '\'' +
+                ", clinicId='" + clinic.getClinicID() + '\'' +
                 ", appointmentDate=" + appointmentDate +
                 ", status='" + status + '\'' +
                 ", generalNotes='" + generalNotes + '\'' +

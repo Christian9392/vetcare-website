@@ -1,17 +1,12 @@
 package au.edu.rmit.sept.webapp.services;
 
 import au.edu.rmit.sept.webapp.dto.*;
-import au.edu.rmit.sept.webapp.models.Appointment;
-import au.edu.rmit.sept.webapp.models.Clinic;
-import au.edu.rmit.sept.webapp.models.CustomUser;
 import au.edu.rmit.sept.webapp.models.Pet;
-import au.edu.rmit.sept.webapp.models.TreatmentPlan;
-import au.edu.rmit.sept.webapp.repositories.AppointmentRepository;
 import au.edu.rmit.sept.webapp.repositories.PetRepository;
 import au.edu.rmit.sept.webapp.repositories.PrescriptionRepository;
 import au.edu.rmit.sept.webapp.repositories.TreatmentPlanRepository;
 import au.edu.rmit.sept.webapp.repositories.VaccinationRecordRepository;
-import groovy.transform.AutoImplement;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -44,38 +38,37 @@ public class PetServiceImpl implements PetService {
     public List<Pet> getPets() {
         return repository.findAll();
     }
-
-    @Override
-    public Pet findPetByName(String name) {
-        Long petID = repository.findPetIDByName(name);
-
-        return repository.findById(petID)
-        .orElseThrow(() -> new NoSuchElementException("Clinic not found with id " + petID));
-    }
     
     @Override
-    public Optional<Pet> findPetByPetId(Long petID) {
-        return repository.findById(petID);
+    public Optional<Pet> findPetBypetId(Long petId) {
+        return repository.findById(petId);
     }
+
+    @Override
+    public Pet getPetById(Long petId) {
+        return repository.findById(petId)
+            .orElseThrow(() -> new EntityNotFoundException("Pet not found with ID: " + petId));
+    }    
+
 
     @Override
     public List<PetDTO> findPetsByUserId(Long userId) {
-        List<Pet> pets = repository.findByUserId(userId);
+        List<Pet> pets = repository.findByOwnerUserId(userId);
         List<PetDTO> petDTOs = new ArrayList<>();
 
         for (Pet pet : pets) {
             PetDTO petDTO = new PetDTO(pet);
             
             // Calculate last vaccination date
-            LocalDate lastVaccinationDate = vaccinationRecordRepository.findLastVaccinationDateByPetId(pet.getPetID());
-            petDTO.setLastVaccinationDate(lastVaccinationDate);
+            Optional<LocalDate> lastVaccinationDateOptional = vaccinationRecordRepository.findLatestVaccinationDateByPetId(pet.getPetId());
+            petDTO.setLastVaccinationDate(lastVaccinationDateOptional.orElse(null));
 
             // Check for active prescriptions
-            boolean hasActivePrescriptions = prescriptionRepository.existsByPetPetIDAndRenewalDateAfter(pet.getPetID(), LocalDate.now());
+            boolean hasActivePrescriptions = prescriptionRepository.existsByPet_PetIdAndRenewalDateAfter(pet.getPetId(), LocalDate.now());
             petDTO.setActivePrescriptions(hasActivePrescriptions);
 
             // Check for active treatment plans
-            boolean hasActiveTreatments = treatmentPlanRepository.existsByPetPetIDAndEndDateAfter(pet.getPetID(), LocalDate.now());
+            boolean hasActiveTreatments = treatmentPlanRepository.existsByPet_PetIdAndEndDateAfter(pet.getPetId(), LocalDate.now());
             petDTO.setActiveTreatments(hasActiveTreatments);
 
             petDTOs.add(petDTO);
@@ -87,5 +80,5 @@ public class PetServiceImpl implements PetService {
     @Override
     public void savePet(Pet pet) {
         repository.save(pet);
-    }
+    }  
 }

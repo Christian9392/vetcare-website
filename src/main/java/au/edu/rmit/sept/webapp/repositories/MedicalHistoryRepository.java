@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface MedicalHistoryRepository extends JpaRepository<MedicalHistory, Long> {
 
-    Optional<MedicalHistory> findByPet_PetID(Long petID);
+    Optional<MedicalHistory> findByPet_petId(Long petId);
 }

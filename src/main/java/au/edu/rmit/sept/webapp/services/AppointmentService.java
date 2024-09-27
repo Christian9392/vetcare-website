@@ -1,16 +1,15 @@
 package au.edu.rmit.sept.webapp.services;
 
-import au.edu.rmit.sept.webapp.dto.AppointmentDTO;
-import au.edu.rmit.sept.webapp.models.Clinic;
-import au.edu.rmit.sept.webapp.models.CustomUser;
-import au.edu.rmit.sept.webapp.models.Pet;
+import au.edu.rmit.sept.webapp.models.Appointment;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface AppointmentService {
-    public Collection<AppointmentDTO> getAppointments();
-    public AppointmentDTO getAppointmentById(Long id);
-    public void saveAppointment(AppointmentDTO appointmentDTO);
-    public void createNewAppointment(AppointmentDTO appointmentDTO, Clinic clinic, CustomUser user, CustomUser vet, Pet pet);
-    public void deleteAppointment(Long id);
+
+    // Create a new appointment
+    Appointment createAppointment(Appointment appointment);
+
+    // Get all appointments for the current user
+    List<Appointment> getAppointmentsForUser(Long userId);
+
 }

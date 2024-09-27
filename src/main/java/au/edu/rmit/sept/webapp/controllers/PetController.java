@@ -56,12 +56,12 @@ public class PetController {
 
     /**
      * Handles the view for displaying a pet's medical history, vaccinations, treatment plans, and prescriptions.
-     * @param petID - the ID of the pet whose medical history to display
+     * @param petId - the ID of the pet whose medical history to display
      */
-    @GetMapping("/{petID}/view")
-    public String viewPetMedicalHistory(@PathVariable Long petID, Model model) {
+    @GetMapping("/{petId}/view")
+    public String viewPetMedicalHistory(@PathVariable Long petId, Model model) {
         // Fetch the pet by ID - necessary for TH template
-        Optional<Pet> pet = petService.findPetByPetId(petID);
+        Optional<Pet> pet = petService.findPetBypetId(petId);
 
         if (pet.isEmpty()) {
             model.addAttribute("errorMessage", "Pet not found.");
@@ -72,9 +72,9 @@ public class PetController {
         model.addAttribute("pet", pet.get());
 
         // Get the pet's medical data
-        List<VaccinationRecord> vaccinations = petMedicalHistoryService.getVaccinationRecordsByPetID(petID);
-        List<TreatmentPlan> treatmentPlans = petMedicalHistoryService.getTreatmentPlansByPetID(petID);
-        List<Prescription> prescriptions = petMedicalHistoryService.getPrescriptionsByPetID(petID);
+        List<VaccinationRecord> vaccinations = petMedicalHistoryService.getVaccinationRecordsBypetId(petId);
+        List<TreatmentPlan> treatmentPlans = petMedicalHistoryService.getTreatmentPlansBypetId(petId);
+        List<Prescription> prescriptions = petMedicalHistoryService.getPrescriptionsBypetId(petId);
 
         // Check if all medical data is empty or not
         if (vaccinations.isEmpty()) {

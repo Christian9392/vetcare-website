@@ -24,9 +24,9 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     public Clinic findClinicByName(String name) {
-        Long clinicID = repository.findClinicIDByName(name);
+        Long clinicId = repository.findClinicIDByName(name);
 
-        return repository.findById(clinicID)
-        .orElseThrow(() -> new NoSuchElementException("Clinic not found with id " + clinicID));
+        return repository.findById(clinicId)
+        .orElseThrow(() -> new NoSuchElementException("Clinic not found with id " + clinicId));
     }   
 }

@@ -9,7 +9,7 @@ public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pet_id")
-    private Long petID;
+    private Long petId;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
@@ -27,14 +27,25 @@ public class Pet {
     @Column(name = "age")
     private Integer age;
 
-    // Getters and setters
-
-    public Long getPetID() {
-        return petID;
+    public Pet() {
     }
 
-    public void setPetID(Long petID) {
-        this.petID = petID;
+    public Pet(Long petId, String name, String species, String breed, Integer age) {
+        this.petId = petId;
+        this.name = name;
+        this.species = species;
+        this.breed = breed;
+        this.age = age;
+    }
+
+    // Getters and setters
+
+    public Long getPetId() {
+        return petId;
+    }
+
+    public void setPetId(Long petId) {
+        this.petId = petId;
     }
 
     public CustomUser getOwner() {
@@ -80,7 +91,7 @@ public class Pet {
     @Override
     public String toString() {
         return "Pet{" +
-                "petID=" + petID +
+                "petId=" + petId +
                 ", owner=" + owner +
                 ", name='" + name + '\'' +
                 ", species='" + species + '\'' +

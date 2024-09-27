@@ -14,9 +14,9 @@ public interface CustomUserRepository extends JpaRepository<CustomUser, Long> {
     CustomUser findByName(String username);
     CustomUser findByEmail(String email);
 
-    @Query("SELECT u.user_id FROM CustomUser u WHERE u.userType = :userType")
+    @Query("SELECT u.userId FROM CustomUser u WHERE u.userType = :userType")
     List<Long> findVetID(@Param("userType") UserType userType);
 
-    @Query("SELECT u.user_id FROM CustomUser u WHERE u.name = :name")
+    @Query("SELECT u.userId FROM CustomUser u WHERE u.name = :name")
     Long findVetIDByName(@Param("name") String name);
 }

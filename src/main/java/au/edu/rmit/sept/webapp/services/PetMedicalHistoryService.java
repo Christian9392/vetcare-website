@@ -26,19 +26,19 @@ public class PetMedicalHistoryService {
         this.prescriptionRepository = prescriptionRepository;
     }
 
-    public Optional<MedicalHistory> getMedicalHistoryByPetID(Long petID) {
-        return medicalHistoryRepository.findByPet_PetID(petID);
+    public Optional<MedicalHistory> getMedicalHistoryBypetId(Long petId) {
+        return medicalHistoryRepository.findByPet_petId(petId);
     }
 
-    public List<VaccinationRecord> getVaccinationRecordsByPetID(Long petID) {
-        return vaccinationRecordRepository.findByPet_PetID(petID);
+    public List<VaccinationRecord> getVaccinationRecordsBypetId(Long petId) {
+        return vaccinationRecordRepository.findByPet_petId(petId);
     }
 
-    public List<TreatmentPlan> getTreatmentPlansByPetID(Long petID) {
-        return treatmentPlanRepository.findByPet_PetID(petID);
+    public List<TreatmentPlan> getTreatmentPlansBypetId(Long petId) {
+        return treatmentPlanRepository.findByPet_petId(petId);
     }
 
-    public List<Prescription> getPrescriptionsByPetID(Long petID) {
-        return prescriptionRepository.findByPet_PetID(petID);
+    public List<Prescription> getPrescriptionsBypetId(Long petId) {
+        return prescriptionRepository.findByPet_petId(petId);
     }
 }
