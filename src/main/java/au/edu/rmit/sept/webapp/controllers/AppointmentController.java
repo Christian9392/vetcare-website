@@ -11,12 +11,18 @@ import au.edu.rmit.sept.webapp.services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
+
+
 
 @Controller
 @RequestMapping("/appointments")
@@ -55,7 +61,11 @@ public class AppointmentController {
 
     // Handle form submission and save appointment
     @PostMapping("/book_appointment")
-    public String bookAppointment(@ModelAttribute("appointment") AppointmentDTO appointmentDTO, RedirectAttributes redirectAttributes) {
+    public String bookAppointment(
+    @Valid @ModelAttribute("appointment") AppointmentDTO appointmentDTO,
+    BindingResult bindingResult,
+    RedirectAttributes redirectAttributes,
+    Model model) {
         // Get the current user
         CustomUser currentUser = userService.getCurrentUser();
 
@@ -64,16 +74,36 @@ public class AppointmentController {
 
         // Check if the pet exists
         if (optionalPet.isEmpty()) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Pet not found.");
-            return "redirect:/appointments/new";
+            bindingResult.rejectValue("petId", "error.appointmentDTO", "Pet not found.");
+            model.addAttribute("pets", getCurrentUserPets());
+            return "appointments/new";
+        }
+
+        // Validate appointment date
+        LocalDate appointmentDate = appointmentDTO.getAppointmentDate();
+        if (appointmentDate == null || appointmentDate.isBefore(LocalDate.now())) {
+            bindingResult.rejectValue("appointmentDate", "error.appointmentDTO", "Appointment date cannot be in the past.");
+        }
+
+        // Validate appointment time
+        LocalTime appointmentTime = appointmentDTO.getAppointmentTime();
+        if (appointmentTime == null || appointmentTime.isBefore(LocalTime.of(8, 0)) || appointmentTime.isAfter(LocalTime.of(19, 0))) {
+            bindingResult.rejectValue("appointmentTime", "error.appointmentDTO", "Appointment time must be between 8:00 AM and 7:00 PM.");
+        }
+
+        // Check for validation errors
+        if (bindingResult.hasErrors()) {
+            // Reload the booking form with error messages and pet list
+            model.addAttribute("pets", getCurrentUserPets());
+            return "appointments/new";
         }
 
         Pet pet = optionalPet.get();
 
         // Convert AppointmentDTO to Appointment entity
         Appointment appointment = new Appointment();
-        appointment.setAppointmentDate(appointmentDTO.getAppointmentDate());
-        appointment.setAppointmentTime(appointmentDTO.getAppointmentTime());
+        appointment.setAppointmentDate(appointmentDate);
+        appointment.setAppointmentTime(appointmentTime);
         appointment.setGeneralNotes(appointmentDTO.getGeneralNotes());
         appointment.setUser(currentUser);
         appointment.setPet(pet);
@@ -87,6 +117,15 @@ public class AppointmentController {
         // Redirect to the appointments page
         return "redirect:/appointments";
     }
+
+    private List<Pet> getCurrentUserPets() {
+        CustomUser currentUser = userService.getCurrentUser();
+        List<PetDTO> petDTOs = petService.findPetsByUserId(currentUser.getUserId());
+        return petDTOs.stream()
+                .map(dto -> new Pet(dto.getPetId(), dto.getName(), dto.getSpecies(), dto.getBreed(), dto.getAge()))
+                .collect(Collectors.toList());
+    }
+
 
     @GetMapping
     public String viewAppointments(Model model) {

@@ -36,7 +36,8 @@
         <!-- Time Input -->
         <div class="mb-3">
             <label for="bookingTime" class="form-label readonly-label">Select a time</label>
-            <input type="time" id="bookingTime" class="form-control small" th:field="*{appointmentTime}" required/>
+            <input type="time" id="bookingTime" class="form-control small" th:field="*{appointmentTime}" required
+                   min="08:00" max="19:00"/>
         </div>
     
         <!-- Pet Selection -->
