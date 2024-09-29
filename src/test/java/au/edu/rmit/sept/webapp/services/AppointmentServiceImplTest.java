@@ -1,6 +1,5 @@
 package au.edu.rmit.sept.webapp.services;
 
-import au.edu.rmit.sept.webapp.dto.AppointmentDTO;
 import au.edu.rmit.sept.webapp.models.Appointment;
 import au.edu.rmit.sept.webapp.repositories.AppointmentRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,11 +10,11 @@ import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,52 +31,64 @@ public class AppointmentServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    //@Test
-    // void testGetAppointments() {
-    //     List<AppointmentDTO> mockAppointments = new ArrayList<>();
-    //     mockAppointments.add(new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status", "c", 1F));
-    //     when(appointmentRepository.findAllAppointments()).thenReturn(mockAppointments);
+    @Test
+    void testCreateAppointment() {
+        Appointment mockAppointment = new Appointment();
+        mockAppointment.setAppointmentID(1L);
+        mockAppointment.setAppointmentDate(LocalDate.now());
+        mockAppointment.setAppointmentTime(LocalTime.now());
+        mockAppointment.setGeneralNotes("Notes");
+        mockAppointment.setStatus("Scheduled");
 
-    //     List<AppointmentDTO> appointments = appointmentService.getAppointments();
+        when(appointmentRepository.save(mockAppointment)).thenReturn(mockAppointment);
 
-    //     assertEquals(1, appointments.size());
-    //     assertEquals(mockAppointments.get(0), appointments.get(0));
-    // }
+        Appointment appointment = appointmentService.createAppointment(mockAppointment);
 
-    // @Test
-    // void testGetAppointmentById() {
-    //     AppointmentDTO mockAppointment = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status", "c", 1F);
-    //     when(appointmentRepository.findAppointmentById(1L)).thenReturn(mockAppointment);
+        assertEquals(mockAppointment, appointment);
+    }
 
-    //     AppointmentDTO appointment = appointmentService.getAppointmentById(1L);
+    @Test
+     void testGetAppointmentsForUser() {
+        // mock appointment
+        Appointment mockAppointment = new Appointment();
+        mockAppointment.setAppointmentID(1L);
+        mockAppointment.setStatus("Scheduled");
 
-    //     assertEquals(mockAppointment, appointment);
-    // }
+         when(appointmentRepository.findByUserUserId(anyLong())).thenReturn(List.of(mockAppointment));
 
-    // @Test
-    // void testSaveAppointment() {
-    //     Appointment existingAppointment = new Appointment();
-    //     existingAppointment.setAppointmentID(1L);
-    //     existingAppointment.setAppointmentDate(LocalDate.now());
-    //     existingAppointment.setAppointmentTime(LocalTime.now());
-    //     existingAppointment.setGeneralNotes("Initial Notes");
-    //     existingAppointment.setStatus("Initial Status");
+         List<Appointment> appointments = appointmentService.getAppointmentsForUser(1L);
 
-    //     AppointmentDTO appointmentDTO = new AppointmentDTO(1L, LocalDate.now(), LocalTime.now(), "Pet1", "User1", "Notes", "Status", "c", 1F);
+         assertEquals(1, appointments.size());
+     }
 
-    //     when(appointmentRepository.findById(1L)).thenReturn(Optional.of(existingAppointment));
+     @Test
+     void testFindAppointmentById() {
+            Appointment mockAppointment = new Appointment();
+            mockAppointment.setAppointmentID(1L);
+            mockAppointment.setAppointmentDate(LocalDate.now());
+            mockAppointment.setAppointmentTime(LocalTime.now());
+            mockAppointment.setGeneralNotes("Notes");
+            mockAppointment.setStatus("Scheduled");
 
-    //     appointmentService.saveAppointment(appointmentDTO);
+            when(appointmentRepository.findById(1L)).thenReturn(Optional.of(mockAppointment));
 
-    //     verify(appointmentRepository).save(existingAppointment);
-    // }
+            Optional<Appointment> appointment = appointmentService.findAppointmentById(1L);
 
-    // @Test
-    // void testDeleteAppointment() {
-    //     Long appointmentId = 1L;
-    //     appointmentService.deleteAppointment(1L);
+            assertEquals(mockAppointment, appointment.get());
+     }
 
-    //     verify(appointmentRepository).deleteById(appointmentId);
-    // }
+     @Test
+     void testSaveAppointment() {
+        Appointment mockAppointment = new Appointment();
+        mockAppointment.setAppointmentID(1L);
+        mockAppointment.setAppointmentDate(LocalDate.now());
+        mockAppointment.setAppointmentTime(LocalTime.now());
+        mockAppointment.setGeneralNotes("Notes");
+        mockAppointment.setStatus("Scheduled");
+
+        appointmentService.saveAppointment(mockAppointment);
+
+        verify(appointmentRepository).save(mockAppointment);
+     }
 }
 

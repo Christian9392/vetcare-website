@@ -64,7 +64,6 @@ public class AppointmentControllerTest {
 
     @Test
     void testBookAppointmentForm() throws Exception {
-        AppointmentDTO appointmentDTO = new AppointmentDTO();
         // Mock the behavior of services
         when(userService.getCurrentUser()).thenReturn(currentUser);
         when(petService.findPetBypetId(anyLong())).thenReturn(Optional.of(new Pet()));
