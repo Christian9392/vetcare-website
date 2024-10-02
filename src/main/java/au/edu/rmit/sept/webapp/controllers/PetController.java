@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -123,5 +124,13 @@ public class PetController {
         return "redirect:/pets";
     }
 
+    // Handles prescription refill requests
+    @PostMapping("/{petId}/refill/{prescriptionID}")
+    public String requestPrescription(@PathVariable("petId") String petId, @PathVariable("prescriptionID") String prescriptionID, RedirectAttributes redirectAttributes) {
+        // TODO: replace this print with code
+        System.out.println("petID: "+petId+" PrescriptionID: "+prescriptionID);
 
+        // Redirect back to same page.
+        return "redirect:/pets/{petId}/view";
+    }
 }
