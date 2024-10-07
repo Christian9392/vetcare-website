@@ -120,6 +120,12 @@
                             </form>
                         </td>
                     </tr>
+                    <div th:if="${successMessage}" class="alert alert-success">
+                        <p th:text="${successMessage}"></p>
+                    </div>
+                    <div th:if="${failMessage}" class="alert alert-danger">
+                        <p th:text="${failMessage}"></p>
+                    </div>
                 </tbody>
             </table>
         </div>

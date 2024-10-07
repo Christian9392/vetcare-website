@@ -159,8 +159,12 @@ public class PetController {
             // Decrement and order prescription
             prescriptionService.decrementPrescription(prescriptionID);
             prescriptionService.orderPrescription(prescriptionID, petId);
+            // Add success message to redirect
+            redirectAttributes.addFlashAttribute("successMessage", "Prescription ordered successfully!");
         } else {
             System.out.println("Invalid refill request");
+            // Add fail message to redirect
+            redirectAttributes.addFlashAttribute("failMessage", "Prescription failed to order...");
         }
 
         // Redirect back to same page.
