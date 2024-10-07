@@ -6,8 +6,12 @@ import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
 import au.edu.rmit.sept.webapp.services.EmailService;
 import au.edu.rmit.sept.webapp.services.PetMedicalHistoryService;
 import au.edu.rmit.sept.webapp.services.PetService;
+<<<<<<< HEAD
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
+=======
+import au.edu.rmit.sept.webapp.services.PrescriptionService;
+>>>>>>> a6f8790 (feat: #29)
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,6 +53,11 @@ public class PetController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private PrescriptionService prescriptionService;
+
+
     /**
      * Handles the view for displaying all registered pets for the currently logged-in user.
      */
@@ -142,9 +151,17 @@ public class PetController {
 
     // Handles prescription refill requests
     @PostMapping("/{petId}/refill/{prescriptionID}")
-    public String requestPrescription(@PathVariable("petId") String petId, @PathVariable("prescriptionID") String prescriptionID, RedirectAttributes redirectAttributes) {
-        // TODO: replace this print with code
-        System.out.println("petID: "+petId+" PrescriptionID: "+prescriptionID);
+    public String requestPrescription(@PathVariable("petId") Long petId, @PathVariable("prescriptionID") Long prescriptionID, RedirectAttributes redirectAttributes) {
+
+        // Check if prescription is valid
+        if (prescriptionService.checkPrescription(prescriptionID)) {
+            System.out.println("Processed valid refill request");
+            // Decrement and order prescription
+            prescriptionService.decrementPrescription(prescriptionID);
+            prescriptionService.orderPrescription(prescriptionID, petId);
+        } else {
+            System.out.println("Invalid refill request");
+        }
 
         // Redirect back to same page.
         return "redirect:/pets/{petId}/view";
