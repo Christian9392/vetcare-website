@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class PrescriptionServiceImpl implements PrescriptionService {
@@ -18,13 +19,20 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         this.repository = repository;
     }
 
-    public boolean checkPrescription(Long prescriptionID) {
+    public String checkPrescription(Long prescriptionID) {
         // Get prescription based on ID
         Prescription prescription = repository.findByPrescriptionID(prescriptionID);
         // Get current date
         LocalDate currentDate = LocalDate.now();
-        // Check for remaining refills and expiry
-        return (prescription.getRepeatsLeft() > 0 || prescription.getExpiryDate().isAfter(currentDate));
+        // Check for remaining refills
+        if (prescription.getRepeatsLeft() <= 0) {
+            return "no repeats remaining";
+        // Check for expiry
+        } else if (prescription.getExpiryDate().isBefore(currentDate)) {
+            return "out of date prescription";
+        }
+        // Prescription is valid
+        return "valid";
     }
 
     public void decrementPrescription(Long prescriptionID) {

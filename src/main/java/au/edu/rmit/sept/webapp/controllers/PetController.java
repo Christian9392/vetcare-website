@@ -134,7 +134,9 @@ public class PetController {
     public String requestPrescription(@PathVariable("petId") Long petId, @PathVariable("prescriptionID") Long prescriptionID, RedirectAttributes redirectAttributes) {
 
         // Check if prescription is valid
-        if (prescriptionService.checkPrescription(prescriptionID)) {
+        String prescriptionRequest = prescriptionService.checkPrescription(prescriptionID);
+
+        if (prescriptionRequest.equals("valid")) {
             System.out.println("Processed valid refill request");
             // Decrement and order prescription
             prescriptionService.decrementPrescription(prescriptionID);
@@ -144,7 +146,7 @@ public class PetController {
         } else {
             System.out.println("Invalid refill request");
             // Add fail message to redirect
-            redirectAttributes.addFlashAttribute("failMessage", "Prescription failed to order...");
+            redirectAttributes.addFlashAttribute("failMessage", String.format("Invalid refill request, %s", prescriptionRequest));
         }
 
         // Redirect back to same page.
