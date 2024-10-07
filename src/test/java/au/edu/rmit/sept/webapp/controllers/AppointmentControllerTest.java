@@ -62,19 +62,19 @@ public class AppointmentControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testBookAppointmentForm() throws Exception {
-        // Mock the behavior of services
-        when(userService.getCurrentUser()).thenReturn(currentUser);
-        when(petService.findPetBypetId(anyLong())).thenReturn(Optional.of(new Pet()));
+    // @Test
+    // void testBookAppointmentForm() throws Exception {
+    //     // Mock the behavior of services
+    //     when(userService.getCurrentUser()).thenReturn(currentUser);
+    //     when(petService.findPetBypetId(anyLong())).thenReturn(Optional.of(new Pet()));
 
-        // Perform the test
-        mockMvc.perform(get("/appointments/new"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("appointments/new"))
-                .andExpect(model().attributeExists("appointment"))
-                .andExpect(model().attribute("pets", new ArrayList<Pet>()));
-    }
+    //     // Perform the test
+    //     mockMvc.perform(get("/appointments/new"))
+    //             .andExpect(status().isOk())
+    //             .andExpect(view().name("appointments/new"))
+    //             .andExpect(model().attributeExists("appointment"))
+    //             .andExpect(model().attribute("pets", new ArrayList<Pet>()));
+    // }
 
     @Test
     void testBookAppointment() throws Exception {

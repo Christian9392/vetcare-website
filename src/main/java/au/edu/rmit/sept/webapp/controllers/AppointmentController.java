@@ -54,7 +54,11 @@ public class AppointmentController {
 
         // Add appointmentDTO and pets list to the model
         model.addAttribute("appointment", appointmentDTO);
-        model.addAttribute("pets", pets);
+        if (pets.isEmpty()) {
+            model.addAttribute("noPetsMessage", "You have no registered pets. Please register a pet before booking an appointment.");
+        } else {
+            model.addAttribute("pets", pets);
+        }
 
         return "appointments/new";
     }
