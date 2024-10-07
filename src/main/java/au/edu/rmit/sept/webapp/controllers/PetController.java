@@ -6,12 +6,10 @@ import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
 import au.edu.rmit.sept.webapp.services.EmailService;
 import au.edu.rmit.sept.webapp.services.PetMedicalHistoryService;
 import au.edu.rmit.sept.webapp.services.PetService;
-<<<<<<< HEAD
+
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
-=======
 import au.edu.rmit.sept.webapp.services.PrescriptionService;
->>>>>>> a6f8790 (feat: #29)
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
