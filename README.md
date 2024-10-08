@@ -26,31 +26,22 @@ See [Instructions](INSTRUCTIONS.md)
 First, clone the repository to a local directory with the following command.
 
 ```bash
-git clone https://github.com/cosc2299-2024/team-project-group-p03-02.git
+$ git clone https://github.com/cosc2299-2024/team-project-group-p03-02.git
 ```
 
-## 2. Setup MySQL Database
-Ensure [MySQL Server](https://dev.mysql.com/downloads/mysql/) and [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) is installed. By default, the program attempts to connect to the SQL server with these credentials:
-- Username: "root"
-- Password: ""
-- Port: 3306
-
-> [!NOTE]
-> These credentials can be changed inside of `src\main\resources\application.properties` through the parameters `spring.datasource.username` and `spring.datasource.password`
-
-Ensure the MySQL server is running and open MySQL Workbench. Connect to the local database instance and create a new schema named "vetcare" via the toolbar. Set this schema as the default schema.
-
-> [!TIP]
-> For a step-by-step guide on how to perform the above steps, refer to section "1.5 Setting Up the MySQL Database Instance" of the user guide Word document.
-
-## 3. Running the Webserver
-Make sure the current working directory is the cloned repository and run the following command:
+## 2. Running the Webserver Container
+Make sure you have Docker installed and Docker Engine running. Run the Docker-compose file with the following commands:
 
 ```bash
-./mvnw spring-boot:run
+$ docker-compose build --no-cache
+$ docker-compose up
 ```
 
 You can now access the webserver in your web browser at the address `http://localhost:8080`.
-## 4. Navigating the Website
+The MySQL database is available at `localhost:3307`
+## 3. Navigating the Website
 - Currently, the main and recommended way to navigate through pages is through the navigation bar at the top of the screen.
 - A majority of webpages are not accessible unless you are logged in.
+- We have a test user that's been setup with the following credentials:
+    - Email: `test@test`
+    - Password: `test`
