@@ -5,6 +5,8 @@ import au.edu.rmit.sept.webapp.models.*;
 import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
 import au.edu.rmit.sept.webapp.services.PetMedicalHistoryService;
 import au.edu.rmit.sept.webapp.services.PetService;
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -133,4 +141,48 @@ public class PetController {
         // Redirect back to same page.
         return "redirect:/pets/{petId}/view";
     }
+    //feature to download :
+    @GetMapping("/{petId}/download")
+    public void downloadPetRecords(@PathVariable Long petId, HttpServletResponse response) throws DocumentException, IOException {
+        // Set the response headers for downloading a PDF file
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=pet_records_" + petId + ".pdf");
+
+        // Create a new PDF document
+        Document document = new Document();
+        PdfWriter.getInstance(document, response.getOutputStream());
+
+        // Open the document
+        document.open();
+
+        // Fetch the pet data
+        Pet pet = petService.findPetBypetId(petId).orElseThrow(() -> new IllegalArgumentException("Invalid pet ID"));
+        List<VaccinationRecord> vaccinations = petMedicalHistoryService.getVaccinationRecordsBypetId(petId);
+        List<TreatmentPlan> treatmentPlans = petMedicalHistoryService.getTreatmentPlansBypetId(petId);
+        List<Prescription> prescriptions = petMedicalHistoryService.getPrescriptionsBypetId(petId);
+
+        // Write data to the PDF
+        document.add(new Paragraph("Medical Records for " + pet.getName()));
+        document.add(new Paragraph("\n"));
+
+        document.add(new Paragraph("Vaccination History:"));
+        for (VaccinationRecord vaccine : vaccinations) {
+            document.add(new Paragraph("Vaccine: " + vaccine.getVaccineName() + ", Date: " + vaccine.getDateAdministered()));
+        }
+        document.add(new Paragraph("\n"));
+
+        document.add(new Paragraph("Treatment Plans:"));
+        for (TreatmentPlan treatment : treatmentPlans) {
+            document.add(new Paragraph("Diagnosis: " + treatment.getDiagnosis() + ", Date Administered: " + treatment.getDateAdministered()));
+        }
+        document.add(new Paragraph("\n"));
+
+        document.add(new Paragraph("Prescription History:"));
+        for (Prescription prescription : prescriptions) {
+            document.add(new Paragraph("Medicine: " + prescription.getMedicine().getName() + ", Dosage: " + prescription.getDosageQuantity()));
+        }
+
+        // Close the document
+        document.close();
+    }        
 }
