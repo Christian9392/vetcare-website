@@ -3,8 +3,10 @@ package au.edu.rmit.sept.webapp.controllers;
 import au.edu.rmit.sept.webapp.dto.PetDTO;
 import au.edu.rmit.sept.webapp.models.*;
 import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
+import au.edu.rmit.sept.webapp.services.EmailService;
 import au.edu.rmit.sept.webapp.services.PetMedicalHistoryService;
 import au.edu.rmit.sept.webapp.services.PetService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itextpdf.text.Document;
@@ -23,6 +26,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +44,8 @@ public class PetController {
     @Autowired
     private PetMedicalHistoryService petMedicalHistoryService;
 
-
+    @Autowired
+    private EmailService emailService;
     /**
      * Handles the view for displaying all registered pets for the currently logged-in user.
      */
@@ -185,4 +190,81 @@ public class PetController {
         // Close the document
         document.close();
     }        
+    @PostMapping("/{petId}/share")
+    public String shareHealthRecords(@PathVariable Long petId, @RequestParam("email") String email, Model model) {
+        try {
+            // Fetch the health records PDF for the pet
+            ByteArrayOutputStream healthRecordPdf = generateHealthRecordPdf(petId);
+            String petName = "Buddy";  
+
+            // Send the email with health record attachment
+            emailService.sendHealthRecord(email, petName, healthRecordPdf);
+
+            // Show success message
+            model.addAttribute("successMessage", "Health records have been shared with " + email);
+        } catch (IOException | DocumentException | MessagingException e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "Failed to share health records.");
+        }
+
+        return "redirect:/pets";  
+    }
+   // PDF generation method
+    public ByteArrayOutputStream generateHealthRecordPdf(Long petId) throws DocumentException {
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    Document document = new Document();
+
+    try {
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+        document.open();
+
+        // Fetch the pet data
+        Pet pet = petService.findPetBypetId(petId).orElseThrow(() -> new IllegalArgumentException("Invalid pet ID"));
+        List<VaccinationRecord> vaccinations = petMedicalHistoryService.getVaccinationRecordsBypetId(petId);
+        List<TreatmentPlan> treatmentPlans = petMedicalHistoryService.getTreatmentPlansBypetId(petId);
+        List<Prescription> prescriptions = petMedicalHistoryService.getPrescriptionsBypetId(petId);
+
+        // Write data to the PDF
+        document.add(new Paragraph("Medical Records for " + pet.getName()));
+        document.add(new Paragraph("\n"));
+
+        // Vaccination History
+        document.add(new Paragraph("Vaccination History:"));
+        if (vaccinations.isEmpty()) {
+            document.add(new Paragraph("No vaccinations found."));
+        } else {
+            for (VaccinationRecord vaccine : vaccinations) {
+                document.add(new Paragraph("Vaccine: " + vaccine.getVaccineName() + ", Date: " + vaccine.getDateAdministered()));
+            }
+        }
+        document.add(new Paragraph("\n"));
+
+        // Treatment Plans
+        document.add(new Paragraph("Treatment Plans:"));
+        if (treatmentPlans.isEmpty()) {
+            document.add(new Paragraph("No treatment plans found."));
+        } else {
+            for (TreatmentPlan treatment : treatmentPlans) {
+                document.add(new Paragraph("Diagnosis: " + treatment.getDiagnosis() + ", Date Administered: " + treatment.getDateAdministered()));
+            }
+        }
+        document.add(new Paragraph("\n"));
+
+        // Prescription History
+        document.add(new Paragraph("Prescription History:"));
+        if (prescriptions.isEmpty()) {
+            document.add(new Paragraph("No prescriptions found."));
+        } else {
+            for (Prescription prescription : prescriptions) {
+                document.add(new Paragraph("Medicine: " + prescription.getMedicine().getName() + ", Dosage: " + prescription.getDosageQuantity()));
+            }
+        }
+
+    } finally {
+        document.close();
+    }
+
+    return byteArrayOutputStream;
+}
+
 }
