@@ -15,8 +15,8 @@
         <h1>Your Registered Pets</h1>
 
         <!-- Check if there are any pets registered -->
-        <div th:if="${pets != null and #lists.isEmpty(pets)}" class="alert alert-info">
-            <p>You have not registered any pets yet. <a href="/pets/new" class="btn btn-primary">Register a New Pet</a></p>
+        <div th:if="${#lists.isEmpty(pets)}" class="alert alert-info">
+            <p>You have not registered any pets yet.</p>
         </div>
 
         <!-- If pets are registered, display them in a table -->
