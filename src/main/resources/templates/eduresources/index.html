@@ -11,18 +11,42 @@
 
     <div layout:fragment="content">
 
-        <h1>Educational Resources</h1>
+        <h2>Educational Resources</h1>
+        
 
-        <section>
-            <h2>Find Resources</h2>
-            <p>Search for resources by topic (search bar goes here)</p>
+        <!--Search bar-->
+        <!--TODO: Search bar functionality for trends and resources-->
+        <section class="my-5">
+        <div>
+            <label for="searchResult">Search for an article, guide or video </label>
+            <input type="text" id="searchResult" th:field="*{searchResult}" required placeholder="What are you looking for?">
+        </div>
         </section>
 
+        <!--Guides, Articles, Videos-->
+        <section>
+            <h2>Guides</h2>
+            <h2>Articles</h2>
+            <h2>Videos</h2>
+
+            <div th:each="video : ${videos}"> 
+
+                <div> 
+                    <p th:text="${video.title}"></p>
+                    <iframe th:src="${video.content}" width="560" height="315" allowfullscreen></iframe>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!--Trends-->
         <section>
             <h2>Latest Trends and Resources</h2>
             <!-- Handling of displaying latest trends and edu-resources goes here -->
         </section>
 
+        <!--Saved Resources-->
         <section>
             <h2>Your Saved Resources</h2>
             <!-- Handling of displaying saved edu-resources goes here -->

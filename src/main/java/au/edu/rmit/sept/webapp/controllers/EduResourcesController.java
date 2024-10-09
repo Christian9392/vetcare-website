@@ -1,29 +1,43 @@
-// package au.edu.rmit.sept.webapp.controllers;
+package au.edu.rmit.sept.webapp.controllers;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Controller;
-// import org.springframework.ui.Model;
-// import org.springframework.web.bind.annotation.*;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
-// @Controller
-// public class EduResourcesController {
+import au.edu.rmit.sept.webapp.services.EduResourcesService;
+import au.edu.rmit.sept.webapp.models.EduResources;
+import java.util.List;
 
-//     @GetMapping("/eduresources")
-//     public String viewResources(Model model) {
-//         return "eduresources/index";
-//     }
+@Controller
+public class EduResourcesController {
 
-//     @GetMapping("/eduresources")
-//     public String viewResourceInformation() {
-//         return "eduresources/info";
-//     }
+    private final EduResourcesService service;
 
-//     @GetMapping("/eduresources")
-//     public String viewSavedResources()
-//     {
-//         return "eduresources/savededuresources";
-//     }
-// }
+    @Autowired
+    public EduResourcesController(EduResourcesService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/eduresources")
+    public String viewResources(Model model) {
+        String searchResult = "";
+        model.addAttribute("searchResult", searchResult);
+
+        List<EduResources> videos = service.findAllVideos();
+        
+        model.addAttribute("videos", videos);
+        return "eduresources/index";
+    }
+
+    // @GetMapping("/eduresources")
+    // public String viewResourceInformation() {
+    //     return "eduresources/info";
+    // }
+
+    // @GetMapping("/eduresources")
+    // public String viewSavedResources()
+    // {
+    //     return "eduresources/savededuresources";
+    // }
+}
