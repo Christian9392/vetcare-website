@@ -23,7 +23,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.ByteArrayOutputStream;
@@ -149,122 +152,213 @@ public class PetController {
     //feature to download :
     @GetMapping("/{petId}/download")
     public void downloadPetRecords(@PathVariable Long petId, HttpServletResponse response) throws DocumentException, IOException {
-        // Set the response headers for downloading a PDF file
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=pet_records_" + petId + ".pdf");
-
-        // Create a new PDF document
+        // Creating new pdf
         Document document = new Document();
-        PdfWriter.getInstance(document, response.getOutputStream());
-
-        // Open the document
+        PdfWriter.getInstance(document, response.getOutputStream());    
         document.open();
-
-        // Fetch the pet data
+        // fetching pet data
         Pet pet = petService.findPetBypetId(petId).orElseThrow(() -> new IllegalArgumentException("Invalid pet ID"));
         List<VaccinationRecord> vaccinations = petMedicalHistoryService.getVaccinationRecordsBypetId(petId);
         List<TreatmentPlan> treatmentPlans = petMedicalHistoryService.getTreatmentPlansBypetId(petId);
         List<Prescription> prescriptions = petMedicalHistoryService.getPrescriptionsBypetId(petId);
-
-        // Write data to the PDF
-        document.add(new Paragraph("Medical Records for " + pet.getName()));
+        //setting fonts
+        Font boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+        Font regularFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
+        // data to the PDF -> Pet's name
+        document.add(new Paragraph("Medical Records for " + pet.getName(), boldFont));
         document.add(new Paragraph("\n"));
-
-        document.add(new Paragraph("Vaccination History:"));
-        for (VaccinationRecord vaccine : vaccinations) {
-            document.add(new Paragraph("Vaccine: " + vaccine.getVaccineName() + ", Date: " + vaccine.getDateAdministered()));
+        // Vaccination History
+        document.add(new Paragraph("Vaccination History", boldFont));
+        if (vaccinations.isEmpty()) {
+            document.add(new Paragraph("No vaccination records found.", regularFont));
+        } else {
+            PdfPTable vaccinationTable = new PdfPTable(5);
+            vaccinationTable.setWidthPercentage(100);
+            vaccinationTable.addCell(new PdfPCell(new Paragraph("Vaccine Name", boldFont)));
+            vaccinationTable.addCell(new PdfPCell(new Paragraph("Date Administered", boldFont)));
+            vaccinationTable.addCell(new PdfPCell(new Paragraph("Next Due Date", boldFont)));
+            vaccinationTable.addCell(new PdfPCell(new Paragraph("Status", boldFont)));
+            vaccinationTable.addCell(new PdfPCell(new Paragraph("Notes", boldFont)));
+            for (VaccinationRecord vaccine : vaccinations) {
+                vaccinationTable.addCell(new PdfPCell(new Paragraph(vaccine.getVaccineName(), regularFont)));
+                vaccinationTable.addCell(new PdfPCell(new Paragraph(vaccine.getDateAdministered().toString(), regularFont)));
+                vaccinationTable.addCell(new PdfPCell(new Paragraph(vaccine.getNextDueDate() != null ? vaccine.getNextDueDate().toString() : "N/A", regularFont)));
+                vaccinationTable.addCell(new PdfPCell(new Paragraph(vaccine.getStatus(), regularFont)));
+                vaccinationTable.addCell(new PdfPCell(new Paragraph(vaccine.getNotes(), regularFont)));
+            }
+            document.add(vaccinationTable);
         }
         document.add(new Paragraph("\n"));
-
-        document.add(new Paragraph("Treatment Plans:"));
-        for (TreatmentPlan treatment : treatmentPlans) {
-            document.add(new Paragraph("Diagnosis: " + treatment.getDiagnosis() + ", Date Administered: " + treatment.getDateAdministered()));
+        // Treatment Plans
+        document.add(new Paragraph("Treatment Plans", boldFont));
+        if (treatmentPlans.isEmpty()) {
+            document.add(new Paragraph("No treatment plans found.", regularFont));
+        } else {
+            PdfPTable treatmentTable = new PdfPTable(5);
+            treatmentTable.setWidthPercentage(100);
+            treatmentTable.addCell(new PdfPCell(new Paragraph("Diagnosis", boldFont)));
+            treatmentTable.addCell(new PdfPCell(new Paragraph("Description", boldFont)));
+            treatmentTable.addCell(new PdfPCell(new Paragraph("Date Administered", boldFont)));
+            treatmentTable.addCell(new PdfPCell(new Paragraph("End Date", boldFont)));
+            treatmentTable.addCell(new PdfPCell(new Paragraph("Notes", boldFont)));
+            for (TreatmentPlan treatment : treatmentPlans) {
+                treatmentTable.addCell(new PdfPCell(new Paragraph(treatment.getDiagnosis(), regularFont)));
+                treatmentTable.addCell(new PdfPCell(new Paragraph(treatment.getDescription(), regularFont)));
+                treatmentTable.addCell(new PdfPCell(new Paragraph(treatment.getDateAdministered().toString(), regularFont)));
+                treatmentTable.addCell(new PdfPCell(new Paragraph(treatment.getEndDate() != null ? treatment.getEndDate().toString() : "N/A", regularFont)));
+                treatmentTable.addCell(new PdfPCell(new Paragraph(treatment.getNotes(), regularFont)));
+            }
+    
+            document.add(treatmentTable);
         }
         document.add(new Paragraph("\n"));
-
-        document.add(new Paragraph("Prescription History:"));
-        for (Prescription prescription : prescriptions) {
-            document.add(new Paragraph("Medicine: " + prescription.getMedicine().getName() + ", Dosage: " + prescription.getDosageQuantity()));
-        }
-
-        // Close the document
+        // Prescription History
+        document.add(new Paragraph("Prescription History", boldFont));
+        if (prescriptions.isEmpty()) {
+            document.add(new Paragraph("No prescriptions found.", regularFont));
+        } else {
+            PdfPTable prescriptionTable = new PdfPTable(6);
+            prescriptionTable.setWidthPercentage(100);
+            prescriptionTable.addCell(new PdfPCell(new Paragraph("Medicine Name", boldFont)));
+            prescriptionTable.addCell(new PdfPCell(new Paragraph("Dosage Quantity", boldFont)));
+            prescriptionTable.addCell(new PdfPCell(new Paragraph("Instructions", boldFont)));
+            prescriptionTable.addCell(new PdfPCell(new Paragraph("Date Administered", boldFont)));
+            prescriptionTable.addCell(new PdfPCell(new Paragraph("Expiry Date", boldFont)));
+            prescriptionTable.addCell(new PdfPCell(new Paragraph("Repeats Left", boldFont)));
+            for (Prescription prescription : prescriptions) {
+                prescriptionTable.addCell(new PdfPCell(new Paragraph(prescription.getMedicine().getName(), regularFont)));
+                prescriptionTable.addCell(new PdfPCell(new Paragraph(prescription.getDosageQuantity(), regularFont)));
+                prescriptionTable.addCell(new PdfPCell(new Paragraph(prescription.getInstructions(), regularFont)));
+                prescriptionTable.addCell(new PdfPCell(new Paragraph(prescription.getDateAdministered().toString(), regularFont)));
+                prescriptionTable.addCell(new PdfPCell(new Paragraph(prescription.getExpiryDate() != null ? prescription.getExpiryDate().toString() : "N/A", regularFont)));
+                prescriptionTable.addCell(new PdfPCell(new Paragraph(String.valueOf(prescription.getRepeatsLeft()), regularFont)));
+            }
+            document.add(prescriptionTable);
+        }    
         document.close();
-    }        
+    }
+           
     @PostMapping("/{petId}/share")
     public String shareHealthRecords(@PathVariable Long petId, @RequestParam("email") String email, Model model) {
         try {
+            // Fetch the pet to get the name
+            Pet pet = petService.findPetBypetId(petId).orElseThrow(() -> new IllegalArgumentException("Invalid pet ID"));
+            String petName = pet.getName(); 
             // Fetch the health records PDF for the pet
             ByteArrayOutputStream healthRecordPdf = generateHealthRecordPdf(petId);
-            String petName = "Buddy";  
-
             // Send the email with health record attachment
             emailService.sendHealthRecord(email, petName, healthRecordPdf);
-
-            // Show success message
-            model.addAttribute("successMessage", "Health records have been shared with " + email);
+            //confirmation message
+            model.addAttribute("successMessage", "Health records for " + petName + " have been shared with " + email);
         } catch (IOException | DocumentException | MessagingException e) {
             e.printStackTrace();
             model.addAttribute("errorMessage", "Failed to share health records.");
         }
-
+    
         return "redirect:/pets";  
     }
-   // PDF generation method
+    
+// PDF generation method :
     public ByteArrayOutputStream generateHealthRecordPdf(Long petId) throws DocumentException {
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    Document document = new Document();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Document document = new Document();
+        try {
+            PdfWriter.getInstance(document, byteArrayOutputStream);
+            document.open();
+            // Fetch pet data
+            Pet pet = petService.findPetBypetId(petId).orElseThrow(() -> new IllegalArgumentException("Invalid pet ID"));
+            List<VaccinationRecord> vaccinations = petMedicalHistoryService.getVaccinationRecordsBypetId(petId);
+            List<TreatmentPlan> treatmentPlans = petMedicalHistoryService.getTreatmentPlansBypetId(petId);
+            List<Prescription> prescriptions = petMedicalHistoryService.getPrescriptionsBypetId(petId);
+            // fonts
+            Font boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+            Font regularFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
+            //pet information
+            document.add(new Paragraph("Medical Records for " + pet.getName(), boldFont));
+            document.add(new Paragraph("\n"));
+            // Vaccination History
+            document.add(new Paragraph("Vaccination History", boldFont));
+            if (vaccinations.isEmpty()) {
+                document.add(new Paragraph("No vaccination records found.", regularFont));
+            } else {
+                PdfPTable vaccinationTable = new PdfPTable(5);
+                vaccinationTable.setWidthPercentage(100);
+                //table headers
+                vaccinationTable.addCell(new PdfPCell(new Paragraph("Vaccine Name", boldFont)));
+                vaccinationTable.addCell(new PdfPCell(new Paragraph("Date Administered", boldFont)));
+                vaccinationTable.addCell(new PdfPCell(new Paragraph("Next Due Date", boldFont)));
+                vaccinationTable.addCell(new PdfPCell(new Paragraph("Status", boldFont)));
+                vaccinationTable.addCell(new PdfPCell(new Paragraph("Notes", boldFont)));
+                // vaccination data
+                for (VaccinationRecord vaccine : vaccinations) {
+                    vaccinationTable.addCell(new PdfPCell(new Paragraph(vaccine.getVaccineName(), regularFont)));
+                    vaccinationTable.addCell(new PdfPCell(new Paragraph(vaccine.getDateAdministered().toString(), regularFont)));
+                    vaccinationTable.addCell(new PdfPCell(new Paragraph(vaccine.getNextDueDate() != null ? vaccine.getNextDueDate().toString() : "N/A", regularFont)));
+                    vaccinationTable.addCell(new PdfPCell(new Paragraph(vaccine.getStatus(), regularFont)));
+                    vaccinationTable.addCell(new PdfPCell(new Paragraph(vaccine.getNotes(), regularFont)));
+                }
 
-    try {
-        PdfWriter.getInstance(document, byteArrayOutputStream);
-        document.open();
-
-        // Fetch the pet data
-        Pet pet = petService.findPetBypetId(petId).orElseThrow(() -> new IllegalArgumentException("Invalid pet ID"));
-        List<VaccinationRecord> vaccinations = petMedicalHistoryService.getVaccinationRecordsBypetId(petId);
-        List<TreatmentPlan> treatmentPlans = petMedicalHistoryService.getTreatmentPlansBypetId(petId);
-        List<Prescription> prescriptions = petMedicalHistoryService.getPrescriptionsBypetId(petId);
-
-        // Write data to the PDF
-        document.add(new Paragraph("Medical Records for " + pet.getName()));
-        document.add(new Paragraph("\n"));
-
-        // Vaccination History
-        document.add(new Paragraph("Vaccination History:"));
-        if (vaccinations.isEmpty()) {
-            document.add(new Paragraph("No vaccinations found."));
-        } else {
-            for (VaccinationRecord vaccine : vaccinations) {
-                document.add(new Paragraph("Vaccine: " + vaccine.getVaccineName() + ", Date: " + vaccine.getDateAdministered()));
+                document.add(vaccinationTable);
             }
-        }
-        document.add(new Paragraph("\n"));
-
-        // Treatment Plans
-        document.add(new Paragraph("Treatment Plans:"));
-        if (treatmentPlans.isEmpty()) {
-            document.add(new Paragraph("No treatment plans found."));
-        } else {
-            for (TreatmentPlan treatment : treatmentPlans) {
-                document.add(new Paragraph("Diagnosis: " + treatment.getDiagnosis() + ", Date Administered: " + treatment.getDateAdministered()));
+            document.add(new Paragraph("\n"));  
+            // Treatment Plans
+            document.add(new Paragraph("Treatment Plans", boldFont));
+            if (treatmentPlans.isEmpty()) {
+                document.add(new Paragraph("No treatment plans found.", regularFont));
+            } else {
+                PdfPTable treatmentTable = new PdfPTable(5);
+                treatmentTable.setWidthPercentage(100);
+                //table headers
+                treatmentTable.addCell(new PdfPCell(new Paragraph("Diagnosis", boldFont)));
+                treatmentTable.addCell(new PdfPCell(new Paragraph("Description", boldFont)));
+                treatmentTable.addCell(new PdfPCell(new Paragraph("Date Administered", boldFont)));
+                treatmentTable.addCell(new PdfPCell(new Paragraph("End Date", boldFont)));
+                treatmentTable.addCell(new PdfPCell(new Paragraph("Notes", boldFont)));
+                // treatment plan data
+                for (TreatmentPlan treatment : treatmentPlans) {
+                    treatmentTable.addCell(new PdfPCell(new Paragraph(treatment.getDiagnosis(), regularFont)));
+                    treatmentTable.addCell(new PdfPCell(new Paragraph(treatment.getDescription(), regularFont)));
+                    treatmentTable.addCell(new PdfPCell(new Paragraph(treatment.getDateAdministered().toString(), regularFont)));
+                    treatmentTable.addCell(new PdfPCell(new Paragraph(treatment.getEndDate() != null ? treatment.getEndDate().toString() : "N/A", regularFont)));
+                    treatmentTable.addCell(new PdfPCell(new Paragraph(treatment.getNotes(), regularFont)));
+                }
+                document.add(treatmentTable);
             }
-        }
-        document.add(new Paragraph("\n"));
+            document.add(new Paragraph("\n"));  
+            // prescription History
+            document.add(new Paragraph("Prescription History", boldFont));
+            if (prescriptions.isEmpty()) {
+                document.add(new Paragraph("No prescriptions found.", regularFont));
+            } else {
+                PdfPTable prescriptionTable = new PdfPTable(6);
+                prescriptionTable.setWidthPercentage(100);
+                //table headers
+                prescriptionTable.addCell(new PdfPCell(new Paragraph("Medicine Name", boldFont)));
+                prescriptionTable.addCell(new PdfPCell(new Paragraph("Dosage Quantity", boldFont)));
+                prescriptionTable.addCell(new PdfPCell(new Paragraph("Instructions", boldFont)));
+                prescriptionTable.addCell(new PdfPCell(new Paragraph("Date Administered", boldFont)));
+                prescriptionTable.addCell(new PdfPCell(new Paragraph("Expiry Date", boldFont)));
+                prescriptionTable.addCell(new PdfPCell(new Paragraph("Repeats Left", boldFont)));
+                //prescription data
+                for (Prescription prescription : prescriptions) {
+                    prescriptionTable.addCell(new PdfPCell(new Paragraph(prescription.getMedicine().getName(), regularFont)));
+                    prescriptionTable.addCell(new PdfPCell(new Paragraph(prescription.getDosageQuantity(), regularFont)));
+                    prescriptionTable.addCell(new PdfPCell(new Paragraph(prescription.getInstructions(), regularFont)));
+                    prescriptionTable.addCell(new PdfPCell(new Paragraph(prescription.getDateAdministered().toString(), regularFont)));
+                    prescriptionTable.addCell(new PdfPCell(new Paragraph(prescription.getExpiryDate() != null ? prescription.getExpiryDate().toString() : "N/A", regularFont)));
+                    prescriptionTable.addCell(new PdfPCell(new Paragraph(String.valueOf(prescription.getRepeatsLeft()), regularFont)));
+                }
 
-        // Prescription History
-        document.add(new Paragraph("Prescription History:"));
-        if (prescriptions.isEmpty()) {
-            document.add(new Paragraph("No prescriptions found."));
-        } else {
-            for (Prescription prescription : prescriptions) {
-                document.add(new Paragraph("Medicine: " + prescription.getMedicine().getName() + ", Dosage: " + prescription.getDosageQuantity()));
+                document.add(prescriptionTable);
             }
+
+        } finally {
+            document.close();
         }
 
-    } finally {
-        document.close();
+        return byteArrayOutputStream;
     }
-
-    return byteArrayOutputStream;
-}
 
 }
