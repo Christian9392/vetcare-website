@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                             .loginPage("/login")
                             .usernameParameter("email")
                             .successHandler(new AuthenticationSuccessHandler())
+                            .defaultSuccessUrl("/", true)
                             .permitAll();
                 })
                 .logout(logout ->
