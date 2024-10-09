@@ -85,7 +85,6 @@
     <!-- No Appointments message -->
     <div th:if="${#lists.isEmpty(appointments)}" class="alert alert-info">
         <p>No appointments found.</p>
-        <a href="/appointments/new" class="btn btn-primary">Book a New Appointment</a>
     </div>
 
     <!-- If appointments exist, display them in a table -->
