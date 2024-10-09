@@ -2,6 +2,8 @@ package au.edu.rmit.sept.webapp.controllers;
 
 import au.edu.rmit.sept.webapp.models.CustomUser;
 import au.edu.rmit.sept.webapp.repositories.CustomUserRepository;
+import au.edu.rmit.sept.webapp.enums.UserType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ public class RegistrationController {
             return "authentication/register";
         }
 
+        // Setup user model and save to repository
+        user.setUserType(UserType.PetOwner);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         customUserRepository.save(user);
 
