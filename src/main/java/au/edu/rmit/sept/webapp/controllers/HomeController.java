@@ -38,4 +38,19 @@ public class HomeController {
   public String viewAbout() {
       return "home/about";
   }
+
+  @GetMapping("/privacy-policy")
+  public String viewPrivacyPolicy() {
+      return "home/privacypolicy";
+  }
+
+  @GetMapping("/terms-of-service")
+  public String viewTermsOfService() {
+      return "home/tos";
+  }
+
+  @GetMapping("/contact")
+  public String viewContact() {
+      return "home/contactus";
+  }
 }
