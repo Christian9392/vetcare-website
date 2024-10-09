@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="aus" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="aus" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                                                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="utf-8" />
@@ -24,7 +25,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Logo -->
-        <a class="navbar-brand px-3" href="/">Logo</a>
+        <a class="navbar-brand px-3" href="/"><b>VetCare</b></a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
           <!-- Navbar options -->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -36,23 +37,43 @@
             </li>
             <li class="nav-item px-3">
               <div class="dropdown">
-                <a class="dropdown-toggle nav-link active pb-0" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                  aria-expanded="false">Account Settings</a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <li><a class="dropdown-item" href="/pets/new">Register a pet</a></li>
-                  <li><a class="dropdown-item" href="/account/settings">Personal details</a></li>
-                  <li><a class="dropdown-item" href="/appointments">Appointment history</a></li>
-                  <li><a class="dropdown-item" href="/pets">Registered pets</a></li>
-                  <li><a class="dropdown-item" href="/account/savededuresources">Saved resources</a></li>
+                <a class="dropdown-toggle nav-link active pb-0" href="#" id="navbarDropdown" data-bs-toggle="dropdown"
+                  aria-expanded="false" role="button">Appointments</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/appointments/new">Book an Appointment</a></li>
+                  <li><a class="dropdown-item" href="/appointments">Appointment History</a></li>
                 </ul>
               </div>
             </li>
           </ul>
           <ul class="navbar-nav px-3 mt-0 pt-0">
-            <li class="nav-item">
-              <a class="nav-link active" href="/login" tabindex="-1" aria-disabled="true">Login</a>
+            <!-- If no user is logged in, display a "Login" link -->
+            <li class="nav-item" sec:authorize="isAnonymous()">
+              <a class="nav-link active" href="/login">Login</a>
             </li>
-          </ul>
+          
+            <!-- If the user is logged in, display their username and account settings -->
+            <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                 data-bs-toggle="dropdown" aria-expanded="false">
+
+                <span th:text="${#authentication.name}">User</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/account/settings">Account Settings</a></li>
+                <li><a class="dropdown-item" href="/pets">My Pets</a></li>
+                <li><a class="dropdown-item" href="/account/savededuresources">My Resources</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <!-- Logout -->
+                  <form th:action="@{/logout}" method="post" style="margin: 0;">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="dropdown-item">Logout</button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+          </ul>               
         </div>
       </div>
     </nav>
