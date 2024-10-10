@@ -100,7 +100,10 @@
                     </tr>
                     <!-- Prescription records -->
                     <tr th:each="prescription : ${prescriptions}">
-                        <td th:text="${prescription.medicine.name}">[Medicine Name]</td>
+                        <td>
+                            <a th:href="@{/pets/{petId}/medicine/{medicineId}/dosages(petId=${pet.petId}, medicineId=${prescription.medicine.medicineID})}"
+                               th:text="${prescription.medicine.name}">[Medicine Name]</a>
+                        </td>
                         <td th:text="${prescription.dosageQuantity}">[Dosage Quantity]</td>
                         <td th:text="${prescription.instructions}">[Instructions]</td>
                         <td th:text="${prescription.dateAdministered}">[Date Administered]</td>
