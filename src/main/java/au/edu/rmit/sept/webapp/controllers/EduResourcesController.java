@@ -21,12 +21,18 @@ public class EduResourcesController {
 
     @GetMapping("/eduresources")
     public String viewResources(Model model) {
+        //search result
         String searchResult = "";
         model.addAttribute("searchResult", searchResult);
 
-        List<EduResources> videos = service.findAllVideos();
-        
+        //find all videos, articles and guides
+        List<EduResources> videos = service.findAllResourcesByType("Video");
+        List<EduResources> articles = service.findAllResourcesByType("Article");
+        List<EduResources> guides = service.findAllResourcesByType("Guide");
         model.addAttribute("videos", videos);
+        model.addAttribute("articles", articles);
+        model.addAttribute("guides", guides);
+
         return "eduresources/index";
     }
 

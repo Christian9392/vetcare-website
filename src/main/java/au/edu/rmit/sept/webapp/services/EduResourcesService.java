@@ -4,5 +4,5 @@ import au.edu.rmit.sept.webapp.models.EduResources;
 import java.util.List;
 
 public interface EduResourcesService {
-    public List<EduResources> findAllVideos();
+    public List<EduResources> findAllResourcesByType(String resourceType);
 }

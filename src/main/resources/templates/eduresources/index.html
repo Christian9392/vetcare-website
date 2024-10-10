@@ -17,23 +17,46 @@
         <!--Search bar-->
         <!--TODO: Search bar functionality for trends and resources-->
         <section class="my-5">
-        <div>
-            <label for="searchResult">Search for an article, guide or video </label>
-            <input type="text" id="searchResult" th:field="*{searchResult}" required placeholder="What are you looking for?">
-        </div>
+            <div class="container">
+                <label for="searchResult">Search for an article, guide or video </label>
+                <input type="text" id="searchResult" th:field="*{searchResult}" required placeholder="What are you looking for?">
+            </div>
         </section>
 
         <!--Guides, Articles, Videos-->
         <section>
-            <h2>Guides</h2>
-            <h2>Articles</h2>
-            <h2>Videos</h2>
-
-            <div th:each="video : ${videos}"> 
-
-                <div> 
-                    <p th:text="${video.title}"></p>
+            <div class="container">
+                <h2>Videos</h2>
+                <div th:each="video : ${videos}"> 
+                    <h6 th:text="${video.title}"></h6>
                     <iframe th:src="${video.content}" width="560" height="315" allowfullscreen></iframe>
+                </div>
+            </div>
+
+
+            
+            <div class="container" > 
+                <h2>Articles</h2>
+                <div th:each="article : ${articles}">
+                    <h6 th:text="${article.title}"></h6>
+                    <a th:href="${article.content}" target="_blank">
+                        <div>
+                            <p th:text="${article.description}"></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="container" th:each="guide : ${guides}"> 
+                <h2>Guides</h2>
+
+                <h6 th:text="${guide.title}"></h6>
+                <div>
+                    <a th:href="${guide.content}" target="_blank">
+                        <div>
+                            <p th:text="${guide.description}"></p>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -42,8 +65,10 @@
 
         <!--Trends-->
         <section>
-            <h2>Latest Trends and Resources</h2>
-            <!-- Handling of displaying latest trends and edu-resources goes here -->
+            <div>
+                <h2>Latest Trends and Resources</h2>
+                <!-- Handling of displaying latest trends and edu-resources goes here -->
+            </div>
         </section>
 
         <!--Saved Resources-->

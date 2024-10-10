@@ -12,5 +12,5 @@ import au.edu.rmit.sept.webapp.models.EduResources;
 public interface EduResourcesRepository extends JpaRepository<EduResources, Long> {
 
     @Query("SELECT e FROM EduResources e WHERE e.resourceType = :resourceType")
-    List<EduResources> findAllVideos(@Param("resourceType") String resourceType);
+    List<EduResources> findAllResourcesByType(@Param("resourceType") String resourceType);
 }

@@ -21,9 +21,8 @@ public class EduResourcesServiceImpl implements EduResourcesService{
     }
 
     @Override
-    public List<EduResources> findAllVideos() {
-        List<EduResources> videos = repo.findAllVideos("Video");
-        return (videos);
+    public List<EduResources> findAllResourcesByType(String resourceType) {
+        return repo.findAllResourcesByType(resourceType);
     }
 
 
