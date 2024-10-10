@@ -1,11 +1,14 @@
 package au.edu.rmit.sept.webapp.services;
 
+import au.edu.rmit.sept.webapp.models.CustomUser;
 import au.edu.rmit.sept.webapp.models.User;
 import au.edu.rmit.sept.webapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +18,9 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+   
+     // Method to get all users
+    
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
@@ -95,5 +101,21 @@ public class UserService {
         }
         return false;
     }
+   
+   public List<CustomUser> getAllUsers() {
+    List<User> users = userRepository.findAll();  // assuming User is mapped correctly
+    List<CustomUser> customUsers = new ArrayList<>();
+
+    for (User user : users) {
+        CustomUser customUser = new CustomUser();
+        customUser.setId(user.userID());
+        customUser.setName(user.name());
+        customUser.setEmail(user.email());
+        // Add other fields as needed
+        customUsers.add(customUser);
+    }
+    return customUsers;
+}
+    
 }
 

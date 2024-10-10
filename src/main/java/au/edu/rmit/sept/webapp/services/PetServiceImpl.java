@@ -77,8 +77,16 @@ public class PetServiceImpl implements PetService {
         return petDTOs;
     }
 
+
+ 
     @Override
     public void savePet(Pet pet) {
         repository.save(pet);
     }  
+
+    @Override  
+    public void updatePet(Long petId, PetDTO petDTO) {
+    }
+
+    
 }

@@ -3,15 +3,42 @@
       layout:decorate="~{layout.html}">
 
 <head>
-    <title>Admin Home Page</title>
+    <title>Vet Home Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 
 <body>
 <div class="container mt-5" layout:fragment="content">
     <h2>Welcome to Vet Page</h2>
-    <form th:action="@{/logout}" method="post">
-        <button type="submit" class="btn btn-danger">Logout</button>
-    </form>
+
+    <!-- View all registered pet owners -->
+    <div class="mt-4">
+        <a th:href="@{/vet/owners}" class="btn btn-primary mb-2">View All Owners</a>
+    </div>
+
+    <!-- View vet's schedule -->
+    <div class="mt-4">
+        <a th:href="@{/vet/schedule}" class="btn btn-info mb-2">View Vet Schedule</a>
+    </div>
+
+    <!-- View all registered pets (optional) -->
+    <div class="mt-4">
+        <a th:href="@{/vet/pets}" class="btn btn-secondary mb-2">View Registered Pets</a>
+    </div>
+
+    <!-- View any additional options for the vet -->
+    <div class="mt-4">
+        <!-- Add other options as necessary, this could be for appointments, messages, etc. -->
+        <a th:href="@{/vet/appointments}" class="btn btn-warning mb-2">Manage Appointments</a>
+    </div>
+
+    <!-- Logout button -->
+    <div class="mt-4">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
+
 </div>
 </body>
 

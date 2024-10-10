@@ -13,4 +13,6 @@ public interface PetService {
     public Pet getPetById(Long petId);
     public List<PetDTO> findPetsByUserId(Long userId);
     public void savePet(Pet pet);
+    public void updatePet(Long petId, PetDTO petDTO);
+    
 }

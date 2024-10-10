@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Pet Information</title>
+</head>
+<body>
+    <h1>Edit Pet: <span th:text="${pet.name}"></span></h1>
+
+    <div th:if="${message != null}">
+        <p th:text="${message}"></p>
+    </div>
+
+    <form th:action="@{/vet/pet/{petId}/save(petId=${pet.petId})}" th:object="${pet}" method="post">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" th:field="*{name}" />
+        </div>
+
+        <div>
+            <label for="species">Species:</label>
+            <input type="text" id="species" th:field="*{species}" />
+        </div>
+
+        <div>
+            <label for="breed">Breed:</label>
+            <input type="text" id="breed" th:field="*{breed}" />
+        </div>
+
+        <div>
+            <label for="age">Age:</label>
+            <input type="number" id="age" th:field="*{age}" />
+        </div>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <div>
+        <a th:href="@{/vet/pet/{petId}(petId=${pet.petId})}">Cancel</a>
+    </div>
+</body>
+</html>
