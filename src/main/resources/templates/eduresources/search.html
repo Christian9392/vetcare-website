@@ -1,1 +1,55 @@
-<!-- Search page for educational resources goes here -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+
+<head>
+    <title>Saved Educational Resources</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+
+    <div layout:fragment="content">
+
+        <h1>Search Results</h1>
+
+        <section>
+
+            <!--Search bar-->
+            <div class="container">
+                <div class="search-container">
+                    <form th:action="@{/eduresources/search}">
+                      <input type="text" placeholder="Search.." name="searchResult">
+                      <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- No search result -->
+            <p th:if="${#lists.isEmpty(resources)}">No Results found for "<span th:text="${searchResult}"></span>"</p>
+
+            <!-- Display resources found -->
+            <div th:unless="${#lists.isEmpty(resources)}">
+                <p>All results for "<span th:text="${searchResult}"></span>"</p>
+                <div th:each="resource : ${resources}">
+                    <div>
+                        <a th:href="${resource.content}" target="_blank">
+                            <span th:text="${resource.title}"></span>
+                        </a>
+                        <p th:text="${resource.description}"></p>
+                        <p th:text="${resource.author}"></p>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- Back to Resources Link -->
+        <p><a href="/eduresources" class="btn btn-secondary">Back to Resources</a></p>
+
+    </div>
+
+</body>
+
+</html>

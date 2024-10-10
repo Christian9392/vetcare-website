@@ -66,14 +66,24 @@ public class EduResourcesController {
         return "redirect:/eduresources";
     }
 
-    // @GetMapping("/eduresources")
-    // public String viewResourceInformation() {
-    //     return "eduresources/info";
-    // }
+    @GetMapping("/search")
+    public String displaySearchResult(@RequestParam("searchResult") String searchResult, Model model) {
 
-    // @GetMapping("/eduresources")
+        List<EduResources> results = eduService.findResourceBySearch(searchResult);
+        model.addAttribute("searchResult", searchResult);
+        model.addAttribute("resources", results);
+
+        return "eduresources/search";
+    }
+
+     // @GetMapping("/eduresources")
     // public String viewSavedResources()
     // {
     //     return "eduresources/savededuresources";
+    // }
+
+    // @GetMapping("/eduresources")
+    // public String viewResourceInformation() {
+    //     return "eduresources/info";
     // }
 }

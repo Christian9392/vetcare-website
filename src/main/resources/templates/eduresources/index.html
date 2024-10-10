@@ -10,23 +10,16 @@
 
 <body>
 
-    
-
     <div layout:fragment="content">
-
         <h2>Educational Resources</h1>
         
-
         <!--Search bar-->
         <section class="my-5">
             <div class="container">
-                
-                <!-- <label for="searchResult">Search for an article, guide or video </label>
-                <input type="text" id="searchResult" th:field="*{searchResult}" required placeholder="What are you looking for?"> -->
 
                 <div class="search-container">
                     <form th:action="@{/eduresources/search}">
-                      <input type="text" placeholder="Search.." th:field="searchResult">
+                      <input type="text" placeholder="Search.." name="searchResult">
                       <button type="submit"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
@@ -94,7 +87,6 @@
 
         </section>
 
-
         <!--Trends-->
         <section>
             <div>
@@ -110,7 +102,6 @@
         </section>
 
     </div>
-
 </body>
 
 </html>

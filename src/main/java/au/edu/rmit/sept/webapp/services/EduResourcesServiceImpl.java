@@ -29,5 +29,10 @@ public class EduResourcesServiceImpl implements EduResourcesService{
     public EduResources findResourceById(Long id) {
         return repo.findById(id)
         .orElseThrow(() -> new NoSuchElementException("Resource not found with id " + id));
-    }   
+    }
+    
+    @Override
+    public List<EduResources> findResourceBySearch(String keyword) {
+        return repo.findResourceBySearch(keyword);
+    }
 }
