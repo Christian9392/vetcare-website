@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import java.util.List;
 import au.edu.rmit.sept.webapp.models.SavedResources;
+import java.util.ArrayList;
 
 
 @Controller
 @RequestMapping("/account")
 public class AccountController {
 
-    @Autowired
     private final UserService userService;
     private final SavedResourcesService savedService;
 
@@ -84,8 +84,15 @@ public class AccountController {
 
     @GetMapping("/savededuresources")
     public String viewSavedResources(Model model) {
-        List<SavedResources> resources = savedService.findAllSavedResources();
-        model.addAttribute("resources", resources);
+        //convert saved resources to eduresources
+        List<SavedResources> savedResources = savedService.findAllSavedResources();
+        List<EduResources> eduResources = new ArrayList<>();
+        for (int i=0; i<savedResources.size(); i++) {
+            // eduService.findResourceById(savedResources.get(i).getResources().getResourceID);
+            eduResources.add(savedResources.get(i).getResources());
+        }
+
+        model.addAttribute("resources", eduResources);
         return "account/savededuresources";
     }
 }

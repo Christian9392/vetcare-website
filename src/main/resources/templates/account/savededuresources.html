@@ -16,18 +16,20 @@
         <section>
             <h2>Saved Resources List</h2>
 
-            <!-- If no saved resource, logic goes here  -->
-            <p>You have not saved any educational resources yet.</p>
+            <!-- If no saved resource, logic goes here -->
+            <p th:if="${#lists.isEmpty(resources)}">You have not saved any educational resources yet.</p>
 
             <!-- Get saved resource logic goes here -->
-            <ul>
-                <li><a href="/eduresources/info">Resource Title 1</a></li>
-                <li><a href="/eduresources/info">Resource Title 2</a></li>
-                <li><a href="/eduresources/info">Resource Title 3</a></li>
+            <div th:unless="${#lists.isEmpty(resources)}">
+                <div th:each="resource : ${resources}">
+                    <ul>
+                        <li><a th:href="${resource.content}" th:text="${resource.title}" target="_blank">Resource Title </a></li>
+                </div>
+            </div>
         </section>
 
         <!-- Back to Resources Link -->
-        <p><a href="/resources" class="btn btn-secondary">Back to Resources</a></p>
+        <p><a href="/eduresources" class="btn btn-secondary">Back to Resources</a></p>
 
     </div>
 
