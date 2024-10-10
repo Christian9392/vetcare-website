@@ -2,9 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
 
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
     <title>Educational Resources and Latest Trends in Pet Care</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -17,11 +18,19 @@
         
 
         <!--Search bar-->
-        <!--TODO: Search bar functionality for trends and resources-->
         <section class="my-5">
             <div class="container">
-                <label for="searchResult">Search for an article, guide or video </label>
-                <input type="text" id="searchResult" th:field="*{searchResult}" required placeholder="What are you looking for?">
+                
+                <!-- <label for="searchResult">Search for an article, guide or video </label>
+                <input type="text" id="searchResult" th:field="*{searchResult}" required placeholder="What are you looking for?"> -->
+
+                <div class="search-container">
+                    <form th:action="@{/eduresources/search}">
+                      <input type="text" placeholder="Search.." th:field="searchResult">
+                      <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+
             </div>
         </section>
 
@@ -94,10 +103,10 @@
             </div>
         </section>
 
-        <!--Saved Resources-->
+        <!--Saved Resources Link-->
         <section>
             <h2>Your Saved Resources</h2>
-            <!-- Handling of displaying saved edu-resources goes here -->
+            <p><a href="/account/savededuresources" class="btn btn-secondary">Your saved resources</a></p>
         </section>
 
     </div>
