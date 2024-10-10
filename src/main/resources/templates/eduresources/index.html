@@ -27,19 +27,24 @@
 
         <!--Guides, Articles, Videos-->
         <section>
+
+            <!--Videos-->
             <div class="container">
                 <h2>Videos</h2>
                 <div th:each="video : ${videos}"> 
                     <h6 th:text="${video.title}"></h6>
                     <iframe th:src="${video.content}" width="560" height="315" allowfullscreen></iframe>
-                    <button type="button">
-                        <span class="bi bi-bookmark"> Save</spam>
-                    </button>
+
+                    <form th:unless="${#lists.isEmpty(video)}" th:action="@{/eduresources/save_resource}" method="post">
+                        <input type="hidden" name="resourceID" th:value="${video.resourceID}"> 
+                        <button type="submit">   
+                            <span class="bi bi-bookmark"> Save</spam>
+                        </button>
+                    </form>
                 </div>
             </div>
 
-
-            
+            <!--Articles-->
             <div class="container" > 
                 <h2>Articles</h2>
                 <div th:each="article : ${articles}">
@@ -49,15 +54,18 @@
                             <p th:text="${article.description}"></p>
                         </div>
                     </a>
-                    <button type="button">
-                        <span class="bi bi-bookmark"> Save</spam>
-                    </button>
+                    <form th:unless="${#lists.isEmpty(article)}" th:action="@{/eduresources/save_resource}" method="post">
+                        <input type="hidden" name="resourceID" th:value="${article.resourceID}"> 
+                        <button type="submit">   
+                            <span class="bi bi-bookmark"> Save</spam>
+                        </button>
+                    </form>
                 </div>
             </div>
 
+            <!--Guides-->
             <div class="container" th:each="guide : ${guides}"> 
                 <h2>Guides</h2>
-
                 <h6 th:text="${guide.title}"></h6>
                 <div>
                     <a th:href="${guide.content}" target="_blank">
@@ -66,9 +74,13 @@
                         </div>
                     </a>
                 </div>
-                <button type="button">
-                    <span class="bi bi-bookmark"> Save</spam>
-                </button>
+
+                <form th:unless="${#lists.isEmpty(guide)}" th:action="@{/eduresources/save_resource}" method="post">
+                    <input type="hidden" name="resourceID" th:value="${guide.resourceID}"> 
+                    <button type="submit">   
+                        <span class="bi bi-bookmark"> Save</spam>
+                    </button>
+                </form>
             </div>
 
         </section>
