@@ -1,6 +1,10 @@
 package au.edu.rmit.sept.webapp.controllers;
 
+import au.edu.rmit.sept.webapp.models.EduResources;
 import au.edu.rmit.sept.webapp.models.User;
+import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
+import au.edu.rmit.sept.webapp.services.EduResourcesService;
+import au.edu.rmit.sept.webapp.services.SavedResourcesService;
 import au.edu.rmit.sept.webapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+import java.util.List;
+import au.edu.rmit.sept.webapp.models.SavedResources;
 
 
 @Controller
@@ -15,7 +21,15 @@ import org.springframework.security.core.Authentication;
 public class AccountController {
 
     @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final SavedResourcesService savedService;
+
+    @Autowired
+    public AccountController(UserService userService, SavedResourcesService savedService) {
+        this.userService = userService;
+        this.savedService = savedService;
+    }
+
     // This method retrieves the ID of the currently authenticated user
     private Long getAuthenticatedUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -66,6 +80,13 @@ public class AccountController {
             model.addAttribute("errorMessage", "Invalid password. Account deletion failed.");
             return "account/settings";
         }
+    }
+
+    @GetMapping("/savededuresources")
+    public String viewSavedResources(Model model) {
+        List<SavedResources> resources = savedService.findAllSavedResources();
+        model.addAttribute("resources", resources);
+        return "account/savededuresources";
     }
 }
 

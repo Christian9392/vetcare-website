@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@RequestMapping("/eduresources") 
 public class EduResourcesController {
 
     private final EduResourcesService eduService;
@@ -31,8 +32,8 @@ public class EduResourcesController {
         this.savedService = savedService;
     }
 
-    @GetMapping("/eduresources")
-    public String viewResources(Model model) {
+    @GetMapping
+    public String viewAllResources(Model model) {
         //search result
         String searchResult = "";
         model.addAttribute("searchResult", searchResult);
@@ -48,7 +49,7 @@ public class EduResourcesController {
         return "eduresources/index";
     }
 
-    @PostMapping("eduresources/save_resource")
+    @PostMapping("/save_resource")
     public String saveResource(@RequestParam("resourceID") Long resourceID, RedirectAttributes redirectAttributes) {
 
         //get resource, date and time, user

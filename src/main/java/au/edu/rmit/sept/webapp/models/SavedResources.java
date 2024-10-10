@@ -10,13 +10,13 @@ import java.util.Objects;
 public class SavedResources {
 
     @Embeddable
-    public static class SavedResourcesId implements Serializable {
+    public static class SavedResourcesID implements Serializable {
         private Long user;
         private Long resource;
 
-        public SavedResourcesId() {}
+        public SavedResourcesID() {}
 
-        public SavedResourcesId(Long user, Long resource) {
+        public SavedResourcesID(Long user, Long resource) {
             this.user = user;
             this.resource = resource;
         }
@@ -41,8 +41,8 @@ public class SavedResources {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof SavedResourcesId)) return false;
-            SavedResourcesId that = (SavedResourcesId) o;
+            if (!(o instanceof SavedResourcesID)) return false;
+            SavedResourcesID that = (SavedResourcesID) o;
             return Objects.equals(user, that.user) && Objects.equals(resource, that.resource);
         }
 
@@ -53,7 +53,7 @@ public class SavedResources {
     }
 
     @EmbeddedId
-    private SavedResourcesId id;
+    private SavedResourcesID id;
 
     @ManyToOne
     @MapsId("user")
@@ -69,11 +69,11 @@ public class SavedResources {
     private LocalDateTime savedAt;
 
     // Getters and Setters
-    public SavedResourcesId getId() {
+    public SavedResourcesID getID() {
         return id;
     }
 
-    public void setId(SavedResourcesId id) {
+    public void setID(SavedResourcesID id) {
         this.id = id;
     }
 
@@ -84,7 +84,7 @@ public class SavedResources {
     public void setUser(CustomUser user) {
         this.user = user;
         if (this.id == null) {
-            this.id = new SavedResourcesId();
+            this.id = new SavedResourcesID();
         }
         this.id.setUser(user.getUserId()); 
     }
@@ -96,7 +96,7 @@ public class SavedResources {
     public void setResources(EduResources resources) {
         this.resources = resources;
         if (this.id == null) {
-            this.id = new SavedResourcesId();
+            this.id = new SavedResourcesID();
         }
         this.id.setResource(resources.getResourceID());
     }
