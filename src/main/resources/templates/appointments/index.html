@@ -15,7 +15,6 @@
     <script>
         $(document).ready(function() {
             var table = $('#dataTable').DataTable({
-                // dom: 'Bfrtip',
                 buttons: [
                     'pdf',
                     'csv',
@@ -23,15 +22,6 @@
                 ]
             }); // Initialize DataTable
 
-            // Event listener for status filter
-            $('#statusFilter').on('change', function() {
-                var selectedStatus = $(this).val();
-                if (selectedStatus === 'All') {
-                    table.column(7).search('').draw(); // Clear filter
-                } else {
-                    table.column(7).search('^' + selectedStatus + '$', true, false).draw(); // Filter by selected status
-                }
-            });
             // Export buttons
             $('#exportCSV').on('click', function() {
                 table.button('.buttons-csv').trigger();
@@ -89,17 +79,7 @@
 
     <!-- If appointments exist, display them in a table -->
     <div th:if="${appointments != null and !#lists.isEmpty(appointments)}">
-        <div class="mb-3">
-            <!-- Filter by Status -->
-            <label for="statusFilter">Filter by Status:</label>
-            <select id="statusFilter" class="form-control">
-                <option value="All">All</option>
-                <option value="Scheduled">Scheduled</option>
-                <option value="Completed">Completed</option>
-                <option value="Cancelled">Cancelled</option>
-            </select>
-        </div>
-
+        
         <!-- Export Buttons -->
         <div class="mb-3">
             <button id="exportCSV" class="btn btn-secondary">Export to CSV</button>
@@ -127,12 +107,30 @@
                     <td th:text="${appointment.generalNotes}">Routine checkup</td>
                     <td th:text="${appointment.status}" th:classappend="${appointment.status == 'Scheduled' ? 'status-scheduled' : (appointment.status == 'Completed' ? 'status-completed' : 'status-cancelled')}">Scheduled</td>
                     <td>
-                        <a th:href="@{/appointments/view/{id}(id=${appointment.appointmentID})}" class="btn btn-info btn-sm">View</a>
-                        <a th:href="@{/appointments/edit/{id}(id=${appointment.appointmentID})}" class="btn btn-warning btn-sm">Edit</a>
-                        <form th:action="@{/appointments/cancel/{id}(id=${appointment.appointmentID})}" method="post" style="display:inline;">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this appointment?');">Cancel</button>
-                        </form>
+                        <!-- View Button -->
+                        <a th:href="@{/appointments/view/{id}(id=${appointment.appointmentID})}"
+                        class="btn btn-primary"
+                        th:classappend="${appointment.status == 'Cancelled'} ? 'disabled' : ''"
+                        th:attr="aria-disabled=${appointment.status == 'Cancelled'}"
+                        th:if="${appointment.status != 'Cancelled'}">View</a>
+
+                        <!-- Edit Button -->
+                        <a th:href="@{/appointments/edit/{id}(id=${appointment.appointmentID})}"
+                        class="btn btn-warning"
+                        th:classappend="${appointment.status == 'Cancelled'} ? 'disabled' : ''"
+                        th:attr="aria-disabled=${appointment.status == 'Cancelled'}"
+                        th:if="${appointment.status != 'Cancelled'}">Edit</a>
+
+                        <!-- Cancel Button -->
+                        <form th:action="@{/appointments/cancel/{id}(id=${appointment.appointmentID})}" method="post"
+                        style="display:inline;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="btn btn-danger"
+                                th:classappend="${appointment.status == 'Cancelled'} ? 'disabled' : ''"
+                                th:disabled="${appointment.status == 'Cancelled'}"
+                                onclick="return confirm('Are you sure you want to cancel this appointment?');"
+                                th:if="${appointment.status != 'Cancelled'}">Cancel</button>
+                    </form>
                     </td>
                 </tr>
             </tbody>
