@@ -6,15 +6,19 @@ import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
 import au.edu.rmit.sept.webapp.services.EduResourcesService;
 import au.edu.rmit.sept.webapp.services.SavedResourcesService;
 import au.edu.rmit.sept.webapp.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import java.util.List;
 import au.edu.rmit.sept.webapp.models.SavedResources;
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 @Controller
