@@ -1,6 +1,10 @@
 package au.edu.rmit.sept.webapp.controllers;
 
+import au.edu.rmit.sept.webapp.models.EduResources;
 import au.edu.rmit.sept.webapp.models.User;
+import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
+import au.edu.rmit.sept.webapp.services.EduResourcesService;
+import au.edu.rmit.sept.webapp.services.SavedResourcesService;
 import au.edu.rmit.sept.webapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,14 +12,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+import java.util.List;
+import au.edu.rmit.sept.webapp.models.SavedResources;
+import java.util.ArrayList;
 
 
 @Controller
 @RequestMapping("/account")
 public class AccountController {
 
+    private final UserService userService;
+    private final SavedResourcesService savedService;
+
     @Autowired
-    private UserService userService;
+    public AccountController(UserService userService, SavedResourcesService savedService) {
+        this.userService = userService;
+        this.savedService = savedService;
+    }
+
     // This method retrieves the ID of the currently authenticated user
     private Long getAuthenticatedUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -66,6 +80,20 @@ public class AccountController {
             model.addAttribute("errorMessage", "Invalid password. Account deletion failed.");
             return "account/settings";
         }
+    }
+
+    @GetMapping("/savededuresources")
+    public String viewSavedResources(Model model) {
+        //convert saved resources to eduresources
+        List<SavedResources> savedResources = savedService.findAllSavedResources();
+        List<EduResources> eduResources = new ArrayList<>();
+        for (int i=0; i<savedResources.size(); i++) {
+            // eduService.findResourceById(savedResources.get(i).getResources().getResourceID);
+            eduResources.add(savedResources.get(i).getResources());
+        }
+
+        model.addAttribute("resources", eduResources);
+        return "account/savededuresources";
     }
 }
 

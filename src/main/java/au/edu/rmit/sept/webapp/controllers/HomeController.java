@@ -24,10 +24,10 @@ public class HomeController {
     return "admin/index";
   }
 
-  @GetMapping("/eduresources")
-  public String viewResources() {
-      return "eduresources/index";
-  }
+  // @GetMapping("/eduresources")
+  // public String viewResources() {
+  //     return "eduresources/index";
+  // }
 
   // @GetMapping("/account/settings")
   // public String viewAccountSettings() {
