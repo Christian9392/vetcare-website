@@ -23,25 +23,25 @@
         <!-- Pet Name -->
         <div class="mb-3">
             <label for="petName" class="form-label"><b>Pet Name</b></label>
-            <input type="text" class="form-control" id="petName" name="name" placeholder="Enter pet's name" required>
+            <input type="text" class="form-control" id="petName" name="name" placeholder="Enter pet's name" required pattern="^\S+$">
         </div>
 
         <!-- Species -->
         <div class="mb-3">
             <label for="species" class="form-label"><b>Species</b></label>
-            <input type="text" class="form-control" id="species" name="species" placeholder="Enter pet's species" required>
+            <input type="text" class="form-control" id="species" name="species" placeholder="Enter pet's species" required pattern="^\S+$">
         </div>
 
         <!-- Breed -->
         <div class="mb-3">
             <label for="breed" class="form-label"><b>Breed</b></label>
-            <input type="text" class="form-control" id="breed" name="breed" placeholder="Enter pet's breed">
+            <input type="text" class="form-control" id="breed" name="breed" placeholder="Enter pet's breed" required pattern="^\S+$">
         </div>
 
         <!-- Age -->
         <div class="mb-3">
             <label for="age" class="form-label"><b>Age</b></label>
-            <input type="number" class="form-control" id="age" name="age" placeholder="Enter pet's age" min="0" required>
+            <input type="number" class="form-control" id="age" name="age" placeholder="Enter pet's age" min="0" max="200" required>
         </div>
 
         <!-- Submit and Cancel Buttons -->
