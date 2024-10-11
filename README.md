@@ -30,15 +30,22 @@ $ git clone https://github.com/cosc2299-2024/team-project-group-p03-02.git
 ```
 
 ## 2. Running the Webserver Container
-Make sure you have Docker installed and Docker Engine running. Run the Docker-compose file with the following commands:
+Make sure you have Docker installed and Docker Engine running. Run the shell script with the following command:
 
 ```bash
-$ docker-compose build --no-cache
-$ docker-compose up
+bash run.sh
 ```
 
 You can now access the webserver in your web browser at the address `http://localhost:8080`.
 The MySQL database is available at `localhost:3307`
+
+> [!NOTE]
+> The shell script cleans up existing database volumes, builds the docker containers, and runs them. You can do all of this seperately with these commands:
+> ```docker container rm team-project-group-p03-02-database-1
+> docker volume rm team-project-group-p03-02_db
+> docker-compose build --nocache
+> docker-compose up```
+
 ## 3. Navigating the Website
 - Currently, the main and recommended way to navigate through pages is through the navigation bar at the top of the screen.
 - A majority of webpages are not accessible unless you are logged in.

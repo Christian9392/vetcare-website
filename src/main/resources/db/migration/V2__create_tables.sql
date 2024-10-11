@@ -148,3 +148,5 @@ CREATE TABLE `medical_history` (
   PRIMARY KEY (`medical_history_id`),
   FOREIGN KEY (`pet_id`) REFERENCES `pet`(`pet_id`)
 );
+
+
