@@ -6,15 +6,19 @@ import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
 import au.edu.rmit.sept.webapp.services.EduResourcesService;
 import au.edu.rmit.sept.webapp.services.SavedResourcesService;
 import au.edu.rmit.sept.webapp.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import java.util.List;
 import au.edu.rmit.sept.webapp.models.SavedResources;
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 @Controller
@@ -34,7 +38,6 @@ public class AccountController {
     private Long getAuthenticatedUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();  
-        // System.out.println("Authenticated user username: " + username); //checking the logged user
         return userService.getUserIdByUsername(username);
     }
 
@@ -50,35 +53,78 @@ public class AccountController {
     @PostMapping("/update-contact-info")
     public String updateContactInfo(@ModelAttribute("user") User updatedUser, Model model) {
         Long userID = getAuthenticatedUserId();  
-        userService.updateContactInfo(userID, updatedUser);
-        model.addAttribute("successMessage", "Contact information updated successfully.");
-        return "redirect:/account/settings";
+    
+        // fetches the current user from the database
+        Optional<User> existingUserOpt = userService.getUserById(userID);
+    
+        if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
+    
+            // creates a new user object to merge existing data with the updated data
+            User updated = new User(
+                existingUser.userID(),
+                updatedUser.name() != null ? updatedUser.name() : existingUser.name(),  
+                existingUser.password(), 
+                updatedUser.email() != null ? updatedUser.email() : existingUser.email(),  
+                updatedUser.phoneNumber() != null ? updatedUser.phoneNumber() : existingUser.phoneNumber(),  
+                updatedUser.address() != null ? updatedUser.address() : existingUser.address()  
+            );
+            // saves the updated user back to the database
+            userService.updateContactInfo(userID, updated);
+            // refresh the model with updated user data
+            model.addAttribute("user", updated);
+            model.addAttribute("successMessage", "Contact information updated successfully."); 
+            // update the security context with the new username
+            UserDetails userDetails = userService.loadUserByUsername(updated.name());
+            Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(newAuth);
+        } else {
+            model.addAttribute("errorMessage", "User not found. Please try again.");
+        }
+    
+        return "account/settings";  
     }
-
-    // Handles POST requests to change the password of the authenticated user.
+        
     @PostMapping("/change-password")
     public String changePassword(@RequestParam("oldPassword") String oldPassword, 
                                  @RequestParam("newPassword") String newPassword, 
                                  Model model) {
-        Long userID = getAuthenticatedUserId();  
+        Long userID = getAuthenticatedUserId();
+        // verifies the old password and change the new password if correct
         if (userService.changePassword(userID, oldPassword, newPassword)) {
             model.addAttribute("successMessage", "Password changed successfully.");
-            return "redirect:/account/settings";
+            // reauthenticate user with the updated password
+            Optional<User> updatedUserOpt = userService.getUserById(userID);
+            if (updatedUserOpt.isPresent()) {
+                User updatedUser = updatedUserOpt.get();
+                // loads the updated UserDetails
+                UserDetails userDetails = userService.loadUserByUsername(updatedUser.name());
+                // updates the authentication with the new password
+                Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(newAuth);
+            }
         } else {
             model.addAttribute("errorMessage", "Invalid current password.");
-            return "account/settings";
         }
+        // refetches the user to display updated information and pass it to the model
+        userService.getUserById(userID).ifPresent(user -> model.addAttribute("user", user));
+        return "account/settings";  
     }
     
-    // Handles POST requests to delete the account of the authenticated user.    
     @PostMapping("/delete-account")
-    public String deleteAccount(@RequestParam("password") String password, Model model) {
-        Long userID = getAuthenticatedUserId();  
+    public String deleteAccount(@RequestParam("password") String password, HttpServletRequest request, Model model) {
+        Long userID = getAuthenticatedUserId();
         if (userService.deleteAccount(userID, password)) {
-            return "redirect:/logout";  
+            // logs the user out programmatically
+            SecurityContextHolder.clearContext();  
+            // invalidates the session to ensure the user is fully logged out
+            request.getSession().invalidate(); 
+            return "redirect:/"; 
         } else {
             model.addAttribute("errorMessage", "Invalid password. Account deletion failed.");
-            return "account/settings";
+            // refetches the user to display the updated account settings view with the error message
+            userService.getUserById(userID).ifPresent(user -> model.addAttribute("user", user));
+            return "account/settings";  
         }
     }
 
