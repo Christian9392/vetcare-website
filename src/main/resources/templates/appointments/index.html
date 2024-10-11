@@ -111,10 +111,9 @@
         <table class="table table-bordered table-hover" id="dataTable" data-page-length='50'>
             <thead class="thead-light">
                 <tr>
-                    <th>ID</th>
+                    <th>Pet Name</th>
                     <th>Date</th>
                     <th>Time</th>
-                    <th>Pet Name</th>
                     <th>Notes</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -122,10 +121,9 @@
             </thead>
             <tbody>
                 <tr th:each="appointment : ${appointments}">
-                    <td th:text="${appointment.appointmentID}">1</td>
+                    <td th:text="${appointment.pet.name}">Fluffy</td>
                     <td th:text="${appointment.appointmentDate}">2024-08-29</td>
                     <td th:text="${appointment.appointmentTime}">10:00</td>
-                    <td th:text="${appointment.pet.name}">Fluffy</td>
                     <td th:text="${appointment.generalNotes}">Routine checkup</td>
                     <td th:text="${appointment.status}" th:classappend="${appointment.status == 'Scheduled' ? 'status-scheduled' : (appointment.status == 'Completed' ? 'status-completed' : 'status-cancelled')}">Scheduled</td>
                     <td>
