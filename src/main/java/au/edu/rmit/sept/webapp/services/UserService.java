@@ -47,18 +47,6 @@ public class UserService {
         }
     }
 
-    // public boolean changePassword(Long userID, String oldPassword, String newPassword) {
-    //     Optional<User> userOpt = userRepository.findById(userID);
-    //     if (userOpt.isPresent()) {
-    //         User user = userOpt.get();
-    //         if (user.password().equals(oldPassword)) {  // Skip encoding for now
-    //             userRepository.updatePassword(userID, newPassword);  // New query for password update
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
     public boolean changePassword(Long userID, String oldPassword, String newPassword) {
         Optional<User> userOpt = userRepository.findById(userID);
         if (userOpt.isPresent()) {
@@ -72,18 +60,6 @@ public class UserService {
         return false;
     }
 
-
-    // public boolean deleteAccount(Long userID, String password) {
-    //     Optional<User> userOpt = userRepository.findById(userID);
-    //     if (userOpt.isPresent()) {
-    //         User user = userOpt.get();
-    //         if (user.password().equals(password)) {
-    //             userRepository.delete(userID);  // Delete user from repository
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
     public boolean deleteAccount(Long userID, String password) {
         Optional<User> userOpt = userRepository.findById(userID);
         if (userOpt.isPresent()) {
