@@ -4,28 +4,52 @@
 <head>
     <title>Saved Educational Resources</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        .card {
+            height: 300px;
+        }
+
+        .hr-divider {
+            border-top: 1px solid #ccc;
+            margin: 20px 20px 0; 
+        }
+
+    </style>
 </head>
 
 <body>
 
-
-    <div layout:fragment="content">
+    <div class="container mt-5" layout:fragment="content">
 
         <h1>Your Saved Resources</h1>
 
+        <div class="hr-divider"></div>
+
         <section>
-            <h2>Saved Resources List</h2>
 
             <!-- If no saved resource, logic goes here -->
             <p th:if="${#lists.isEmpty(resources)}">You have not saved any educational resources yet.</p>
 
             <!-- Get saved resource logic goes here -->
-            <div th:unless="${#lists.isEmpty(resources)}">
-                <div th:each="resource : ${resources}">
-                    <ul>
-                        <li><a th:href="${resource.content}" th:text="${resource.title}" target="_blank">Resource Title </a></li>
+            <div class="mt-4" th:unless="${#lists.isEmpty(resources)}">
+                <div class="row">
+                    <div class="col-12" th:each="resource : ${resources}">
+                        <div class="col-md-6 mb-3"> <!-- Each card takes half the width -->
+                            <div class="card h-100" style="height: 300px;"> <!-- Fixed height; adjust as needed -->
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">
+                                        <a th:href="${resource.content}" target="_blank" class="text-decoration-none" th:text="${resource.title}"></a>
+                                    </h5>
+                                    <p class="card-text flex-fill" th:text="${resource.description}"></p>
+                                    <p class="card-text text-muted" th:text="${resource.author}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </section>
 
         <!-- Back to Resources Link -->
