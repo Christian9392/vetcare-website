@@ -23,20 +23,27 @@
         <!-- Pet Name -->
         <div class="mb-3">
             <label for="petName" class="form-label"><b>Pet Name</b></label>
-            <input type="text" class="form-control" id="petName" name="name" placeholder="Enter pet's name" required pattern="^\S+$">
+            <input type="text" class="form-control" id="petName" name="name" placeholder="Enter pet's name"
+                required pattern="^\S+(?:\s+\S+)*$" 
+                title="Please enter a valid pet name without leading or trailing spaces.">
         </div>
 
         <!-- Species -->
         <div class="mb-3">
             <label for="species" class="form-label"><b>Species</b></label>
-            <input type="text" class="form-control" id="species" name="species" placeholder="Enter pet's species" required pattern="^\S+$">
+            <input type="text" class="form-control" id="species" name="species" placeholder="Enter pet's species"
+                required pattern="^\S+(?:\s+\S+)*$" 
+                title="Please enter a valid breed without leading or trailing spaces.">
         </div>
 
         <!-- Breed -->
         <div class="mb-3">
             <label for="breed" class="form-label"><b>Breed</b></label>
-            <input type="text" class="form-control" id="breed" name="breed" placeholder="Enter pet's breed" required pattern="^\S+$">
+            <input type="text" class="form-control" id="breed" name="breed" placeholder="Enter pet's breed"
+                required pattern="^\S+(?:\s+\S+)*$" 
+                title="Breed cannot be blank or whitespace only">
         </div>
+
 
         <!-- Age -->
         <div class="mb-3">
