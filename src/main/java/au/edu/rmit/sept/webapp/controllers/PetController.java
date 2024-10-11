@@ -81,10 +81,6 @@ public class PetController {
         return "pets/index";
     }
 
-    /**
-     * Handles the view for displaying a pet's medical history, vaccinations, treatment plans, and prescriptions.
-     * @param petId - the ID of the pet whose medical history to display
-     */
     @GetMapping("/{petId}/view")
     public String viewPetMedicalHistory(@PathVariable Long petId, Model model) {
         // Fetch the pet by ID - necessary for TH template
@@ -133,6 +129,17 @@ public class PetController {
 
     @PostMapping("/new")
     public String registerNewPet(@ModelAttribute("pet") Pet pet, BindingResult result, Model model) {
+        // Validation for blank fields
+        if (pet.getName().trim().isEmpty()) {
+            result.rejectValue("name", "error.pet", "Your pet's name cannot be blank.");
+        }
+        if (pet.getSpecies().trim().isEmpty()) {
+            result.rejectValue("species", "error.pet", "Your pet's species cannot be blank.");
+        }
+        if (pet.getBreed().trim().isEmpty()) {
+            result.rejectValue("breed", "error.pet", "Your pet's breed cannot be blank.");
+        }
+        
         if (result.hasErrors()) {
             return "pets/new";
         }
