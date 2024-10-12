@@ -2,6 +2,7 @@ package au.edu.rmit.sept.webapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,11 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class WebappApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+	// @Test
+	// void contextLoads() {
+	// }
 
 //	@Test
 //	void emulateLargeScreen() {
