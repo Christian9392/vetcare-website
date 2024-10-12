@@ -98,6 +98,10 @@ public class PetController {
         List<VaccinationRecord> vaccinations = petMedicalHistoryService.getVaccinationRecordsBypetId(petId);
         List<TreatmentPlan> treatmentPlans = petMedicalHistoryService.getTreatmentPlansBypetId(petId);
         List<Prescription> prescriptions = petMedicalHistoryService.getPrescriptionsBypetId(petId);
+        
+        model.addAttribute("vaccinations", vaccinations);
+        model.addAttribute("treatmentPlans", treatmentPlans);
+        model.addAttribute("prescriptions", prescriptions);
 
         // Check if all medical data is empty or not
         if (vaccinations.isEmpty()) {
