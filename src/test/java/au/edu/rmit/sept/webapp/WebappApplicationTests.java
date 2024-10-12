@@ -16,19 +16,19 @@ import java.util.Map;
 @ActiveProfiles("test")
 class WebappApplicationTests {
 
-	// @Test
-	// void contextLoads() {
-	// }
+	@Test
+	void contextLoads() {
+	}
 
-//	@Test
-//	void emulateLargeScreen() {
-//		WebDriver driver = new ChromeDriver();
-//
-//		// Change screen size to desktop 1080p
-//		driver.manage().window().setSize(new Dimension(1920, 1080));
-//
-//		driver.get("http://localhost:8080");
-//	}
+	// @Test
+	// void emulateLargeScreen() {
+	// 	WebDriver driver = new ChromeDriver();
+
+	// 	// Change screen size to desktop 1080p
+	// 	driver.manage().window().setSize(new Dimension(1920, 1080));
+
+	// 	driver.get("http://localhost:8080");
+	// }
 //
 //	@Test
 //	void emulateMobileScreen() {
