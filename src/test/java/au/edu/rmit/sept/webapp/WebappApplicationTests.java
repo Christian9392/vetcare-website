@@ -14,10 +14,10 @@ import java.util.Map;
 @SpringBootTest
 class WebappApplicationTests {
 
-//	@Test
-//	void contextLoads() {
-//	}
-//
+	@Test
+	void contextLoads() {
+	}
+
 //	@Test
 //	void emulateLargeScreen() {
 //		WebDriver driver = new ChromeDriver();
