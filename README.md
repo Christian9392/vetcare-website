@@ -55,7 +55,7 @@ use vetcare
 ```
 
 > [!TIP]
-> If you run into issues, refer to the 'Troubleshooting' section in the User Guide, located in the root of this repository.
+> If you run into issues, refer to Section 1.1 of the User Guide, located in the root of this repository.
 
 ## 3. Navigating the Website
 
