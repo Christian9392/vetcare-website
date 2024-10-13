@@ -3,6 +3,8 @@ package au.edu.rmit.sept.webapp.controllers;
 import au.edu.rmit.sept.webapp.models.User;
 import au.edu.rmit.sept.webapp.services.SavedResourcesService;
 import au.edu.rmit.sept.webapp.services.UserService;
+import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
+import au.edu.rmit.sept.webapp.services.EduResourcesService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -41,6 +43,12 @@ public class AccountControllerTest {
 
     @MockBean
     private SavedResourcesService savedService;
+
+    @MockBean
+    private CustomUserDetailsService customUserService;
+
+    @MockBean
+    private EduResourcesService eduResourcesService; 
 
     private User mockUser;
 
@@ -127,7 +135,7 @@ public class AccountControllerTest {
     @Test
     void testDeleteAccountFail() throws Exception {
         when(userService.getUserById(anyLong())).thenReturn(Optional.of(mockUser));
-        when(userService.deleteAccount(anyLong(), anyString())).thenReturn(false);    
+        when(userService.deleteAccount(anyLong(), anyString())).thenReturn(false);
         mockMvc.perform(post("/account/delete-account")
                         .param("password", "wrongPassword")
                         .with(csrf()))
