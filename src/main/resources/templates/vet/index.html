@@ -1,26 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vet Home Page</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+
 <body>
-<div class="container mt-5">
+<div layout:fragment="content">
     <h2>Welcome to Vet Page</h2>
 
     <!-- View all registered pet owners -->
     <a th:href="@{/vet/owners}" class="btn btn-primary mb-2">View All Owners</a>
-
-    <!-- View vet's schedule -->
-    <a th:href="@{/vet/schedule}" class="btn btn-info mb-2">View Vet Schedule</a>
-
-    <!-- View all registered pets (optional) -->
-    <a th:href="@{/vet/pets}" class="btn btn-secondary mb-2">View Registered Pets</a>
-
-    <!-- Manage Appointments -->
-    <a th:href="@{/vet/appointments}" class="btn btn-warning mb-2">Manage Appointments</a>
 
     <!-- Logout button -->
     <form th:action="@{/logout}" method="post" class="mt-4">

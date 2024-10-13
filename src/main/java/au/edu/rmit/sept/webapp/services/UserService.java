@@ -91,7 +91,6 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAllUsers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");
+        return userRepository.findAll();
     }
 }
