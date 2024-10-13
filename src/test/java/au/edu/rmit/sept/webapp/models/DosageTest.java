@@ -72,4 +72,15 @@ class DosageTest {
         assertEquals(dateAdministered, dosage.getDateAdministered());
         assertEquals(nextDosageDate, dosage.getNextDosageDate());
     }
+    // Test Case 6: Ensure dosage quantity and instructions can be set and retrieved correctly
+    @Test
+    void testDosageDetails() {
+        Dosage dosage = new Dosage();
+        String dosageQuantity = "10mg";
+        String instructions = "Take once before bed";
+        dosage.setDosageQuantity(dosageQuantity);
+        dosage.setInstructions(instructions);
+        assertEquals(dosageQuantity, dosage.getDosageQuantity());
+        assertEquals(instructions, dosage.getInstructions());
+    }
 }
