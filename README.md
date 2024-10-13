@@ -1,5 +1,11 @@
 
-# Software Engineering: Processes and Tools Major Assignment
+# VetCare - Convenient Care For Your Pets
+
+# Table of Contents
+
+1. [Group Information](#group-information)
+2. [How to Run the Program](#how-to-run-the-program)
+3. [Functionality](#functionality)
 
 # Group Information
 
@@ -60,7 +66,7 @@ use vetcare
   * Password: `test`
 * Feel free to create your own user and run through the program, using the User Guide as a reference.
 
-# Base Functionality
+# Functionality
 
 Here is a list of everything you can do on this version of VetCare:
 
