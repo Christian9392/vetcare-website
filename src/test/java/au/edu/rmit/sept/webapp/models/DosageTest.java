@@ -30,5 +30,12 @@ class DosageTest {
         assertEquals(dateAdministered, dosage.getDateAdministered());
         assertEquals(nextDosageDate, dosage.getNextDosageDate());
     }
-
+    // Test Case 2: Ensure proper behavior when setting and retrieving dosage ID
+    @Test
+    void testDosageId() {
+        Dosage dosage = new Dosage();
+        Long dosageId = 100L;
+        dosage.setDosageId(dosageId);
+        assertEquals(dosageId, dosage.getDosageId());
+    }
 }
