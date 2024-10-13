@@ -53,4 +53,12 @@ class DosageServiceTest {
         List<DosageDTO> result = dosageService.getDetailedDosageByPetIdAndMedicineId(1L, 1L);
         assertEquals(0, result.size());
     }
+    // Test Case 3: Test if the correct behavior occurs when the repository returns null.
+    // just handling this case for safety.
+    @Test
+    void testGetDetailedDosageByPetIdAndMedicineId_NullResponse() {
+        when(dosageRepository.findDetailedDosageByPetIdAndMedicineId(anyLong(), anyLong())).thenReturn(null);
+        List<DosageDTO> result = dosageService.getDetailedDosageByPetIdAndMedicineId(1L, 1L);
+        assertTrue(result == null || result.isEmpty(), "The service should return an empty list or null safely.");
+    }
 }
