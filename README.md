@@ -68,6 +68,7 @@ use vetcare
 * Vet user
   * Email:jane.smith@example.com
   * Password: 1234
+
 We were able to successfully log into the Vet Dashboard using the username and password. After logging into the home dashboard, a dropdown menu appears. Click on 'Vet Dashboard,' and you should be able to access the option of the 'Owner List' button.
 
 # Functionality
