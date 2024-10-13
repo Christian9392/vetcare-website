@@ -37,4 +37,15 @@ class UserTest {
         User user2 = new User(2L, "Lionel Messi", "password123", "lionel.messi@example.com", "987654321", "456 Avenue, City, Country");        
         assertNotEquals(user1, user2); 
     }
+    // Test Case 4: Confirm immutability of the User record
+    @Test
+    void testUserImmutability() {
+        User user = new User(1L, "Cristiano Sui", "password123", "cristiano.sui@example.com", "123456789", "123 Stadium Road, City, Country");
+        assertEquals(1L, user.userID());
+        assertEquals("Cristiano Sui", user.name());
+        assertEquals("password123", user.password());
+        assertEquals("cristiano.sui@example.com", user.email());
+        assertEquals("123456789", user.phoneNumber());
+        assertEquals("123 Stadium Road, City, Country", user.address());
+    }
 }
