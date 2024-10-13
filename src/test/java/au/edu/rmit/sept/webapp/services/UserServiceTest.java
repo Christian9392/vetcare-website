@@ -81,4 +81,10 @@ class UserServiceTest {
         assertEquals("9876543210", result.phoneNumber());
         assertEquals("New Address", result.address());
     }
+    // Test Case 7: Ensure updateContactInfo throws exception when user not found
+    @Test
+    void testUpdateContactInfo_UserNotFound() {
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> userService.updateContactInfo(1L, mockUser));
+    }
 }
