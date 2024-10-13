@@ -40,5 +40,13 @@ class UserServiceTest {
         when(userRepository.findByName("testuser")).thenReturn(Optional.empty());
         assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername("testuser"));
     }
-
+    // Test Case 2: Ensure loadUserByUsername returns UserDetails when user exists
+    @Test
+    void testLoadUserByUsername_UserFound() {
+        when(userRepository.findByName("testuser")).thenReturn(Optional.of(mockUser));
+        var userDetails = userService.loadUserByUsername("testuser");
+        assertEquals("testuser", userDetails.getUsername());
+        assertEquals("encodedPassword", userDetails.getPassword());
+        assertTrue(userDetails.getAuthorities().isEmpty());
+    }
 }
