@@ -57,5 +57,10 @@ class UserServiceTest {
         assertTrue(result.isPresent());
         assertEquals(mockUser, result.get());
     }
-
+    // Test Case 4: Ensure getUserIdByUsername throws exception if user not found
+    @Test
+    void testGetUserIdByUsername_UserNotFound() {
+        when(userRepository.findByName("nonexistent")).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> userService.getUserIdByUsername("nonexistent"));
+    }
 }
