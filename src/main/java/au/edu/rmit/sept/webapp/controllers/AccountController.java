@@ -1,5 +1,6 @@
 package au.edu.rmit.sept.webapp.controllers;
 
+import au.edu.rmit.sept.webapp.models.CustomUser;
 import au.edu.rmit.sept.webapp.models.EduResources;
 import au.edu.rmit.sept.webapp.models.User;
 import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import java.util.List;
@@ -27,11 +29,15 @@ public class AccountController {
 
     private final UserService userService;
     private final SavedResourcesService savedService;
+    private final CustomUserDetailsService customUserService;
+    private final EduResourcesService eduService;
 
     @Autowired
-    public AccountController(UserService userService, SavedResourcesService savedService) {
+    public AccountController(UserService userService, SavedResourcesService savedService, CustomUserDetailsService customUserService, EduResourcesService eduService) {
         this.userService = userService;
         this.savedService = savedService;
+        this.customUserService = customUserService;
+        this.eduService = eduService;
     }
 
     // This method retrieves the ID of the currently authenticated user
@@ -140,6 +146,15 @@ public class AccountController {
 
         model.addAttribute("resources", eduResources);
         return "account/savededuresources";
+    }
+
+    @PostMapping("/delete_resource")
+    public String deleteResource(@RequestParam("resourceID") Long resourceID, RedirectAttributes redirectAttributes) {
+        CustomUser currentUser = customUserService.getCurrentUser();
+        EduResources resource = eduService.findResourceById(resourceID);
+
+        savedService.deleteSavedResource(currentUser, resource);
+        return "redirect:/eduresources";
     }
 }
 
