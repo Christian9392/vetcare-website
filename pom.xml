@@ -15,10 +15,90 @@
 	<description>COSC2299 SEPT WebApplication</description>
 	<url/>
 	<licenses>
-		<license/>
+		<!-- MIT License for project -->
+		<license>
+			<name>The MIT License (MIT)</name>
+			<url>https://opensource.org/licenses/MIT</url>
+			<distribution>repo</distribution>
+		</license>
+		<!-- Apache License 2.0 for Spring Boot -->
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+		</license>
+
+		<!-- Mozilla Public License 2.0 for H2 Database -->
+		<license>
+			<name>Mozilla Public License 2.0</name>
+			<url>https://www.mozilla.org/en-US/MPL/2.0/</url>
+			<distribution>repo</distribution>
+		</license>
+
+		<!-- AGPL License for iTextPDF -->
+		<license>
+			<name>Affero GNU General Public License v3 (AGPL-3.0)</name>
+			<url>https://www.gnu.org/licenses/agpl-3.0.html</url>
+			<distribution>repo</distribution>
+		</license>
 	</licenses>
+
 	<developers>
-		<developer/>
+		<developer>
+			<id>pdotkeenan</id>
+			<name>Keenan Phillips</name>
+			<email>s3602528@student.rmit.edu.au</email>
+			<organization>RMIT University</organization>
+			<roles>
+				<role>Scrum Master</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>pj0077</id>
+			<name>Paul Johny Mampilly</name>
+			<email>s3968971@student.rmit.edu.au</email>
+			<organization>RMIT University</organization>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>Christian9392</id>
+			<name>Christian Nieves</name>
+			<email>s4005338@student.rmit.edu.au</email>
+			<organization>RMIT University</organization>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>SeanghaiHeng</id>
+			<name>Seanghai Heng</name>
+			<email>s4060921@student.rmit.edu.au</email>
+			<organization>RMIT University</organization>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>WilliamDash</id>
+			<name>William Dash</name>
+			<email>s3947523@student.rmit.edu.au</email>
+			<organization>RMIT University</organization>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>Heethasha Sandeep Kumar</id>
+			<name>William Dash</name>
+			<email>s3906349@student.rmit.edu.au</email>
+			<organization>RMIT University</organization>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
 	</developers>
 	<scm>
 		<connection/>
