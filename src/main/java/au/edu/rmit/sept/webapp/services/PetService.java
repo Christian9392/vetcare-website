@@ -1,6 +1,7 @@
 package au.edu.rmit.sept.webapp.services;
 
 import au.edu.rmit.sept.webapp.dto.PetDTO;
+import au.edu.rmit.sept.webapp.models.MedicalHistory;
 import au.edu.rmit.sept.webapp.models.Pet;
 import au.edu.rmit.sept.webapp.models.Prescription;
 import au.edu.rmit.sept.webapp.models.TreatmentPlan;
@@ -20,5 +21,6 @@ public interface PetService {
     public void updatePrescriptions(Long petId, List<Prescription> prescriptions);
     public void updateTreatmentPlans(Long petId, List<TreatmentPlan> treatmentPlans);
     public void updateVaccinationRecords(Long petId, List<VaccinationRecord> vaccinations);
-    
+    void updateMedicalHistory(Long petId, MedicalHistory medicalHistory);
+
 }

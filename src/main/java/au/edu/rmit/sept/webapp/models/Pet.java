@@ -1,5 +1,6 @@
 package au.edu.rmit.sept.webapp.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -32,17 +33,17 @@ public class Pet {
       @OneToOne(mappedBy = "pet", cascade = CascadeType.ALL) // The pet field in MedicalHistory references this
      
       private MedicalHistory medicalHistory;
-// Relationship with Vaccination
-@OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
-private List<VaccinationRecord> vaccinations;
 
-// Relationship with TreatmentPlan
-@OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
-private List<TreatmentPlan> treatmentPlans;
+      
 
-// Relationship with Prescription
-@OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
-private List<Prescription> prescriptions;
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VaccinationRecord> vaccinations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Prescription> prescriptions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TreatmentPlan> treatmentPlans = new ArrayList<>();
 
     public Pet() {
     }

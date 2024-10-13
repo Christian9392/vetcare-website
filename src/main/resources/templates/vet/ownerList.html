@@ -20,12 +20,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.userId}">User ID</td>
+            <tr th:each="user : ${owners}">
+                <td th:text="${user.userID}">User ID</td> <!-- Correct to user.userID -->
                 <td th:text="${user.name}">User Name</td>
                 <td th:text="${user.email}">User Email</td>
                 <td>
-                    <a th:href="@{/vet/owners/{userId}/pets(userId=${user.userId})}" class="btn btn-primary">View Pets</a>
+                    <a th:href="@{/vet/owners/{userID}/pets(userID=${user.userID})}" class="btn btn-primary">View Pets</a> <!-- Correct to user.userID -->
                 </td>
             </tr>
         </tbody>

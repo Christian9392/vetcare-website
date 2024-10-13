@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,28 +25,70 @@ public class VetController {
         this.petService = petService;
         this.userService = userService;
     }
-
-  // List all pets associated with a user (Accessing User Pet Information)
-  @GetMapping("/owners/{userID}/pets")
-  public String listPets(@PathVariable Long userID, Model model) {
-      List<PetDTO> pets = petService.findPetsByUserId(userID); 
-      if (pets.isEmpty()) {
-          model.addAttribute("noPetsMessage", "No pets found for this user.");
-      } else {
-          model.addAttribute("pets", pets);
-      }
-      model.addAttribute("userID", userID); // Bind userId for URLs
-      return "vet/ownerList"; // Renders 'petList.html'
-  }
-
-    // Edit pet form
-    @GetMapping("/owners/{userId}/pets/{petId}/edit")
-    public String editPet(@PathVariable Long userId, @PathVariable Long petId, Model model) {
-        Pet pet = petService.getPetById(petId);
-        model.addAttribute("pet", pet); // Bind pet to the form
-        model.addAttribute("userId", userId); // Bind userId for URLs
-        return "vet/editPet"; // Renders 'editPet.html'
+    @GetMapping("/owners")
+    public String listOwners(Model model) {
+        List<User> owners = userService.getAllUsers();
+        System.out.println("Owners List: " + owners); // Add this line to log the output
+        if (owners.isEmpty()) {
+            model.addAttribute("noOwnersMessage", "No pet owners found.");
+        } else {
+            model.addAttribute("owners", owners);
+        }
+        return "vet/ownerList";
     }
+
+
+    @GetMapping("/owners/{userId}/pets")
+public String listPets(@PathVariable Long userId, Model model) {
+    // Fetch the owner based on the userId using getUserById
+    User owner = userService.getUserById(userId)
+            .orElseThrow(() -> new EntityNotFoundException("Owner not found with ID: " + userId));
+
+    // Fetch the list of pets for this owner
+    List<PetDTO> pets = petService.findPetsByUserId(userId);
+
+    // Add the owner and pets to the model
+    model.addAttribute("owner", owner); // Now the owner is properly defined and added
+    if (pets.isEmpty()) {
+        model.addAttribute("noPetsMessage", "No pets found for this owner.");
+    } else {
+        model.addAttribute("pets", pets); // Bind pets to the view
+    }
+
+    return "vet/petList"; // This should map to your Thymeleaf template for displaying pets
+}
+    // Edit pet form
+// Edit pet form
+@GetMapping("/owners/{userId}/pets/{petId}/edit")
+public String editPet(@PathVariable Long userId, @PathVariable Long petId, Model model) {
+    // Fetch the pet from the service layer
+    Pet pet = petService.getPetById(petId);
+    
+    // Ensure that nested collections like vaccinations, treatmentPlans, and prescriptions are initialized
+    if (pet.getVaccinations() == null || pet.getVaccinations().isEmpty()) {
+        pet.setVaccinations(new ArrayList<>());
+        pet.getVaccinations().add(new VaccinationRecord()); // Add at least one empty vaccination record for Thymeleaf rendering
+    }
+    
+    if (pet.getTreatmentPlans() == null || pet.getTreatmentPlans().isEmpty()) {
+        pet.setTreatmentPlans(new ArrayList<>());
+        pet.getTreatmentPlans().add(new TreatmentPlan()); // Add at least one empty treatment plan for Thymeleaf rendering
+    }
+
+    if (pet.getPrescriptions() == null || pet.getPrescriptions().isEmpty()) {
+        pet.setPrescriptions(new ArrayList<>());
+        pet.getPrescriptions().add(new Prescription()); // Add at least one empty prescription for Thymeleaf rendering
+    }
+
+    // Add the Pet object to the model for form binding
+    model.addAttribute("pet", pet);
+
+    // Add the userId to the model for URL construction and other purposes
+    model.addAttribute("userId", userId);
+
+    // Return the view for editing the pet
+    return "vet/editPet";
+}
 
     // Save updated pet
     @PostMapping("/owners/{userId}/pets/{petId}/save")
