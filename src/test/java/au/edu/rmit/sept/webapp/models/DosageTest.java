@@ -61,4 +61,15 @@ class DosageTest {
         assertEquals(pet, dosage.getPet());
         assertEquals(medicine, dosage.getMedicine());
     }    
+    // Test Case 5: Verify date handling for administered and next dosage dates
+    @Test
+    void testDosageDates() {
+        Dosage dosage = new Dosage();
+        Date dateAdministered = new Date();
+        Date nextDosageDate = new Date();
+        dosage.setDateAdministered(dateAdministered);
+        dosage.setNextDosageDate(nextDosageDate);
+        assertEquals(dateAdministered, dosage.getDateAdministered());
+        assertEquals(nextDosageDate, dosage.getNextDosageDate());
+    }
 }
