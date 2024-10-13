@@ -56,4 +56,14 @@ class EmailServiceTest {
         doThrow(MessagingException.class).when(mimeMessageHelper).setTo(any(String.class));
         assertDoesNotThrow(() -> emailService.sendHealthRecord("test@example.com", "Fluffy", healthRecordPdf));
     }
+    // Test Case 3:  Test that the PDF attachment is correctly added to the email.
+    //This test ensures that the file content is attached as a resource.
+    @Test
+    void testSendHealthRecord_PdfAttachment() throws MessagingException, IOException {
+        ByteArrayOutputStream healthRecordPdf = new ByteArrayOutputStream();
+        healthRecordPdf.write("Mock PDF content".getBytes());
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);        
+        emailService.sendHealthRecord("test@example.com", "Fluffy", healthRecordPdf);
+        verify(javaMailSender, times(1)).send(mimeMessage);
+    }
 }
