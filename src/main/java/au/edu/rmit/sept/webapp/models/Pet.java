@@ -39,8 +39,8 @@ public class Pet {
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VaccinationRecord> vaccinations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Prescription> prescriptions = new ArrayList<>();
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
+    private List<Prescription> prescriptions;
 
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TreatmentPlan> treatmentPlans = new ArrayList<>();

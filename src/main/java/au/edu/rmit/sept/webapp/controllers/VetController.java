@@ -72,7 +72,7 @@ public String editPet(@PathVariable Long userId, @PathVariable Long petId, Model
     
     if (pet.getTreatmentPlans() == null || pet.getTreatmentPlans().isEmpty()) {
         pet.setTreatmentPlans(new ArrayList<>());
-        pet.getTreatmentPlans().add(new TreatmentPlan()); // Add at least one empty treatment plan for Thymeleaf rendering
+        pet.getTreatmentPlans().add(new TreatmentPlan()); 
     }
 
     if (pet.getPrescriptions() == null || pet.getPrescriptions().isEmpty()) {
@@ -90,50 +90,58 @@ public String editPet(@PathVariable Long userId, @PathVariable Long petId, Model
     return "vet/editPet";
 }
 
-    // Save updated pet
-    @PostMapping("/owners/{userId}/pets/{petId}/save")
-    public String savePet(@PathVariable Long userId, @PathVariable Long petId, @ModelAttribute Pet petForm) {
-        // Retrieve the existing pet from the database
-        Pet existingPet = petService.findPetBypetId(petId)
-                .orElseThrow(() -> new EntityNotFoundException("Pet not found with ID: " + petId));
+@PostMapping("/owners/{userId}/pets/{petId}/save")
+public String savePet(@PathVariable Long userId, @PathVariable Long petId, @ModelAttribute Pet petForm) {
+    // Retrieve the existing pet from the database
+    Pet existingPet = petService.findPetBypetId(petId)
+            .orElseThrow(() -> new EntityNotFoundException("Pet not found with ID: " + petId));
 
-        // Update the basic information of the pet (name, species, breed, age)
-        existingPet.setName(petForm.getName());
-        existingPet.setSpecies(petForm.getSpecies());
-        existingPet.setBreed(petForm.getBreed());
-        existingPet.setAge(petForm.getAge());
+    // Update the basic information of the pet (name, species, breed, age)
+    existingPet.setName(petForm.getName());
+    existingPet.setSpecies(petForm.getSpecies());
+    existingPet.setBreed(petForm.getBreed());
+    existingPet.setAge(petForm.getAge());
 
-        // Update the pet's medical history
-        MedicalHistory updatedMedicalHistory = petForm.getMedicalHistory();
-        if (updatedMedicalHistory != null) {
-            petService.updateMedicalHistory(petId, updatedMedicalHistory);
-        }
-
-        // Update the pet's vaccinations
-        List<VaccinationRecord> updatedVaccinations = petForm.getVaccinations();
-        if (updatedVaccinations != null && !updatedVaccinations.isEmpty()) {
-            petService.updateVaccinationRecords(petId, updatedVaccinations);
-        }
-
-        // Update the pet's treatment plans
-        List<TreatmentPlan> updatedTreatmentPlans = petForm.getTreatmentPlans();
-        if (updatedTreatmentPlans != null && !updatedTreatmentPlans.isEmpty()) {
-            petService.updateTreatmentPlans(petId, updatedTreatmentPlans);
-        }
-
-        // Update the pet's prescriptions
-        List<Prescription> updatedPrescriptions = petForm.getPrescriptions();
-        if (updatedPrescriptions != null && !updatedPrescriptions.isEmpty()) {
-            petService.updatePrescriptions(petId, updatedPrescriptions);
-        }
-
-        // Save the pet with the updated details
-        petService.savePet(existingPet);
-
-        // Redirect back to the pet list for this user
-        return "redirect:/vet/owners/" + userId + "/pets";
+    // Update the pet's medical history
+    MedicalHistory updatedMedicalHistory = petForm.getMedicalHistory();
+    if (updatedMedicalHistory != null) {
+        petService.updateMedicalHistory(petId, updatedMedicalHistory);
     }
 
+    // Update the pet's vaccinations
+    List<VaccinationRecord> updatedVaccinations = petForm.getVaccinations();
+    if (updatedVaccinations != null && !updatedVaccinations.isEmpty()) {
+        petService.updateVaccinationRecords(petId, updatedVaccinations);
+    }
+
+    // Update the pet's treatment plans
+    List<TreatmentPlan> updatedTreatmentPlans = petForm.getTreatmentPlans();
+    if (updatedTreatmentPlans != null && !updatedTreatmentPlans.isEmpty()) {
+        petService.updateTreatmentPlans(petId, updatedTreatmentPlans);
+    }
+
+    // Update the pet's prescriptions
+    List<Prescription> updatedPrescriptions = petForm.getPrescriptions();
+    if (updatedPrescriptions != null && !updatedPrescriptions.isEmpty()) {
+        for (Prescription prescription : updatedPrescriptions) {
+            // Ensure that the medicine is persisted before saving the prescription
+            Medicine medicine = prescription.getMedicine();
+            if (medicine != null && medicine.getMedicineID() == null) {
+                // Save the medicine if it's new (transient)
+                petService.saveMedicine(medicine);
+            }
+
+            // Now save or update the prescription
+            petService.updatePrescriptions(petId, updatedPrescriptions);
+        }
+    }
+
+    // Save the pet with the updated details
+    petService.savePet(existingPet);
+
+    // Redirect back to the pet list for this user
+    return "redirect:/vet/owners/" + userId + "/pets";
+}
     // View vet's homepage
     @GetMapping("/home")
     public String vetHomePage() {

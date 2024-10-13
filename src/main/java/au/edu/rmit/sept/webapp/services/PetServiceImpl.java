@@ -20,18 +20,22 @@ public class PetServiceImpl implements PetService {
     private final PrescriptionRepository prescriptionRepository;
     private final TreatmentPlanRepository treatmentPlanRepository;
     private final MedicalHistoryRepository medicalHistoryRepository;
+    private final MedicineRepository medicineRepository;  
+
 
     @Autowired
     public PetServiceImpl(PetRepository petRepository, 
                           VaccinationRecordRepository vaccinationRecordRepository, 
                           PrescriptionRepository prescriptionRepository, 
                           TreatmentPlanRepository treatmentPlanRepository,
-                          MedicalHistoryRepository medicalHistoryRepository) {
+                          MedicalHistoryRepository medicalHistoryRepository,
+                          MedicineRepository medicineRepository) {  // Include MedicineRepository in constructor
         this.petRepository = petRepository;
         this.vaccinationRecordRepository = vaccinationRecordRepository;
         this.prescriptionRepository = prescriptionRepository;
         this.treatmentPlanRepository = treatmentPlanRepository;
         this.medicalHistoryRepository = medicalHistoryRepository;
+        this.medicineRepository = medicineRepository;  // Initialize it here
     }
 
     public List<Pet> getPets() {
@@ -80,6 +84,10 @@ public class PetServiceImpl implements PetService {
         petRepository.save(pet);
     }
 
+    public void saveMedicine(Medicine medicine) {
+        medicineRepository.save(medicine);  // Save medicine to the database
+    }
+
     // Update basic information of a pet (name, species, breed, age)
     @Override
     public void updatePet(Long petId, PetDTO petDTO) {
@@ -115,22 +123,38 @@ public class PetServiceImpl implements PetService {
         }
     }
 
-    // Update treatment plans for a pet
     @Override
     public void updateTreatmentPlans(Long petId, List<TreatmentPlan> treatmentPlans) {
         Optional<Pet> petOpt = petRepository.findById(petId);
+    
         if (petOpt.isPresent()) {
             Pet pet = petOpt.get();
-            treatmentPlanRepository.deleteByPetId(petId); // Clear existing records
-
+    
+            // Instead of clearing the existing records, we check for updates
             for (TreatmentPlan plan : treatmentPlans) {
-                plan.setPet(pet); // Set the Pet object for each treatment plan
-                treatmentPlanRepository.save(plan);
+                if (plan.getTreatmentPlanID() != null) {
+                    // Update existing treatment plan
+                    TreatmentPlan existingPlan = treatmentPlanRepository.findById(plan.getTreatmentPlanID())
+                            .orElseThrow(() -> new EntityNotFoundException("Treatment Plan not found with ID: " + plan.getTreatmentPlanID()));
+                    
+                    existingPlan.setDiagnosis(plan.getDiagnosis());
+                    existingPlan.setDateAdministered(plan.getDateAdministered());
+                    existingPlan.setDescription(plan.getDescription());
+                    existingPlan.setEndDate(plan.getEndDate());
+                    existingPlan.setNotes(plan.getNotes());
+    
+                    treatmentPlanRepository.save(existingPlan);
+                } else {
+                    // Save new treatment plan if ID is null (for new plans)
+                    plan.setPet(pet); // Set the Pet object for each treatment plan
+                    treatmentPlanRepository.save(plan);
+                }
             }
         } else {
             throw new EntityNotFoundException("Pet not found with ID: " + petId);
         }
     }
+    
 
     // Update vaccination records for a pet
     @Override
