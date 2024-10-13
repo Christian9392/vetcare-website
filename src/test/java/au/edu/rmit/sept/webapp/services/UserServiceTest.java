@@ -63,4 +63,11 @@ class UserServiceTest {
         when(userRepository.findByName("nonexistent")).thenReturn(Optional.empty());
         assertThrows(RuntimeException.class, () -> userService.getUserIdByUsername("nonexistent"));
     }
+    // Test Case 5: Ensure getUserIdByUsername returns user ID when user is found
+    @Test
+    void testGetUserIdByUsername_UserFound() {
+        when(userRepository.findByName("testuser")).thenReturn(Optional.of(mockUser));
+        Long userID = userService.getUserIdByUsername("testuser");
+        assertEquals(1L, userID);
+    }
 }
