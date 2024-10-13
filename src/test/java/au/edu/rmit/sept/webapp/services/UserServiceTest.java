@@ -105,4 +105,13 @@ class UserServiceTest {
         boolean result = userService.changePassword(1L, "wrongPassword", "newPassword");
         assertFalse(result);
     }
+    // Test Case 10: Ensure deleteAccount deletes user if password matches
+    @Test
+    void testDeleteAccount_Success() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        when(passwordEncoder.matches("password", mockUser.password())).thenReturn(true);
+        boolean result = userService.deleteAccount(1L, "password");
+        assertTrue(result);
+        verify(userRepository).delete(1L);
+    }
 }
