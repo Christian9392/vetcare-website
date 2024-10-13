@@ -38,4 +38,16 @@ class DosageTest {
         dosage.setDosageId(dosageId);
         assertEquals(dosageId, dosage.getDosageId());
     }
+    // Test Case 3: Ensure two Dosage objects with identical data are not considered equal
+    @Test
+    void testDosageInequality() {
+        Dosage dosage1 = new Dosage();
+        dosage1.setDosageId(1L);
+        dosage1.setDosageQuantity("5ml");
+        
+        Dosage dosage2 = new Dosage();
+        dosage2.setDosageId(2L);
+        dosage2.setDosageQuantity("5ml");
+        assertNotEquals(dosage1, dosage2); 
+    }
 }
