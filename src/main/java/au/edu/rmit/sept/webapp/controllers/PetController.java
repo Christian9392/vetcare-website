@@ -165,13 +165,15 @@ public class PetController {
     @PostMapping("/{petId}/refill/{prescriptionID}")
     public String requestPrescription(@PathVariable("petId") Long petId, @PathVariable("prescriptionID") Long prescriptionID, RedirectAttributes redirectAttributes) {
 
+        // Get Prescription from ID
+        Prescription prescription = prescriptionService.getPrescriptionFromID(prescriptionID);
         // Check if prescription is valid
-        String prescriptionRequest = prescriptionService.checkPrescription(prescriptionID);
+        String prescriptionRequest = prescriptionService.checkPrescription(prescription);
 
         if (prescriptionRequest.equals("valid")) {
             System.out.println("Processed valid refill request");
             // Decrement and order prescription
-            prescriptionService.decrementPrescription(prescriptionID);
+            prescriptionService.decrementPrescription(prescription);
             prescriptionService.orderPrescription(prescriptionID, petId);
             // Add success message to redirect
             redirectAttributes.addFlashAttribute("successMessage", "Prescription ordered successfully!");
