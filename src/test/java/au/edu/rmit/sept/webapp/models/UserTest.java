@@ -30,4 +30,11 @@ class UserTest {
         assertEquals(user1, user2); 
         assertEquals(user1.hashCode(), user2.hashCode()); 
     }
+    // Test Case 3: Verify that User objects with different data are not equal
+    @Test
+    void testUserInequality() {
+        User user1 = new User(1L, "Cristiano Sui", "password123", "cristiano.sui@example.com", "123456789", "123 Stadium Road, City, Country");
+        User user2 = new User(2L, "Lionel Messi", "password123", "lionel.messi@example.com", "987654321", "456 Avenue, City, Country");        
+        assertNotEquals(user1, user2); 
+    }
 }
