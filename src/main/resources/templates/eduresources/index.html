@@ -91,6 +91,10 @@
 
         <div class="hr-divider-top"></div>
 
+        <div th:if="${message}" class="alert alert-success">
+            <p th:text="${message}"></p>
+        </div>
+
         <!--Guides, Articles, Videos-->
         <section>
 

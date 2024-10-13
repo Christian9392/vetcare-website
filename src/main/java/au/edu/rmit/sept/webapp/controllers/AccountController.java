@@ -154,7 +154,8 @@ public class AccountController {
         EduResources resource = eduService.findResourceById(resourceID);
 
         savedService.deleteSavedResource(currentUser, resource);
-        return "redirect:/eduresources";
+        redirectAttributes.addFlashAttribute("message", "Resource removed successfully!");
+        return "redirect:/account/savededuresources";
     }
 }
 

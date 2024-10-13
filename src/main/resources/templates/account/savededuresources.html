@@ -24,9 +24,14 @@
 
         <h1>Your Saved Resources</h1>
 
+        <div th:if="${message}" class="alert alert-success">
+            <p th:text="${message}"></p>
+        </div>
+
         <div class="hr-divider"></div>
 
         <section>
+
 
             <!-- If no saved resource, logic goes here -->
             <p th:if="${#lists.isEmpty(resources)}">You have not saved any educational resources yet.</p>

@@ -63,6 +63,9 @@ public class EduResourcesController {
         savedResource.setSavedAt(currentDateTime);
         savedResource.setResources(resource);
         savedService.saveResource(savedResource);
+
+        redirectAttributes.addFlashAttribute("message", "Resource saved successfully!");
+
         return "redirect:/eduresources";
     }
 
