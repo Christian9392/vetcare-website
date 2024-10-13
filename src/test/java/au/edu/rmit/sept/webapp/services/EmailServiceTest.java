@@ -47,4 +47,13 @@ class EmailServiceTest {
         assertDoesNotThrow(() -> emailService.sendHealthRecord("test@example.com", "Fluffy", healthRecordPdf));
         verify(javaMailSender, times(1)).send(any(MimeMessage.class));
     }
+    // Test Case 2:  Test that a MessagingException is thrown when MimeMessageHelper fails to create or attach the email details.
+    @Test
+    void testSendHealthRecord_MessagingException() throws MessagingException, IOException {
+        ByteArrayOutputStream healthRecordPdf = new ByteArrayOutputStream();
+        healthRecordPdf.write("Mock PDF content".getBytes());
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        doThrow(MessagingException.class).when(mimeMessageHelper).setTo(any(String.class));
+        assertDoesNotThrow(() -> emailService.sendHealthRecord("test@example.com", "Fluffy", healthRecordPdf));
+    }
 }
