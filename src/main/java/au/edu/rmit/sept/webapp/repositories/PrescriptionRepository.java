@@ -14,7 +14,7 @@ import java.util.List;
 public interface PrescriptionRepository extends JpaRepository<Prescription, Long> {
 
     List<Prescription> findByPet_petId(Long petId);
-    boolean existsByPet_PetIdAndRenewalDateAfter(Long petId, LocalDate date);
+    boolean existsByPet_PetIdAndExpiryDateAfter(Long petId, LocalDate date);
     Prescription findByPrescriptionID(Long id);
    
     @Modifying

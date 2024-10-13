@@ -1,8 +1,10 @@
 package au.edu.rmit.sept.webapp.controllers;
 
+import au.edu.rmit.sept.webapp.dto.DosageDTO;
 import au.edu.rmit.sept.webapp.dto.PetDTO;
 import au.edu.rmit.sept.webapp.models.*;
 import au.edu.rmit.sept.webapp.services.CustomUserDetailsService;
+import au.edu.rmit.sept.webapp.services.DosageService;
 import au.edu.rmit.sept.webapp.services.EmailService;
 import au.edu.rmit.sept.webapp.services.PetMedicalHistoryService;
 import au.edu.rmit.sept.webapp.services.PetService;
@@ -55,7 +57,8 @@ public class PetController {
     @Autowired
     private PrescriptionService prescriptionService;
 
-
+    @Autowired
+    private DosageService dosageService;
     /**
      * Handles the view for displaying all registered pets for the currently logged-in user.
      */
@@ -78,10 +81,6 @@ public class PetController {
         return "pets/index";
     }
 
-    /**
-     * Handles the view for displaying a pet's medical history, vaccinations, treatment plans, and prescriptions.
-     * @param petId - the ID of the pet whose medical history to display
-     */
     @GetMapping("/{petId}/view")
     public String viewPetMedicalHistory(@PathVariable Long petId, Model model) {
         // Fetch the pet by ID - necessary for TH template
@@ -99,6 +98,10 @@ public class PetController {
         List<VaccinationRecord> vaccinations = petMedicalHistoryService.getVaccinationRecordsBypetId(petId);
         List<TreatmentPlan> treatmentPlans = petMedicalHistoryService.getTreatmentPlansBypetId(petId);
         List<Prescription> prescriptions = petMedicalHistoryService.getPrescriptionsBypetId(petId);
+        
+        model.addAttribute("vaccinations", vaccinations);
+        model.addAttribute("treatmentPlans", treatmentPlans);
+        model.addAttribute("prescriptions", prescriptions);
 
         // Check if all medical data is empty or not
         if (vaccinations.isEmpty()) {
@@ -130,6 +133,17 @@ public class PetController {
 
     @PostMapping("/new")
     public String registerNewPet(@ModelAttribute("pet") Pet pet, BindingResult result, Model model) {
+        // Validation for blank fields
+        if (pet.getName().trim().isEmpty()) {
+            result.rejectValue("name", "error.pet", "Your pet's name cannot be blank.");
+        }
+        if (pet.getSpecies().trim().isEmpty()) {
+            result.rejectValue("species", "error.pet", "Your pet's species cannot be blank.");
+        }
+        if (pet.getBreed().trim().isEmpty()) {
+            result.rejectValue("breed", "error.pet", "Your pet's breed cannot be blank.");
+        }
+        
         if (result.hasErrors()) {
             return "pets/new";
         }
@@ -382,4 +396,30 @@ public class PetController {
         return byteArrayOutputStream;
     }
 
+    @GetMapping("/{petId}/medicine/{medicineId}/dosages")
+    public String viewMedicineDosages(@PathVariable Long petId, @PathVariable Long medicineId, Model model) {
+        System.out.println("Entered viewMedicineDosages method.");
+        
+        // Fetch the pet by ID
+        Optional<Pet> pet = petService.findPetBypetId(petId);
+        if (pet.isEmpty()) {
+            model.addAttribute("errorMessage", "Pet not found.");
+            return "pets/error";
+        }
+        
+        // Add the pet to the model
+        model.addAttribute("pet", pet.get());
+        
+        // Fetch dosage details for this medicine
+        List<DosageDTO> dosages = dosageService.getDetailedDosageByPetIdAndMedicineId(petId, medicineId);
+        
+        if (dosages.isEmpty()) {
+            model.addAttribute("noDosagesMessage", "No dosages found for this medicine.");
+        } else {
+            model.addAttribute("dosages", dosages);
+        }
+        
+        return "pets/dosages";
+    }
+    
 }

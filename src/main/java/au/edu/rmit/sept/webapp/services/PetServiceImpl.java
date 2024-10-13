@@ -66,7 +66,7 @@ public class PetServiceImpl implements PetService {
             petDTO.setLastVaccinationDate(lastVaccinationDateOptional.orElse(null));
 
             // Check for active prescriptions
-            boolean hasActivePrescriptions = prescriptionRepository.existsByPet_PetIdAndRenewalDateAfter(pet.getPetId(), LocalDate.now());
+            boolean hasActivePrescriptions = prescriptionRepository.existsByPet_PetIdAndExpiryDateAfter(pet.getPetId(), LocalDate.now());
             petDTO.setActivePrescriptions(hasActivePrescriptions);
 
             // Check for active treatment plans

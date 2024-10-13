@@ -18,7 +18,6 @@ public class UserRepository {
         this.dataSource = dataSource;
     }
     public Optional<User> findByName(String username) {
-        // System.out.println("Looking up user by username: " + username); //debug
         String sql = "SELECT * FROM user WHERE name = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -93,17 +92,6 @@ public class UserRepository {
         }
     }
 
-    // Delete user by ID
-    // public void delete(Long userID) {
-    //     String sql = "DELETE FROM user WHERE user_id = ?";
-    //     try (Connection conn = dataSource.getConnection();
-    //          PreparedStatement ps = conn.prepareStatement(sql)) {
-    //         ps.setLong(1, userID);
-    //         ps.executeUpdate();
-    //     } catch (SQLException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
     public void delete(Long userID) {
         String disableFK = "SET FOREIGN_KEY_CHECKS = 0;";
         String enableFK = "SET FOREIGN_KEY_CHECKS = 1;";
