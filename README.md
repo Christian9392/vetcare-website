@@ -1,9 +1,13 @@
 
-# RMIT COSC2299 SEPT Major Project
+# VetCare - Convenient Care For Your Pets
+
+# Table of Contents
+
+1. [Group Information](#group-information)
+2. [How to Run the Program](#how-to-run-the-program)
+3. [Functionality](#functionality)
 
 # Group Information
-
-## Group-P03-02
 
 ## Members
 
@@ -16,11 +20,9 @@
 
 ## Records
 
-* Github repository: <https://github.com/cosc2299-2024/team-project-group-p03-02>
-* Github Project Board: <https://github.com/orgs/cosc2299-2024/projects/62>
-* MS Teams Discussion Board: <https://teams.microsoft.com/l/team/19%3AYJJRSncTOCSTFUk8SAizQqT0G9ruVKpihuXgojJsQLw1%40thread.tacv2/conversations?groupId=710085bf-b720-4960-997b-c3a80ed4aa03&tenantId=d1323671-cdbe-4417-b4d4-bdb24b51316b>
-
-See [Instructions](INSTRUCTIONS.md)
+* [Github Repository](https://github.com/cosc2299-2024/team-project-group-p03-02)
+* [Github Project Board](https://github.com/orgs/cosc2299-2024/projects/62)
+* [MS Teams Discussion Board](https://teams.microsoft.com/l/team/19%3AYJJRSncTOCSTFUk8SAizQqT0G9ruVKpihuXgojJsQLw1%40thread.tacv2/conversations?groupId=710085bf-b720-4960-997b-c3a80ed4aa03&tenantId=d1323671-cdbe-4417-b4d4-bdb24b51316b)
 
 # How to Run the Program
 
@@ -41,6 +43,9 @@ docker-compose build
 docker-compose up
 ```
 
+> [!TIP]
+> If you run into issues, refer to Section 1.1 of the User Guide, located in the root of this repository.
+
 You can now access the webserver in your web browser at the address `http://localhost:8080`.
 The MySQL database is available at `localhost:3307`. You can access this via one of two ways:
 
@@ -52,9 +57,6 @@ docker exec -it team-project-group-p03-02-database-1 mysql -u root
 use vetcare
 ```
 
-> [!TIP]
-> If you run into issues, refer to the 'Troubleshooting' section in the User Guide, located in the root of this repository.
-
 ## 3. Navigating the Website
 
 * You can use the navigation bar at the top of the webpage to perform most tasks.
@@ -62,9 +64,9 @@ use vetcare
 * A test user with sample data has been created for your convenience:
   * Email: `test@test`
   * Password: `test`
-* Feel free to create your own user and test functionlity.
+* Feel free to create your own user and run through the program, using the User Guide as a reference.
 
-# 4 Base Functionality
+# Functionality
 
 Here is a list of everything you can do on this version of VetCare:
 

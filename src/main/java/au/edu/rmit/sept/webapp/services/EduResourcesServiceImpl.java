@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import au.edu.rmit.sept.webapp.models.EduResources;
-import au.edu.rmit.sept.webapp.models.SavedResources;
 import au.edu.rmit.sept.webapp.repositories.EduResourcesRepository;
 
 import java.util.List;

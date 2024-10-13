@@ -18,9 +18,12 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         this.repository = repository;
     }
 
-    public String checkPrescription(Long prescriptionID) {
+    public Prescription getPrescriptionFromID(Long prescriptionID) {
         // Get prescription based on ID
-        Prescription prescription = repository.findByPrescriptionID(prescriptionID);
+        return repository.findByPrescriptionID(prescriptionID);
+    }
+
+    public String checkPrescription(Prescription prescription) {
         // Get current date
         LocalDate currentDate = LocalDate.now();
         // Check for remaining refills
@@ -34,9 +37,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         return "valid";
     }
 
-    public void decrementPrescription(Long prescriptionID) {
-        // Get prescription based on ID
-        Prescription prescription = repository.findByPrescriptionID(prescriptionID);
+    public void decrementPrescription(Prescription prescription) {
         // Set repeats to (current - 1)
         prescription.setRepeatsLeft(prescription.getRepeatsLeft() - 1);
         // Save to repository

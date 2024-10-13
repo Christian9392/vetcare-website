@@ -100,11 +100,9 @@
             <div th:unless="${#lists.isEmpty(resources)}">
                 <h3>All results for "<span th:text="${searchResult}"></span>"</h3>
 
-
                 <div th:each="resource : ${resources}">
 
-                    <!-- Display videos -->
-                    <div th:if="${resource.resourceType == 'Video'}" class="mt-4 row">
+                    <div class="mt-4 row">
                         <div class="col-6">
                             <div class="card h-100">
                                 <iframe th:src="${resource.content}" frameborder="0" allowfullscreen></iframe>
@@ -115,32 +113,10 @@
 
                                     <!-- Buttons -->
                                     <div class="d-flex justify-content-between mt-auto">
-                                        <a th:href="${resource.content}" class="btn btn-secondary" style="flex: 1; margin-right: 10px;" target="_blank">View video</a>
-                                        <form th:unless="${#lists.isEmpty(resource)}" th:action="@{/eduresources/save_resource}" method="post" style="flex: 0 0 auto;">
-                                            <input type="hidden" name="resourceID" th:value="${resource.resourceID}"> 
-                                            <button class="btn btn-outline-secondary" type="submit">   
-                                                <span class="bi bi-bookmark"></span> <!-- Bookmark icon -->
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                        <a th:if="${resource.resourceType == 'Video'}" th:href="${resource.content}" class="btn btn-secondary" style="flex: 1; margin-right: 10px;" target="_blank">View video</a>
+                                        <a th:if="${resource.resourceType == 'Article'}" th:href="${resource.content}" class="btn btn-secondary" style="flex: 1; margin-right: 10px;" target="_blank">View Article</a>
+                                        <a th:if="${resource.resourceType == 'Guide'}" th:href="${resource.content}" class="btn btn-secondary" style="flex: 1; margin-right: 10px;" target="_blank">View Guide</a>
 
-                    <!--Display articles or guides-->
-                     <div th:unless="${resource.resourceType == 'Video'}" class="mt-4 row" >
-
-                        <div class="col-6">
-                            <div class="card h-100">
-                                <iframe th:src="${resource.content}" frameborder="0" allowfullscreen></iframe>
-
-                                <div class="card-body d-flex flex-column" style="height: 100%;">
-                                    <h5 class="card-title" th:text="${resource.title}"></h5>
-                                    <p class="card-text flex-fill" th:text="${resource.description}"></p>
-
-                                    <!-- Buttons -->
-                                    <div class="d-flex justify-content-between mt-auto">
-                                        <a th:href="${resource.content}" class="btn btn-secondary" style="flex: 1; margin-right: 10px;" target="_blank">View video</a>
                                         <form th:unless="${#lists.isEmpty(resource)}" th:action="@{/eduresources/save_resource}" method="post" style="flex: 0 0 auto;">
                                             <input type="hidden" name="resourceID" th:value="${resource.resourceID}"> 
                                             <button class="btn btn-outline-secondary" type="submit">   
@@ -152,24 +128,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-                
-
-                <!--Display guides or article-->
-
-                
-                <!-- <div th:each="resource : ${resources}">
-                    <div>
-                        <a th:href="${resource.content}" target="_blank">
-                            <span th:text="${resource.title}"></span>
-                        </a>
-                        <p th:text="${resource.description}"></p>
-                        <p th:text="${resource.author}"></p>
-                    </div>
-                </div> -->
             </div>
-            
         </section>
 
         <!-- Back to Resources Link -->

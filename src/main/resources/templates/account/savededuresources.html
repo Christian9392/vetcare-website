@@ -24,9 +24,14 @@
 
         <h1>Your Saved Resources</h1>
 
+        <div th:if="${message}" class="alert alert-success">
+            <p th:text="${message}"></p>
+        </div>
+
         <div class="hr-divider"></div>
 
         <section>
+
 
             <!-- If no saved resource, logic goes here -->
             <p th:if="${#lists.isEmpty(resources)}">You have not saved any educational resources yet.</p>
@@ -42,8 +47,17 @@
                                         <a th:href="${resource.content}" target="_blank" class="text-decoration-none" th:text="${resource.title}"></a>
                                     </h5>
                                     <p class="card-text flex-fill" th:text="${resource.description}"></p>
-                                    <p class="card-text text-muted" th:text="${resource.author}"></p>
-                                </div>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="card-text text-muted mb-0" th:text="${resource.author}"></p>
+                                        <form th:action="@{/account/delete_resource}" method="post" class="ms-auto">
+                                            <input type="hidden" name="resourceID" th:value="${resource.resourceID}"> 
+                                            <button class="btn btn-secondary" type="submit">
+                                                Remove
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>             
                             </div>
                         </div>
                     </div>
