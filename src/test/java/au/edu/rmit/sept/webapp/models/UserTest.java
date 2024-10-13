@@ -22,4 +22,12 @@ class UserTest {
         assertEquals(phoneNumber, user.phoneNumber());
         assertEquals(address, user.address());
     }
+    // Test Case 2: Ensure equality between two identical User objects
+    @Test
+    void testUserEquality() {
+        User user1 = new User(1L, "Cristiano Sui", "password123", "cristiano.sui@example.com", "123456789", "123 Stadium Road, City, Country");
+        User user2 = new User(1L, "Cristiano Sui", "password123", "cristiano.sui@example.com", "123456789", "123 Stadium Road, City, Country");        
+        assertEquals(user1, user2); 
+        assertEquals(user1.hashCode(), user2.hashCode()); 
+    }
 }
