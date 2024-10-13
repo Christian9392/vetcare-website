@@ -46,4 +46,11 @@ class DosageServiceTest {
         assertEquals("10 mg", result.get(1).getDosageQuantity()); 
         assertEquals("Take before bed", result.get(1).getInstructions()); 
     }
+    // Test Case 2: Test if an empty list is returned when there are no dosage details for a given pet and medicine ID.
+    @Test
+    void testGetDetailedDosageByPetIdAndMedicineId_EmptyList() {
+        when(dosageRepository.findDetailedDosageByPetIdAndMedicineId(anyLong(), anyLong())).thenReturn(new ArrayList<>());
+        List<DosageDTO> result = dosageService.getDetailedDosageByPetIdAndMedicineId(1L, 1L);
+        assertEquals(0, result.size());
+    }
 }
