@@ -49,4 +49,13 @@ class UserServiceTest {
         assertEquals("encodedPassword", userDetails.getPassword());
         assertTrue(userDetails.getAuthorities().isEmpty());
     }
+    // Test Case 3: Ensure getUserById returns the correct user when found
+    @Test
+    void testGetUserById_UserFound() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        var result = userService.getUserById(1L);
+        assertTrue(result.isPresent());
+        assertEquals(mockUser, result.get());
+    }
+
 }
