@@ -105,7 +105,10 @@
                                th:text="${prescription.medicine.name}">[Medicine Name]</a>
                         </td>
                         <td th:text="${prescription.dosageQuantity}">[Dosage Quantity]</td>
-                        <td th:text="${prescription.instructions}">[Instructions]</td>
+                        <td>
+                            <a th:href="@{/pets/{petId}/medicine/{medicineId}/dosages(petId=${pet.petId}, medicineId=${prescription.medicine.medicineID})}"
+                               th:text="${prescription.instructions != null ? 'View' : ''}" class="btn btn-info btn-sm" role="button">View</a>
+                        </td>
                         <td th:text="${prescription.dateAdministered}">[Date Administered]</td>
                         <td th:text="${prescription.expiryDate}">[Expiry Date]</td>
                         <td th:text="${prescription.repeatsLeft}">[Repeats Left]</td>
