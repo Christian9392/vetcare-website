@@ -97,4 +97,12 @@ class UserServiceTest {
         assertTrue(result);
         verify(userRepository).updatePassword(1L, "newEncodedPassword");
     }
+    // Test Case 9: Ensure changePassword returns false if old password doesn't match
+    @Test
+    void testChangePassword_OldPasswordMismatch() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        when(passwordEncoder.matches("wrongPassword", mockUser.password())).thenReturn(false);
+        boolean result = userService.changePassword(1L, "wrongPassword", "newPassword");
+        assertFalse(result);
+    }
 }
