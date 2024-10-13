@@ -50,4 +50,15 @@ class DosageTest {
         dosage2.setDosageQuantity("5ml");
         assertNotEquals(dosage1, dosage2); 
     }
+    // Test Case 4: Verify that setting the pet and medicine in Dosage works correctly
+    @Test
+    void testSetPetAndMedicine() {
+        Dosage dosage = new Dosage();
+        Pet pet = new Pet();
+        Medicine medicine = new Medicine();
+        dosage.setPet(pet);
+        dosage.setMedicine(medicine);
+        assertEquals(pet, dosage.getPet());
+        assertEquals(medicine, dosage.getMedicine());
+    }    
 }
