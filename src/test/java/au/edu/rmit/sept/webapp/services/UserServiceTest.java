@@ -87,4 +87,14 @@ class UserServiceTest {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(RuntimeException.class, () -> userService.updateContactInfo(1L, mockUser));
     }
+    // Test Case 8: Ensure changePassword returns true on successful password change
+    @Test
+    void testChangePassword_Success() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        when(passwordEncoder.matches("oldPassword", mockUser.password())).thenReturn(true);
+        when(passwordEncoder.encode("newPassword")).thenReturn("newEncodedPassword");
+        boolean result = userService.changePassword(1L, "oldPassword", "newPassword");
+        assertTrue(result);
+        verify(userRepository).updatePassword(1L, "newEncodedPassword");
+    }
 }
