@@ -70,4 +70,15 @@ class UserServiceTest {
         Long userID = userService.getUserIdByUsername("testuser");
         assertEquals(1L, userID);
     }
+    // Test Case 6: Ensure updateContactInfo updates user information correctly
+    @Test
+    void testUpdateContactInfo_Success() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        User updatedUser = new User(1L, "newname", "encodedPassword", "newemail@example.com", "9876543210", "New Address");
+        User result = userService.updateContactInfo(1L, updatedUser);
+        assertEquals("newname", result.name());
+        assertEquals("newemail@example.com", result.email());
+        assertEquals("9876543210", result.phoneNumber());
+        assertEquals("New Address", result.address());
+    }
 }
