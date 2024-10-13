@@ -76,6 +76,7 @@ public class AppointmentControllerTest {
     //             .andExpect(model().attribute("pets", new ArrayList<Pet>()));
     // }
 
+    // 1
     @Test
     void testBookAppointment() throws Exception {
         // mock pet
@@ -102,6 +103,7 @@ public class AppointmentControllerTest {
                 .andExpect(flash().attribute("message", "Appointment booked successfully!"));
     }
 
+    // 2
     @Test
     void testViewSpecificAppointment() throws Exception {
         // mock pet
@@ -125,6 +127,7 @@ public class AppointmentControllerTest {
                 .andExpect(model().attribute("appointment", mockAppointment));
     }
 
+    // 3
      @Test
      void testViewAppointments() throws Exception {
          List<Appointment> appointments = new ArrayList<>();
@@ -140,6 +143,7 @@ public class AppointmentControllerTest {
                  .andExpect(model().attribute("appointments", appointments));
      }
 
+     // 4
      @Test
      void testShowEditForm() throws Exception {
          // mock pet
@@ -169,7 +173,7 @@ public class AppointmentControllerTest {
                  .andExpect(view().name("appointments/edit"))
                  .andExpect(model().attributeExists("appointment"));
      }
-
+     // 5
     @Test
     void testUpdateAppointment() throws Exception {
         // mock pet
@@ -207,7 +211,7 @@ public class AppointmentControllerTest {
                 .andExpect(redirectedUrl("/appointments"))
                 .andExpect(flash().attribute("message", "Appointment updated successfully!"));
     }
-
+    // 6
     @Test
     void testDeleteAppointment() throws Exception {
         // mock appointment
