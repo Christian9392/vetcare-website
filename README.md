@@ -65,11 +65,9 @@ use vetcare
   * Email: `test@test`
   * Password: `test`
 * Feel free to create your own user and run through the program, using the User Guide as a reference.
-* Vet user
-  * Email:jane.smith@example.com
-  * Password: 1234
-
-We were able to successfully log into the Vet Dashboard using the username and password. After logging into the home dashboard, a dropdown menu appears. Click on 'Vet Dashboard,' and you should be able to access the option of the 'Owner List' button.
+* A test vet user has been created for your convenience. You may use this to update basic pet medical data by clicking on the 'Vet Dashboard' link in the navigation bar.
+  * Email: `jane.smith@example.com`
+  * Password: `1234`
 
 # Functionality
 
