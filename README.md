@@ -43,6 +43,9 @@ docker-compose build
 docker-compose up
 ```
 
+> [!TIP]
+> If you run into issues, refer to Section 1.1 of the User Guide, located in the root of this repository.
+
 You can now access the webserver in your web browser at the address `http://localhost:8080`.
 The MySQL database is available at `localhost:3307`. You can access this via one of two ways:
 
@@ -53,9 +56,6 @@ The MySQL database is available at `localhost:3307`. You can access this via one
 docker exec -it team-project-group-p03-02-database-1 mysql -u root
 use vetcare
 ```
-
-> [!TIP]
-> If you run into issues, refer to Section 1.1 of the User Guide, located in the root of this repository.
 
 ## 3. Navigating the Website
 
