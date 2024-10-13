@@ -1,13 +1,9 @@
 package au.edu.rmit.sept.webapp.services;
 
-import au.edu.rmit.sept.webapp.dto.*;
-import au.edu.rmit.sept.webapp.models.Pet;
-import au.edu.rmit.sept.webapp.repositories.PetRepository;
-import au.edu.rmit.sept.webapp.repositories.PrescriptionRepository;
-import au.edu.rmit.sept.webapp.repositories.TreatmentPlanRepository;
-import au.edu.rmit.sept.webapp.repositories.VaccinationRecordRepository;
+import au.edu.rmit.sept.webapp.dto.PetDTO;
+import au.edu.rmit.sept.webapp.models.*;
+import au.edu.rmit.sept.webapp.repositories.*;
 import jakarta.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,46 +15,48 @@ import java.util.Optional;
 @Service
 public class PetServiceImpl implements PetService {
 
-    private final PetRepository repository;
+    private final PetRepository petRepository;
+    private final VaccinationRecordRepository vaccinationRecordRepository;
+    private final PrescriptionRepository prescriptionRepository;
+    private final TreatmentPlanRepository treatmentPlanRepository;
+    private final MedicalHistoryRepository medicalHistoryRepository;
 
     @Autowired
-    public PetServiceImpl(PetRepository repository) {
-        this.repository = repository;
+    public PetServiceImpl(PetRepository petRepository, 
+                          VaccinationRecordRepository vaccinationRecordRepository, 
+                          PrescriptionRepository prescriptionRepository, 
+                          TreatmentPlanRepository treatmentPlanRepository,
+                          MedicalHistoryRepository medicalHistoryRepository) {
+        this.petRepository = petRepository;
+        this.vaccinationRecordRepository = vaccinationRecordRepository;
+        this.prescriptionRepository = prescriptionRepository;
+        this.treatmentPlanRepository = treatmentPlanRepository;
+        this.medicalHistoryRepository = medicalHistoryRepository;
     }
-
-    @Autowired
-    private VaccinationRecordRepository vaccinationRecordRepository;
-
-    @Autowired
-    private PrescriptionRepository prescriptionRepository;
-
-    @Autowired
-    private TreatmentPlanRepository treatmentPlanRepository;
 
     public List<Pet> getPets() {
-        return repository.findAll();
+        return petRepository.findAll();
     }
-    
+
     @Override
     public Optional<Pet> findPetBypetId(Long petId) {
-        return repository.findById(petId);
+        return petRepository.findById(petId);
     }
 
     @Override
     public Pet getPetById(Long petId) {
-        return repository.findById(petId)
+        return petRepository.findById(petId)
             .orElseThrow(() -> new EntityNotFoundException("Pet not found with ID: " + petId));
-    }    
-
+    }
 
     @Override
     public List<PetDTO> findPetsByUserId(Long userId) {
-        List<Pet> pets = repository.findByOwnerUserId(userId);
+        List<Pet> pets = petRepository.findByOwnerUserId(userId);
         List<PetDTO> petDTOs = new ArrayList<>();
 
         for (Pet pet : pets) {
             PetDTO petDTO = new PetDTO(pet);
-            
+
             // Calculate last vaccination date
             Optional<LocalDate> lastVaccinationDateOptional = vaccinationRecordRepository.findLatestVaccinationDateByPetId(pet.getPetId());
             petDTO.setLastVaccinationDate(lastVaccinationDateOptional.orElse(null));
@@ -77,16 +75,106 @@ public class PetServiceImpl implements PetService {
         return petDTOs;
     }
 
-
- 
     @Override
     public void savePet(Pet pet) {
-        repository.save(pet);
-    }  
-
-    @Override  
-    public void updatePet(Long petId, PetDTO petDTO) {
+        petRepository.save(pet);
     }
 
-    
+    // Update basic information of a pet (name, species, breed, age)
+    @Override
+    public void updatePet(Long petId, PetDTO petDTO) {
+        Optional<Pet> petOpt = petRepository.findById(petId);
+
+        if (petOpt.isPresent()) {
+            Pet pet = petOpt.get();
+            pet.setName(petDTO.getName());
+            pet.setSpecies(petDTO.getSpecies());
+            pet.setBreed(petDTO.getBreed());
+            pet.setAge(petDTO.getAge());
+
+            petRepository.save(pet);
+        } else {
+            throw new EntityNotFoundException("Pet not found with ID: " + petId);
+        }
+    }
+
+    // Update prescriptions for a pet
+    @Override
+    public void updatePrescriptions(Long petId, List<Prescription> prescriptions) {
+        Optional<Pet> petOpt = petRepository.findById(petId);
+        if (petOpt.isPresent()) {
+            Pet pet = petOpt.get();
+            prescriptionRepository.deleteByPetId(petId); // Clear existing records
+
+            for (Prescription prescription : prescriptions) {
+                prescription.setPet(pet); // Set the Pet object for each prescription
+                prescriptionRepository.save(prescription);
+            }
+        } else {
+            throw new EntityNotFoundException("Pet not found with ID: " + petId);
+        }
+    }
+
+    // Update treatment plans for a pet
+    @Override
+    public void updateTreatmentPlans(Long petId, List<TreatmentPlan> treatmentPlans) {
+        Optional<Pet> petOpt = petRepository.findById(petId);
+        if (petOpt.isPresent()) {
+            Pet pet = petOpt.get();
+            treatmentPlanRepository.deleteByPetId(petId); // Clear existing records
+
+            for (TreatmentPlan plan : treatmentPlans) {
+                plan.setPet(pet); // Set the Pet object for each treatment plan
+                treatmentPlanRepository.save(plan);
+            }
+        } else {
+            throw new EntityNotFoundException("Pet not found with ID: " + petId);
+        }
+    }
+
+    // Update vaccination records for a pet
+    @Override
+    public void updateVaccinationRecords(Long petId, List<VaccinationRecord> vaccinations) {
+        Optional<Pet> petOpt = petRepository.findById(petId);
+        if (petOpt.isPresent()) {
+            Pet pet = petOpt.get();
+            vaccinationRecordRepository.deleteByPetId(petId); // Clear existing records
+
+            for (VaccinationRecord vaccination : vaccinations) {
+                vaccination.setPet(pet); // Set the Pet object for each vaccination
+                vaccinationRecordRepository.save(vaccination);
+            }
+        } else {
+            throw new EntityNotFoundException("Pet not found with ID: " + petId);
+        }
+    }
+
+    // Update medical history for a pet
+    @Override
+    public void updateMedicalHistory(Long petId, MedicalHistory medicalHistory) {
+        Optional<Pet> petOpt = petRepository.findById(petId);
+        if (petOpt.isPresent()) {
+            Pet pet = petOpt.get();
+            Optional<MedicalHistory> existingHistory = medicalHistoryRepository.findByPet_petId(petId);
+
+            if (existingHistory.isPresent()) {
+                MedicalHistory history = existingHistory.get();
+                history.setChronicConditions(medicalHistory.getChronicConditions());
+                history.setAllergies(medicalHistory.getAllergies());
+                history.setNotes(medicalHistory.getNotes());
+                history.setLastVaccinationDate(medicalHistory.getLastVaccinationDate());
+                history.setLastTreatmentDate(medicalHistory.getLastTreatmentDate());
+                history.setLastPrescriptionDate(medicalHistory.getLastPrescriptionDate());
+                history.setPet(pet);  // Set the Pet object
+
+                medicalHistoryRepository.save(history);
+            } else {
+                medicalHistory.setPet(pet);  // Set the Pet object
+                medicalHistoryRepository.save(medicalHistory);  // Save new history
+            }
+        } else {
+            throw new EntityNotFoundException("Pet not found with ID: " + petId);
+        }
+    }
+
 }

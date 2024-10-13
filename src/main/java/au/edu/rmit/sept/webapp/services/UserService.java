@@ -101,21 +101,13 @@ public class UserService {
         }
         return false;
     }
-   
-   public List<CustomUser> getAllUsers() {
-    List<User> users = userRepository.findAll();  // assuming User is mapped correctly
-    List<CustomUser> customUsers = new ArrayList<>();
-
-    for (User user : users) {
-        CustomUser customUser = new CustomUser();
-        customUser.setId(user.userID());
-        customUser.setName(user.name());
-        customUser.setEmail(user.email());
-        // Add other fields as needed
-        customUsers.add(customUser);
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
-    return customUsers;
-}
+   
+   
+   
+
     
 }
 

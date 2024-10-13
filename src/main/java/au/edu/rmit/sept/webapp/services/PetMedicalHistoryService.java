@@ -15,6 +15,8 @@ public class PetMedicalHistoryService {
     private final TreatmentPlanRepository treatmentPlanRepository;
     private final PrescriptionRepository prescriptionRepository;
 
+  
+
     @Autowired
     public PetMedicalHistoryService(MedicalHistoryRepository medicalHistoryRepository,
                                     VaccinationRecordRepository vaccinationRecordRepository,
@@ -41,4 +43,10 @@ public class PetMedicalHistoryService {
     public List<Prescription> getPrescriptionsBypetId(Long petId) {
         return prescriptionRepository.findByPet_petId(petId);
     }
+   
+    
+    
+  
+    
+    
 }

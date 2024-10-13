@@ -1,5 +1,8 @@
 package au.edu.rmit.sept.webapp.dto;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import au.edu.rmit.sept.webapp.models.*;
 
 public class PetDTO {
@@ -13,6 +16,12 @@ public class PetDTO {
     private LocalDate lastVaccinationDate;
     private boolean activePrescriptions;
     private boolean activeTreatments;
+    private MedicalHistory medicalHistory; // Field for medical history
+
+  // Add these fields
+    private List<VaccinationRecord> vaccinations = new ArrayList<>();
+    private List<TreatmentPlan> treatmentPlans = new ArrayList<>();
+    private List<Prescription> prescriptions = new ArrayList<>();
 
     // Constructor
     public PetDTO(Pet pet) {
@@ -21,6 +30,8 @@ public class PetDTO {
         this.species = pet.getSpecies();
         this.breed = pet.getBreed();
         this.age = pet.getAge();
+        this.medicalHistory = pet.getMedicalHistory(); // Ensure this is being set from the Pet model
+        
     }
 
     // Getters and Setters
@@ -88,4 +99,45 @@ public class PetDTO {
     public void setActiveTreatments(boolean activeTreatments) {
         this.activeTreatments = activeTreatments;
     }
+   
+    public MedicalHistory getMedicalHistory() {
+        return medicalHistory;
+    }
+
+    public void setMedicalHistory(MedicalHistory medicalHistory) {
+        this.medicalHistory = medicalHistory;
+    }
+    public List<VaccinationRecord> getVaccinations() {
+        if (vaccinations == null) {
+            vaccinations = new ArrayList<>();
+        }
+        return vaccinations;
+    }
+
+    public void setVaccinations(List<VaccinationRecord> vaccinations) {
+        this.vaccinations = vaccinations;
+    }
+
+    public List<TreatmentPlan> getTreatmentPlans() {
+        if (treatmentPlans == null) {
+            treatmentPlans = new ArrayList<>();
+        }
+        return treatmentPlans;
+    }
+
+    public void setTreatmentPlans(List<TreatmentPlan> treatmentPlans) {
+        this.treatmentPlans = treatmentPlans;
+    }
+
+    public List<Prescription> getPrescriptions() {
+        if (prescriptions == null) {
+            prescriptions = new ArrayList<>();
+        }
+        return prescriptions;
+    }
+
+    public void setPrescriptions(List<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
 }
+

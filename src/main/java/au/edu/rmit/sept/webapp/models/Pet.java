@@ -1,5 +1,7 @@
 package au.edu.rmit.sept.webapp.models;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -26,6 +28,21 @@ public class Pet {
 
     @Column(name = "age")
     private Integer age;
+
+      @OneToOne(mappedBy = "pet", cascade = CascadeType.ALL) // The pet field in MedicalHistory references this
+     
+      private MedicalHistory medicalHistory;
+// Relationship with Vaccination
+@OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
+private List<VaccinationRecord> vaccinations;
+
+// Relationship with TreatmentPlan
+@OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
+private List<TreatmentPlan> treatmentPlans;
+
+// Relationship with Prescription
+@OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
+private List<Prescription> prescriptions;
 
     public Pet() {
     }
@@ -88,6 +105,41 @@ public class Pet {
         this.age = age;
     }
 
+ // Getter and Setter for MedicalHistory
+ public MedicalHistory getMedicalHistory() {
+    return medicalHistory;
+}
+
+public void setMedicalHistory(MedicalHistory medicalHistory) {
+    this.medicalHistory = medicalHistory;
+}
+
+// Getter and Setter for Vaccinations
+public List<VaccinationRecord> getVaccinations() {
+    return vaccinations;
+}
+
+public void setVaccinations(List<VaccinationRecord> vaccinations) {
+    this.vaccinations = vaccinations;
+}
+
+// Getter and Setter for TreatmentPlans
+public List<TreatmentPlan> getTreatmentPlans() {
+    return treatmentPlans;
+}
+
+public void setTreatmentPlans(List<TreatmentPlan> treatmentPlans) {
+    this.treatmentPlans = treatmentPlans;
+}
+
+// Getter and Setter for Prescriptions
+public List<Prescription> getPrescriptions() {
+    return prescriptions;
+}
+
+public void setPrescriptions(List<Prescription> prescriptions) {
+    this.prescriptions = prescriptions;
+}
     @Override
     public String toString() {
         return "Pet{" +
